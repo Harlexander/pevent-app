@@ -19,7 +19,6 @@ export function ThemedText({
 
   return (
     <Text
-      className='text-red-500 font-bold'
       {...rest}
     />
   );

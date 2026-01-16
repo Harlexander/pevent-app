@@ -1,14 +1,14 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Slot, Stack } from 'expo-router';
 import React from 'react'
 
 const OnboardingLayout = () => {
   return (
-    <ThemedView>
-        <ThemedText>
-            Hello World
-        </ThemedText>
-    </ThemedView>
+    <Stack>
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="register" options={{ headerShown: false }} />
+    </Stack>
   )
 };
 
