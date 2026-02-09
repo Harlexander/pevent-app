@@ -1,4 +1,4 @@
-import { Text, TextInput, type TextInputProps, View } from 'react-native'
+import { TextInput, type TextInputProps, View } from 'react-native'
 import React from 'react'
 import { ThemedText } from '../themed-text'
 
@@ -8,14 +8,17 @@ interface InputProps extends TextInputProps {
     className?: string;
 }
 
-const Input = ({ label, error, className, ...props }: InputProps) => {
+const Input = ({ label, error, className, editable = true, ...props }: InputProps) => {
+    const isDisabled = editable === false
+
     return (
         <View className={`gap-2 ${className}`}>
-            {label && <ThemedText className='text-base font-medium opacity-80'>{label}</ThemedText>}
-            <View className={`bg-gray-300 rounded-xl px-4 h-14 justify-center ${error ? 'border-red-500' : ''}`}>
+            {label && <ThemedText className={`text-base font-medium ${isDisabled ? 'opacity-50' : 'opacity-80'}`}>{label}</ThemedText>}
+            <View className={`border rounded-xl justify-center ${error ? 'border-red-500' : 'border-gray-200'} ${isDisabled ? 'bg-gray-100' : 'bg-white'}`}>
                 <TextInput
-                    className='text-base text-black'
+                    className={`p-4 ${isDisabled ? 'text-gray-500' : 'text-black'}`}
                     placeholderTextColor="#9CA3AF"
+                    editable={editable}
                     {...props}
                 />
             </View>
