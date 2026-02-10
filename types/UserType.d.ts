@@ -21,3 +21,17 @@ export type User = {
     image: string | null
     createdAt: Date | null
   }
+
+
+
+export type ChangePasswordInput = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+export type ResetPasswordInput = {
+  password: string;
+  id: string;
+  token: string;
+};
+

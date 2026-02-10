@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { signIn, signUp } from "../../actions/auth"
-import { getUser } from "../../actions/user"
+import { getUser, updateUser, changePassword, ChangePasswordInput } from "../../actions/user"
 import { useUserStore } from "@/store/user-store"
-import { useEffect } from "react"
+import { User } from "@/types"
 
 export const useSignIn = () => {
     const { setUser } = useUserStore()
@@ -26,5 +26,24 @@ export const useUser = (enabled: boolean = true) => {
         queryFn: getUser,
         enabled,
         retry: 1
+    })
+}
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient()
+    const { updateUser: updateUserStore } = useUserStore()
+
+    return useMutation({
+        mutationFn: async (data: Partial<User>) => await updateUser(data),
+        onSuccess: (response) => {
+            updateUserStore(response.data)
+            queryClient.invalidateQueries({ queryKey: ['user'] })
+        },
+    })
+}
+
+export const useChangePassword = () => {
+    return useMutation({
+        mutationFn: async (data: ChangePasswordInput) => await changePassword(data),
     })
 }

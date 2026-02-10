@@ -58,12 +58,10 @@ const Search = () => {
                                 <View>
                                     {!isLoadingRecommended && recommendedData?.data && recommendedData.data.length > 0 && (
                                         recommendedData.data.map((event) => (
-                                            <Link href={`/${event.slug}`} key={event.id}>
                                                 <SearchResultCard
                                                     event={event}
                                                     imageUrl={endpoints.IMAGE_URL + event.images[0]}
                                                 />
-                                            </Link>
                                         ))
                                     )}
                                 </View>

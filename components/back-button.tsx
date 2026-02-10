@@ -8,7 +8,7 @@ const BackButton = () => {
 
     return (
         <Pressable onPress={() => router.back()}>
-            <Entypo name="chevron-thin-left" size={24} color="black" />
+            <Entypo name="chevron-thin-left" size={18} color="black" />
         </Pressable>
     )
 }

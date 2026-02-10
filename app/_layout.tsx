@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
 
 import { useColorScheme } from '../hooks/use-color-scheme';
 
@@ -17,7 +18,24 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const queryClient = new QueryClient();  
+  const queryClient = new QueryClient();
+
+  const [fontsLoaded] = useFonts({
+    'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
+    'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
+    'Lato-Black': require('../assets/fonts/Lato-Black.ttf'),
+    'Lato-BlackItalic': require('../assets/fonts/Lato-BlackItalic.ttf'),
+    'Lato-BoldItalic': require('../assets/fonts/Lato-BoldItalic.ttf'),
+    'Lato-Italic': require('../assets/fonts/Lato-Italic.ttf'),
+    'Lato-Light': require('../assets/fonts/Lato-Light.ttf'),
+    'Lato-LightItalic': require('../assets/fonts/Lato-LightItalic.ttf'),
+    'Lato-Thin': require('../assets/fonts/Lato-Thin.ttf'),
+    'Lato-ThinItalic': require('../assets/fonts/Lato-ThinItalic.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
       <SessionProvider>
@@ -30,7 +48,7 @@ export default function RootLayout() {
            </PaystackCustomProvider>
           </QueryClientProvider>
         </ThemeProvider>
-      </SessionProvider>  
+      </SessionProvider>
   );
 }
 

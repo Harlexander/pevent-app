@@ -11,6 +11,11 @@ export const endpoints = {
     },
     user : {
         get : "/user",
+        update : "/user",
+        changePassword : "/user/change-password",
+        emailVerification : "/user/email-verification",
+        resetPassword : "/user/reset-password",
+
     },
     event : {
         app : "/app/event",

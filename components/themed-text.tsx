@@ -13,12 +13,14 @@ export function ThemedText({
   lightColor,
   darkColor,
   type = 'default',
+  className,
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
     <Text
+      className={`font-lato text-${color} ${styles[type]} ${className}`}
       {...rest}
     />
   );
@@ -26,25 +28,26 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: {
-    fontSize: 16,
+    // fontSize: 14,
     lineHeight: 24,
+    fontFamily: 'Lato-Regular',
   },
   defaultSemiBold: {
-    fontSize: 16,
+    // fontSize: 16,
     lineHeight: 24,
-    fontWeight: '600',
+    fontFamily: 'Lato-Bold',
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    // fontSize: 32,
+    fontFamily: 'Lato-Bold',
     lineHeight: 32,
   },
   subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    // fontSize: 20,
+    fontFamily: 'Lato-Bold',
   },
   link: {
-    lineHeight: 30,
+    // lineHeight: 30,
     fontSize: 16,
     color: '#0a7ea4',
   },

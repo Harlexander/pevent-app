@@ -18,7 +18,7 @@ export const Colors = {
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: '#ECEDEE',
+    text: '#ECEDEE', 
     background: '#151718',
     tint: tintColorDark,
     icon: '#9BA1A6',
@@ -28,27 +28,15 @@ export const Colors = {
   primary: '#004cffff',
 };
 
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-});
+export const Fonts = {
+  regular: 'Lato-Regular',
+  bold: 'Lato-Bold',
+  black: 'Lato-Black',
+  light: 'Lato-Light',
+  thin: 'Lato-Thin',
+  italic: 'Lato-Italic',
+  boldItalic: 'Lato-BoldItalic',
+  blackItalic: 'Lato-BlackItalic',
+  lightItalic: 'Lato-LightItalic',
+  thinItalic: 'Lato-ThinItalic',
+};
