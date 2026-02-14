@@ -15,7 +15,7 @@ const CategoryList = ({ activeCategory, onSelectCategory }: CategoryListProps) =
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ gap: 6, paddingRight: 20 }}
-            className="mb-6"
+            className="mb-6 px-5"
         >
             {categories.map((category) => (
                 <TouchableOpacity

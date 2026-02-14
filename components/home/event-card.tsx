@@ -10,7 +10,7 @@ interface EventCardProps {
     title: string
     location: string
     date: string
-    price: string
+    price: string | number
     fullWidth?: boolean
 }
 
@@ -58,7 +58,7 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                             <ThemedText className="text-white text-xs opacity-70 mb-1">
                                 Start from
                             </ThemedText>
-                            <ThemedText className="text-white text-lg font-bold">{price}</ThemedText>
+                            <ThemedText className="text-white text-lg font-bold">₦{price}</ThemedText>
                         </View>
                     </View>
                     <BlurView intensity={80} tint="dark" className="absolute inset-0" />

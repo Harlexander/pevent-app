@@ -2,12 +2,13 @@ import React from 'react'
 import { View } from 'react-native'
 import ReactNativeModal from 'react-native-modal'
 
-const UIModal = ({ isVisible, close, children }: { isVisible: boolean, close?: () => void, children: React.ReactNode }) => {
+const UIModal = ({ isVisible, close, children, onModalHide }: { isVisible: boolean, close?: () => void, children: React.ReactNode, onModalHide?: () => void }) => {
   return (
     <ReactNativeModal
         isVisible={isVisible}
         onBackdropPress={close}
         onSwipeComplete={close}
+        onModalHide={onModalHide}
         swipeDirection={close ? ['down'] : undefined}
         avoidKeyboard={true}
         style={{ margin : 0}}

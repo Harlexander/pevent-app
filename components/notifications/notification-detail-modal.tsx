@@ -1,32 +1,21 @@
 import UIModal from '@/components/UIModal'
 import { ThemedText } from '@/components/themed-text'
+import { Notification, NotificationType } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 
-type NotificationType = 'event' | 'ticket' | 'promo' | 'system'
-
-export interface Notification {
-    id: string
-    type: NotificationType
-    title: string
-    content: string
-    image?: string
-    url?: string
-    ctaLabel?: string
-    time: string
-    read: boolean
-}
-
 const TYPE_CONFIG: Record<
     NotificationType,
     { icon: keyof typeof Ionicons.glyphMap; color: string; bg: string; label: string }
 > = {
+    general: { icon: 'notifications', color: '#8b5cf6', bg: '#F5F3FF', label: 'General' },
     event: { icon: 'calendar', color: '#3b82f6', bg: '#EFF6FF', label: 'Event' },
     ticket: { icon: 'ticket', color: '#10b981', bg: '#ECFDF5', label: 'Ticket' },
-    promo: { icon: 'pricetag', color: '#f59e0b', bg: '#FFFBEB', label: 'Promo' },
-    system: { icon: 'settings', color: '#6b7280', bg: '#F3F4F6', label: 'System' },
+    payout: { icon: 'cash', color: '#22c55e', bg: '#F0FDF4', label: 'Payout' },
+    voting: { icon: 'heart', color: '#ec4899', bg: '#FDF2F8', label: 'Voting' },
+    wallet: { icon: 'wallet', color: '#f59e0b', bg: '#FFFBEB', label: 'Wallet' },
 }
 
 interface NotificationDetailModalProps {
@@ -73,7 +62,13 @@ const NotificationDetailModal = ({
                                 {config.label}
                             </ThemedText>
                         </View>
-                        <ThemedText className="text-xs text-gray-400">{notification.time}</ThemedText>
+                        <ThemedText className="text-xs text-gray-400">
+                            {new Date(notification.createdAt).toLocaleDateString('en-NG', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric',
+                            })}
+                        </ThemedText>
                     </View>
 
                     {/* Title */}
@@ -87,11 +82,11 @@ const NotificationDetailModal = ({
                     </ThemedText>
 
                     {/* CTA */}
-                    {notification.url && (
+                    {notification.link && (
                         <TouchableOpacity
                             onPress={() => {
                                 onClose()
-                                onCtaPress(notification.url!)
+                                onCtaPress(notification.link!)
                             }}
                             className="w-full bg-primary py-4 rounded-xl items-center justify-center mb-2"
                         >

@@ -12,7 +12,7 @@ const Profile = () => {
     const router = useRouter()
     const user = useUserStore((state) => state.user)
     const [notificationsEnabled, setNotificationsEnabled] = useState(true)
-
+    
     const avatarSource = user?.image
         ? { uri: user.image.startsWith('http') ? user.image : endpoints.IMAGE_URL + user.image }
         : require('@/assets/images/home/avatar.png')

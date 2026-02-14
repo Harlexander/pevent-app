@@ -52,7 +52,7 @@ const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee
             } else {
                 groups.push({
                     ticketId: attendee.ticketId,
-                    ticketName: attendee.ticketName,
+                    ticketName: attendee.ticketName || '',
                     attendees: [{ attendee, index }]
                 })
             }

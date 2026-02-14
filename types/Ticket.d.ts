@@ -28,7 +28,7 @@ export interface Attendee {
   lastName: string;
   email: string;
   ticketId: string;
-  ticketName: string;
+  ticketName?: string;
 }
 
 export interface CustomFieldValue {
@@ -50,13 +50,10 @@ export interface TicketPurchaseMetadata {
   email: string;
   amount: number;
   purpose: "ticket";
-  tickets: TicketItem[];
-  totalQuantity: number;
   bearer: string;
-  attendees?: Attendee[];
+  attendees: Pick<Attendee, 'firstName' | 'lastName' | 'email' | 'ticketId'>[];
   reseller?: string;
   coupon?: string;
-  customFields?: CustomFieldValue[];
 }
 
 export interface TicketPaymentRequest {

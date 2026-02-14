@@ -180,18 +180,18 @@ const TicketsModal = ({
             lastName: contact.lastName,
             email: contact.email,
             finalPrice,
-            selectedTicketItems,
-            totalQuantity: totalTickets,
+            bearer: feeConfig.bearer,
             sendToDifferentEmails,
             attendees,
+            tickets,
+            quantities,
             promoCode,
-        })
+        });
 
         popup.checkout({
             email: contact.email,
             amount: finalPrice * 100,
-            // metadata,
-            reference: "klskdslmdksm",
+            metadata,
             onSuccess: () => {
                 setIsProcessing(false)
                 onSuccess?.()
@@ -205,8 +205,7 @@ const TicketsModal = ({
     }, [
         contact,
         finalPrice,
-        selectedTicketItems,
-        totalTickets,
+        feeConfig.bearer,
         sendToDifferentEmails,
         attendees,
         promoCode,

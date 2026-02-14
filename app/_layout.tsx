@@ -38,17 +38,18 @@ export default function RootLayout() {
   }
 
   return (
-      <SessionProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <QueryClientProvider client={queryClient}>
            <PaystackCustomProvider>
+                  <SessionProvider>
+
               <RootLayoutNav />
               <StatusBar style="auto" />
               <SplashScreenController />
+                    </SessionProvider>
+
            </PaystackCustomProvider>
+
           </QueryClientProvider>
-        </ThemeProvider>
-      </SessionProvider>
   );
 }
 

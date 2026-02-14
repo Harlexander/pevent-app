@@ -1,5 +1,7 @@
 import { Ticket, Attendee, TicketItem, TicketPurchaseMetadata } from '@/types'
 
+
+
 export type BearerType = 'user' | 'event' | 'split'
 
 export interface FeeConfig {
@@ -59,22 +61,47 @@ export function buildPurchaseMetadata(params: {
     lastName: string
     email: string
     finalPrice: number
-    selectedTicketItems: TicketItem[]
-    totalQuantity: number
+    bearer: BearerType
     sendToDifferentEmails: boolean
     attendees: Attendee[]
+    tickets: Ticket[]
+    quantities: Record<string, number>
     promoCode: string
+    reseller?: string
 }): TicketPurchaseMetadata {
+    let attendees: TicketPurchaseMetadata['attendees']
+
+    if (params.sendToDifferentEmails && params.attendees.length > 0) {
+        attendees = params.attendees.map(({ firstName, lastName, email, ticketId }) => ({
+            firstName,
+            lastName,
+            email,
+            ticketId,
+        }))
+    } else {
+        attendees = []
+        params.tickets.forEach((ticket) => {
+            const qty = params.quantities[ticket.id] || 0
+            for (let i = 0; i < qty; i++) {
+                attendees!.push({
+                    firstName: params.firstName,
+                    lastName: params.lastName,
+                    email: params.email,
+                    ticketId: ticket.id,
+                })
+            }
+        })
+    }
+
     return {
         firstName: params.firstName,
         lastName: params.lastName,
         email: params.email,
         amount: params.finalPrice,
         purpose: 'ticket',
-        tickets: params.selectedTicketItems,
-        totalQuantity: params.totalQuantity,
-        bearer: 'account',
-        ...(params.sendToDifferentEmails && params.attendees.length > 0 && { attendees: params.attendees }),
+        bearer: params.bearer,
+        attendees,
+        ...(params.reseller && { reseller: params.reseller }),
         ...(params.promoCode && { coupon: params.promoCode }),
     }
 }

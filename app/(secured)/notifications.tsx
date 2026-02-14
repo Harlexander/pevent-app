@@ -1,95 +1,41 @@
 import BackButton from '@/components/back-button'
-import NotificationDetailModal, {
-    Notification,
-} from '@/components/notifications/notification-detail-modal'
+import NotificationDetailModal from '@/components/notifications/notification-detail-modal'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
+import { useMarkNotificationAsRead, useNotifications } from '@/hooks/query/useNotification'
+import { Notification, NotificationType } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-type NotificationType = 'event' | 'ticket' | 'promo' | 'system'
-
-const DUMMY_NOTIFICATIONS: Notification[] = [
-    {
-        id: '1',
-        type: 'ticket',
-        title: 'Ticket Confirmed',
-        content:
-            'Your ticket for Afrobeats Festival 2026 has been confirmed. Show your QR code at the entrance. Make sure to arrive at least 30 minutes early for check-in. See you there!',
-        image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200',
-        url: '/passes',
-        ctaLabel: 'View My Tickets',
-        time: '2m ago',
-        read: false,
-    },
-    {
-        id: '2',
-        type: 'event',
-        title: 'Event Starting Soon',
-        content:
-            "Lagos Tech Meetup starts in 1 hour. Don't forget to bring your pass! The venue is at Landmark Centre, Victoria Island. Parking is available on-site.",
-        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200',
-        url: '/lagos-tech-meetup',
-        ctaLabel: 'View Event',
-        time: '58m ago',
-        read: false,
-    },
-    {
-        id: '3',
-        type: 'promo',
-        title: '30% Off This Weekend',
-        content:
-            'Use code WEEKEND30 to get 30% off any event ticket. Valid until Sunday midnight. Applies to all categories including music, tech, and art events. Limited redemptions available.',
-        time: '3h ago',
-        read: false,
-    },
-    {
-        id: '4',
-        type: 'event',
-        title: 'New Event Near You',
-        content:
-            'Art & Wine Night just dropped in Lagos. Limited seats available — grab yours now. Enjoy live painting, curated wines, and great conversations with fellow art lovers.',
-        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200',
-        url: '/art-wine-night',
-        ctaLabel: 'Get Tickets',
-        time: '5h ago',
-        read: true,
-    },
-    {
-        id: '5',
-        type: 'system',
-        title: 'Profile Updated',
-        content:
-            'Your profile information has been updated successfully. Your changes are now visible to event organizers when you purchase tickets.',
-        time: '1d ago',
-        read: true,
-    },
-    {
-        id: '6',
-        type: 'ticket',
-        title: 'Ticket Transfer Received',
-        content:
-            'You received a VIP ticket for Summer Jam from alex@email.com. The ticket has been added to your passes. Enjoy the show!',
-        image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=200',
-        url: '/passes',
-        ctaLabel: 'View My Tickets',
-        time: '2d ago',
-        read: true,
-    },
-]
 
 const TYPE_CONFIG: Record<
     NotificationType,
     { icon: keyof typeof Ionicons.glyphMap; color: string; bg: string }
 > = {
+    general: { icon: 'notifications', color: '#8b5cf6', bg: 'bg-purple-50' },
     event: { icon: 'calendar', color: '#3b82f6', bg: 'bg-blue-50' },
     ticket: { icon: 'ticket', color: '#10b981', bg: 'bg-green-50' },
-    promo: { icon: 'pricetag', color: '#f59e0b', bg: 'bg-amber-50' },
-    system: { icon: 'settings', color: '#6b7280', bg: 'bg-gray-100' },
+    payout: { icon: 'cash', color: '#22c55e', bg: 'bg-green-50' },
+    voting: { icon: 'heart', color: '#ec4899', bg: 'bg-pink-50' },
+    wallet: { icon: 'wallet', color: '#f59e0b', bg: 'bg-amber-50' },
+}
+
+const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInMs = now.getTime() - date.getTime()
+    const diffInMins = Math.floor(diffInMs / 60000)
+    const diffInHours = Math.floor(diffInMs / 3600000)
+    const diffInDays = Math.floor(diffInMs / 86400000)
+
+    if (diffInMins < 1) return 'Just now'
+    if (diffInMins < 60) return `${diffInMins}m ago`
+    if (diffInHours < 24) return `${diffInHours}h ago`
+    if (diffInDays < 7) return `${diffInDays}d ago`
+    return date.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' })
 }
 
 const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () => void }) => {
@@ -126,7 +72,9 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
                             {item.title}
                         </ThemedText>
                     </View>
-                    <ThemedText className="text-xs text-gray-400 ml-2">{item.time}</ThemedText>
+                    <ThemedText className="text-xs text-gray-400 ml-2">
+                        {formatTimeAgo(item.createdAt)}
+                    </ThemedText>
                 </View>
                 <ThemedText className="text-xs text-gray-500 leading-5" numberOfLines={2}>
                     {item.content}
@@ -138,8 +86,53 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
 
 const Notifications = () => {
     const router = useRouter()
+    const {
+        data,
+        isLoading,
+        refetch,
+    } = useNotifications()
+    const { mutate: markAsRead } = useMarkNotificationAsRead()
     const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null)
-    const unreadCount = DUMMY_NOTIFICATIONS.filter((n) => !n.read).length
+    const [refreshing, setRefreshing] = useState(false)
+
+    // Access notifications directly from data
+    const notificationList = data?.data.notifications || []
+    const unreadCount = data?.data.unreadCount || 0
+
+    const onRefresh = async () => {
+        setRefreshing(true)
+        await refetch()
+        setRefreshing(false)
+    }
+
+    const handleNotificationPress = (notification: Notification) => {
+        setSelectedNotification(notification)
+        if (!notification.read) {
+            markAsRead(notification.id)
+        }
+    }
+
+    const handleMarkAllAsRead = () => {
+        notificationList.forEach((notification: Notification) => {
+            if (!notification.read) {
+                markAsRead(notification.id)
+            }
+        })
+    }
+
+    const renderEmpty = () => (
+        <View className="flex-1 items-center justify-center px-5 py-20">
+            <View className="w-20 h-20 rounded-full bg-gray-100 items-center justify-center mb-4">
+                <Ionicons name="notifications-outline" size={40} color="#D1D5DB" />
+            </View>
+            <ThemedText className="text-gray-400 font-semibold mb-1">
+                No Notifications
+            </ThemedText>
+            <ThemedText className="text-gray-400 text-xs text-center">
+                You're all caught up! Check back later for updates.
+            </ThemedText>
+        </View>
+    )
 
     return (
         <ThemedView className="flex-1 bg-white">
@@ -156,26 +149,37 @@ const Notifications = () => {
                             </View>
                         )}
                     </View>
-                    <TouchableOpacity>
-                        <ThemedText className="text-primary text-sm font-semibold">
+                    <TouchableOpacity onPress={handleMarkAllAsRead} disabled={unreadCount === 0}>
+                        <ThemedText className={`text-sm font-semibold ${unreadCount > 0 ? 'text-primary' : 'text-gray-300'}`}>
                             Read all
                         </ThemedText>
                     </TouchableOpacity>
                 </View>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {DUMMY_NOTIFICATIONS.map((item, index) => (
-                        <View key={item.id}>
+                {isLoading && !refreshing ? (
+                    <View className="flex-1 items-center justify-center">
+                        <ActivityIndicator size="large" color="#3B82F6" />
+                    </View>
+                ) : (
+                    <FlatList
+                        data={notificationList}
+                        keyExtractor={(item: Notification) => item.id}
+                        renderItem={({ item }: { item: Notification }) => (
                             <NotificationItem
                                 item={item}
-                                onPress={() => setSelectedNotification(item)}
+                                onPress={() => handleNotificationPress(item)}
                             />
-                            {index < DUMMY_NOTIFICATIONS.length - 1 && (
-                                <View className="h-px bg-gray-100 ml-[76]" />
-                            )}
-                        </View>
-                    ))}
-                </ScrollView>
+                        )}
+                        ItemSeparatorComponent={() => (
+                            <View className="h-px bg-gray-100 ml-[76]" />
+                        )}
+                        ListEmptyComponent={renderEmpty}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                        showsVerticalScrollIndicator={false}
+                    />
+                )}
 
                 <NotificationDetailModal
                     visible={!!selectedNotification}

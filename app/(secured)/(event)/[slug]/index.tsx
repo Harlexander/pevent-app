@@ -6,23 +6,24 @@ import EventInfoCard from '@/components/event/event-info-card'
 import LocationMap from '@/components/event/location-map'
 import OrganizerInfo from '@/components/event/organizer-info'
 import TabSection from '@/components/event/tab-section'
-import TicketsModal from '@/components/event/tickets-dialog'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { useEvent } from '@/hooks/query/useEvent'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { endpoints } from '@/constants/endpoints'
-import {format} from 'date-fns'
+import { format } from 'date-fns'
 const EventSlug = () => {
     const { slug } = useLocalSearchParams()
+    const router = useRouter()
     const [activeTab, setActiveTab] = useState('Description')
-    const [isTicketModalVisible, setTicketModalVisible] = useState(false)
 
     const { data: event, isLoading, error } = useEvent(slug as string)
 
-    if(isLoading) {
+    console.log(event);
+
+    if (isLoading) {
         <View>
             <ThemedText>Loading</ThemedText>
         </View>
@@ -46,7 +47,7 @@ const EventSlug = () => {
 
                     {/* Info Card */}
                     <EventInfoCard
-                        date={event?.data?.date ? format(new Date(event.data.date), "MMM d")  : ""}
+                        date={event?.data?.date ? format(new Date(event.data.date), "MMM d") : ""}
                         time={event?.data?.time || ''}
                         location={event?.data?.city || 'Undisclosed'}
                     />
@@ -59,13 +60,14 @@ const EventSlug = () => {
                         name={event?.data?.user?.name || 'Organizer'}
                         role="Organizer"
                         image={event?.data?.user?.image ? (event.data.user.image.startsWith('http') ? event.data.user.image : endpoints.IMAGE_URL + event.data.user.image) : null}
+                        organiserId={event?.data.userId}
                     />}
 
                     {/* Content Sections */}
                     {activeTab === 'Description' && (
                         <>
                             <EventDescription description={event?.data?.description || ''} />
-                            <LocationMap location={event?.data?.venue || event?.data?.city || 'Undisclosed'} />
+                            <LocationMap location={event?.data?.venue || event?.data?.city || 'Undisclosed'} coordinates={event?.data?.coordinates} />
                         </>
                     )}
 
@@ -75,15 +77,7 @@ const EventSlug = () => {
             </ScrollView>
 
             {/* Footer */}
-            <EventFooter onBuyPress={() => setTicketModalVisible(true)} />
-
-            {/* Ticket Dialog */}
-            <TicketsModal
-                visible={isTicketModalVisible}
-                tickets={event?.data?.tickets || []}
-                onClose={() => setTicketModalVisible(false)}
-                feeConfig={{ bearer : event?.data.bearer || "event", ticketFixed : event?.data.ticket_fixed || 100, ticketRate : event?.data.ticket_rate || 0.085}}
-            />
+            <EventFooter onBuyPress={() => router.push(`/(secured)/(event)/${slug}/checkout`)} />
 
         </ThemedView>
     )

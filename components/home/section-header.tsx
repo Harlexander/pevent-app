@@ -10,8 +10,8 @@ interface SectionHeaderProps {
 
 const SectionHeader = ({ title, onPressSeeAll }: SectionHeaderProps) => {
     return (
-        <View className='flex-row justify-between items-center mb-4 mt-6'>
-            <ThemedText className='text-lg font-bold text-black'>{title}</ThemedText>
+        <View className='flex-row justify-between items-center mb-4'>
+            <ThemedText style={{ fontFamily : "Lato-Bold" }} className='font-bold text-black'>{title}</ThemedText>
             {onPressSeeAll && (
                 <Pressable onPress={onPressSeeAll}>
                     <ThemedText className='text-gray-400 text-sm font-medium'>See all</ThemedText>

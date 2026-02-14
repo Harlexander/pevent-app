@@ -1,104 +1,256 @@
-import BackButton from '@/components/back-button'
-import Currency from '@/components/currency'
-import { ThemedText } from '@/components/themed-text'
-import { ThemedView } from '@/components/themed-view'
-import { Ionicons } from '@expo/vector-icons'
-import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import BackButton from '@/components/back-button';
+import Currency from '@/components/currency';
+import { ThemedText } from '@/components/themed-text';
+import CardItem from '@/components/wallet/card-item';
+import FundWalletModal from '@/components/wallet/fund-wallet-modal';
+import { AddCardCheckout, FundWalletCheckout } from '@/components/wallet/paystack-checkout';
+import TransactionItem from '@/components/wallet/transaction-item';
+import { useCards, useDeleteCard } from '@/hooks/query/useCard';
+import { useWallet, useWalletTransactions } from '@/hooks/query/useWallet';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useCallback, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  RefreshControl,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const formatAmount = (amount: number) => new Intl.NumberFormat('en-NG').format(amount);
 
 const Wallet = () => {
-    return (
-        <ThemedView className='flex-1 bg-white'>
-            <SafeAreaView className='flex-1'>
-                {/* Header */}
-                <View className='flex-row items-center justify-between px-5 py-2 mb-4'>
-                    <BackButton />
-                    <ThemedText className='text-lg font-bold'>Wallet</ThemedText>
-                    <View className='w-10' />
-                </View>
+  const { data: wallet, isLoading: walletLoading, refetch: refetchWallet } = useWallet();
+  const { data: transactions, isLoading: txLoading, refetch: refetchTx } = useWalletTransactions();
+  const { data: cards, isLoading: cardsLoading, refetch: refetchCards } = useCards();
+  const { mutate: removeCard } = useDeleteCard();
 
-                <ScrollView className='px-5 gap-5' contentContainerStyle={{ paddingBottom: 100 }}>
+  const [refreshing, setRefreshing] = useState(false);
+  const [activeTab, setActiveTab] = useState<'cards' | 'transactions'>('transactions');
 
-                    {/* Balance Card */}
-                    <LinearGradient
-                        colors={['#00359E', '#002570']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={{ borderRadius: 14 }}
-                        className='w-full h-48 justify-between relative overflow-hidden mb-8'
-                    >
-                        <View className='p-6'>
-                            {/* Abstract Circle decoration */}
-                            <View className='absolute -right-10 -bottom-20 w-64 h-64 rounded-full border border-white/10' />
-                            <View className='absolute -left-10 -top-10 w-32 h-32 rounded-full bg-blue-400/20' />
+  // Fund wallet state
+  const [showFundModal, setShowFundModal] = useState(false);
+  const [fundAmount, setFundAmount] = useState('');
+  const [checkoutAmount, setCheckoutAmount] = useState<number | null>(null);
+  const [checkoutKey, setCheckoutKey] = useState(0);
+  const pendingCheckout = useRef(false);
+  const fundAmountRef = useRef('');
 
-                            <View>
-                                <ThemedText className='text-white font-medium mb-1'>Balance</ThemedText>
-                                <Currency className='text-white text-3xl font-bold'>1.234</Currency>
-                            </View>
+  // Add card state
+  const [addCardActive, setAddCardActive] = useState(false);
+  const [addCardKey, setAddCardKey] = useState(0);
 
-                            <TouchableOpacity className='self-end'>
-                                <View className='w-10 h-10 rounded-full border-2 border-white items-center justify-center'>
-                                    <Ionicons name="add" size={24} color="white" />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </LinearGradient>
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([refetchWallet(), refetchTx(), refetchCards()]);
+    setRefreshing(false);
+  };
 
-                    {/* Cards */}
-                    <View className='gap-4 py-5'>
-                        <View className='flex-row items-center justify-between bg-white border border-gray-100 p-4 rounded-xl'>
-                            <View className='flex-row items-center gap-4'>
-                                <View className='w-12 h-8 bg-red-500 rounded items-center justify-center'>
-                                    {/* Simulated Mastercard Logo */}
-                                    <View className='flex-row -space-x-2'>
-                                        <View className='w-3 h-3 rounded-full bg-red-500' />
-                                        <View className='w-3 h-3 rounded-full bg-yellow-400' />
-                                    </View>
-                                </View>
-                                <View>
-                                    <ThemedText className='text-slate-900 font-bold'>**** **** **** 6789</ThemedText>
-                                    <ThemedText className='text-gray-400 text-xs'>Expires 09/25</ThemedText>
-                                </View>
-                            </View>
-                            <View className='bg-gray-100 px-2 py-1 rounded-lg'>
-                                <ThemedText className='text-[10px] text-gray-500 font-bold'>default</ThemedText>
-                            </View>
-                        </View>
+  const handleDeleteCard = (cardId: string) => {
+    Alert.alert('Remove Card', 'Are you sure you want to remove this card?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Remove', style: 'destructive', onPress: () => removeCard(cardId) },
+    ]);
+  };
 
-                        <View className='flex-row items-center justify-between bg-white border border-gray-100 p-4 rounded-xl'>
-                            <View className='flex-row items-center gap-4'>
-                                <View className='w-12 h-8 bg-red-500 rounded items-center justify-center'>
-                                    {/* Simulated Mastercard Logo */}
-                                    <View className='flex-row -space-x-2'>
-                                        <View className='w-3 h-3 rounded-full bg-red-500' />
-                                        <View className='w-3 h-3 rounded-full bg-yellow-400' />
-                                    </View>
-                                </View>
-                                <View>
-                                    <ThemedText className='text-slate-900 font-bold'>**** **** **** 4567</ThemedText>
-                                    <ThemedText className='text-gray-400 text-xs'>Expires 09/25</ThemedText>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
+  // Fund wallet handlers
+  const handleFundWallet = useCallback(() => {
+    const amount = parseFloat(fundAmount);
+    if (!amount || amount <= 0) {
+      Alert.alert('Invalid Amount', 'Please enter a valid amount.');
+      return;
+    }
+    fundAmountRef.current = fundAmount;
+    pendingCheckout.current = true;
+    setShowFundModal(false);
+  }, [fundAmount]);
 
-                    <ThemedText className='text-center text-gray-400 text-xs mt-8'>Bank cards are stored securely by Paystack</ThemedText>
+  const startCheckout = useCallback(() => {
+    if (!pendingCheckout.current) return;
+    pendingCheckout.current = false;
+    const amount = parseFloat(fundAmountRef.current);
+    setCheckoutKey((k) => k + 1);
+    setCheckoutAmount(amount);
+  }, []);
 
-                </ScrollView>
+  const handleCheckoutComplete = useCallback(
+    (success: boolean) => {
+      setCheckoutAmount(null);
+      setFundAmount('');
+      fundAmountRef.current = '';
+      if (success) {
+        refetchWallet();
+        refetchTx();
+        Alert.alert('Success', 'Wallet funded successfully!');
+      }
+    },
+    [refetchWallet, refetchTx],
+  );
 
-                {/* Footer Button */}
-                <View className='absolute bottom-0 w-full p-5 bg-white border-t border-gray-100 safe-bottom'>
-                    <TouchableOpacity className='w-full bg-blue-600 py-4 rounded-xl items-center justify-center shadow-lg shadow-blue-500/30'>
-                        <ThemedText className='text-white font-bold text-base'>Add New Card</ThemedText>
-                    </TouchableOpacity>
-                </View>
+  // Add card handlers
+  const handleAddCard = useCallback(() => {
+    setAddCardKey((k) => k + 1);
+    setAddCardActive(true);
+  }, []);
 
-            </SafeAreaView>
-        </ThemedView>
-    )
-}
+  const handleAddCardComplete = useCallback(
+    (success: boolean) => {
+      setAddCardActive(false);
+      if (success) {
+        refetchCards();
+        Alert.alert('Success', 'Card added successfully!');
+      }
+    },
+    [refetchCards],
+  );
 
-export default Wallet
+  const isLoading = walletLoading || txLoading || cardsLoading;
+
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Header */}
+      <View className="flex-row items-center justify-between px-5 py-2 mb-4">
+        <BackButton />
+        <ThemedText className="text-lg font-bold">Wallet</ThemedText>
+        <View className="w-10" />
+      </View>
+
+      <ScrollView
+        className="px-5"
+        contentContainerStyle={{ paddingBottom: 40 }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
+        {/* Balance Card */}
+        <LinearGradient
+          colors={['#00359E', '#002570']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ borderRadius: 14, marginBottom: 16 }}
+        >
+          <View className="p-6">
+            <View className="absolute -right-10 -bottom-20 w-64 h-64 rounded-full border border-white/10" />
+            <View className="absolute -left-10 -top-10 w-32 h-32 rounded-full bg-blue-400/20" />
+
+            <View>
+              <ThemedText className="text-white font-medium mb-1">Balance</ThemedText>
+              {walletLoading ? (
+                <ActivityIndicator color="white" className="self-start mt-2" />
+              ) : (
+                <Currency className="text-white text-3xl font-bold">
+                  {formatAmount(wallet?.data?.balance ?? 0)}
+                </Currency>
+              )}
+            </View>
+
+            <TouchableOpacity
+              className="self-end"
+              onPress={() => setShowFundModal(true)}
+              disabled={checkoutAmount !== null}
+            >
+              <View className="w-10 h-10 rounded-full border-2 border-white items-center justify-center">
+                {checkoutAmount !== null ? (
+                  <ActivityIndicator color="white" size="small" />
+                ) : (
+                  <Ionicons name="add" size={24} color="white" />
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+
+        {/* Tabs */}
+        <View className="flex-row bg-gray-100 p-1.5 rounded-xl mb-6">
+          {(['Transactions', 'Cards'] as const).map((tab) => {
+            const tabKey = tab === 'Cards' ? 'cards' : 'transactions';
+            return (
+              <TouchableOpacity
+                key={tab}
+                onPress={() => setActiveTab(tabKey)}
+                className={`flex-1 py-3 items-center rounded-lg ${activeTab === tabKey ? 'bg-blue-500' : 'bg-gray-100'}`}
+              >
+                <ThemedText
+                  className={`font-medium ${activeTab === tabKey ? 'text-white' : 'text-gray-500'}`}
+                >
+                  {tab}
+                </ThemedText>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* Tab Content */}
+        {isLoading && !refreshing ? (
+          <ActivityIndicator className="mt-10" color="#004cff" />
+        ) : activeTab === 'cards' ? (
+          <View className="gap-3">
+            {cards?.data && cards.data.length > 0 ? (
+              cards.data.map((card) => (
+                <CardItem key={card.id} card={card} onDelete={handleDeleteCard} />
+              ))
+            ) : (
+              <View className="items-center py-10">
+                <Ionicons name="card-outline" size={48} color="#d1d5db" />
+                <ThemedText className="text-gray-400 mt-3">No saved cards</ThemedText>
+              </View>
+            )}
+
+            <TouchableOpacity
+              onPress={handleAddCard}
+              disabled={addCardActive}
+              className={`flex-row items-center justify-center gap-2 py-4 rounded-xl border border-dashed ${addCardActive ? 'border-gray-200' : 'border-blue-300'}`}
+            >
+              {addCardActive ? (
+                <ActivityIndicator size="small" color="#3b82f6" />
+              ) : (
+                <Ionicons name="add-circle-outline" size={20} color="#3b82f6" />
+              )}
+              <ThemedText className="text-blue-500 font-medium">
+                {addCardActive ? 'Adding Card...' : 'Add New Card'}
+              </ThemedText>
+            </TouchableOpacity>
+
+            <ThemedText className="text-center text-gray-400 text-xs mt-4">
+              Bank cards are stored securely by Paystack
+            </ThemedText>
+          </View>
+        ) : (
+          <View>
+            {transactions?.data && transactions.data.length > 0 ? (
+              transactions.data.map((tx) => <TransactionItem key={tx.id} transaction={tx} />)
+            ) : (
+              <View className="items-center py-10">
+                <Ionicons name="receipt-outline" size={48} color="#d1d5db" />
+                <ThemedText className="text-gray-400 mt-3">No transactions yet</ThemedText>
+              </View>
+            )}
+          </View>
+        )}
+      </ScrollView>
+
+      {/* Fund Wallet Modal */}
+      <FundWalletModal
+        isVisible={showFundModal}
+        fundAmount={fundAmount}
+        onChangeAmount={setFundAmount}
+        onClose={() => setShowFundModal(false)}
+        onSubmit={handleFundWallet}
+        onModalHide={startCheckout}
+      />
+
+      {/* Paystack checkouts */}
+      {checkoutAmount !== null && (
+        <FundWalletCheckout
+          checkoutKey={checkoutKey}
+          amount={checkoutAmount}
+          onComplete={handleCheckoutComplete}
+        />
+      )}
+      {addCardActive && <AddCardCheckout checkoutKey={addCardKey} onComplete={handleAddCardComplete} />}
+    </SafeAreaView>
+  );
+};
+
+export default Wallet;

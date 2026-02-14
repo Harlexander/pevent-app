@@ -16,7 +16,7 @@ interface EventCardCompactProps {
     title: string
     location: string
     date: string
-    price: string
+    price: string | number
 }
 
 const formatDate = (dateStr: string) => {

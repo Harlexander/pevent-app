@@ -35,4 +35,7 @@ export type { Coupon, CouponType } from './Coupon'
 export type { VirtualAccount } from './VirtualAccount'
 export type { NotifyTarget } from './NotifyTarget'
 
+// Notification types
+export type { Notification, NotificationType, NotificationResponse } from './Notification'
+
 export type { ResponseType, ResponseWithMeta, SignInResponse, SignUpResponse } from './response'

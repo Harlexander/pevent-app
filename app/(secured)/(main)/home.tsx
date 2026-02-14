@@ -1,3 +1,4 @@
+import BannerCarousel from '@/components/home/banner-carousel'
 import CategoryList from '@/components/home/category-list'
 import EventCard from '@/components/home/event-card'
 import EventCardCompact from '@/components/home/event-card-compact'
@@ -7,8 +8,7 @@ import SectionHeader from '@/components/home/section-header'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { endpoints } from '@/constants/endpoints'
-import { useAppEvents, useEventsByCategory } from '@/hooks/query/useEvent'
-import { Image } from 'expo-image'
+import { useAppEvents } from '@/hooks/query/useEvent'
 import { Link, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { ActivityIndicator, ScrollView, View } from 'react-native'
@@ -18,151 +18,112 @@ const Home = () => {
     const router = useRouter()
     const [activeCategory, setActiveCategory] = useState('All')
     const { data, isLoading } = useAppEvents()
-    const { data: categoryData, isLoading: isCategoryLoading } = useEventsByCategory(
-        activeCategory === 'All' ? '' : activeCategory,
-    )
-
-    const showCategoryResults = activeCategory !== 'All'
 
     return (
-        <ThemedView className="flex-1 h-screen bg-white">
-            <SafeAreaView className="flex-1">
+        <ThemedView className="flex-1 h-screen">
+            <SafeAreaView className="flex-1 bg-gray-50">
                 <ScrollView
-                    contentContainerStyle={{ paddingBottom: 100 }}
+                    contentContainerStyle={{ paddingBottom: 100, gap : 6 }}
                     showsVerticalScrollIndicator={false}
                 >
-                    <View className="px-5 pt-2">
+                    <>
+                    <View className='bg-white'>
                         <HomeHeader />
-                        <SearchBar />
 
-                        {/* Banner */}
-                        <View className="w-full h-24 rounded-xl overflow-hidden mb-6">
-                            <Image
-                                source={require('@/assets/images/home/banner.png')}
-                                style={{ width: '100%', height: '100%' }}
-                                contentFit="cover"
-                            />
-                        </View>
+                        <BannerCarousel
+                            images={[
+                                'https://www.pevent.ng/explore.png',
+                                require('@/assets/images/home/banner.png'),
+                                require('@/assets/images/home/banner.png'),
+
+                            ]}
+                        />
 
                         <CategoryList
                             activeCategory={activeCategory}
                             onSelectCategory={setActiveCategory}
                         />
-
-                        {showCategoryResults ? (
-                            <>
-                                <SectionHeader title={`${activeCategory} Events`} />
-
-                                {isCategoryLoading ? (
-                                    <View className="items-center py-10">
-                                        <ActivityIndicator size="large" color="#007bff" />
-                                    </View>
-                                ) : categoryData?.data && categoryData.data.length > 0 ? (
-                                    <ScrollView
-                                        horizontal
-                                        showsHorizontalScrollIndicator={false}
-                                        className="mb-4 overflow-visible"
-                                    >
-                                        {categoryData.data.map((event) => (
-                                            <Link
-                                                href={`/${event.slug}`}
-                                                key={event.id}
-                                                className="mr-4"
-                                            >
-                                                <EventCard
-                                                    image={endpoints.IMAGE_URL + event.images[0]}
-                                                    title={event.name}
-                                                    location={event.city || 'undisclosed'}
-                                                    date={event.date}
-                                                    price={'2000'}
-                                                />
-                                            </Link>
-                                        ))}
-                                    </ScrollView>
-                                ) : (
-                                    <View className="items-center py-10">
-                                        <ThemedText className="text-gray-400">
-                                            No events found in this category
-                                        </ThemedText>
-                                    </View>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {/* Featured Events */}
-                                <SectionHeader title="Featured Events" onPressSeeAll={() => router.push('/events/featured')} />
-                                <ScrollView
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    className="mb-2 overflow-visible"
-                                >
-                                    {data?.data?.featured.map((event) => (
-                                        <Link
-                                            href={`/${event.slug}`}
-                                            key={event.id}
-                                            className="mr-4"
-                                        >
-                                            <EventCard
-                                                image={endpoints.IMAGE_URL + event.images[0]}
-                                                title={event.name}
-                                                location={event.city || 'undisclosed'}
-                                                date={event.date}
-                                                price={'2000'}
-                                            />
-                                        </Link>
-                                    ))}
-                                </ScrollView>
-
-                                {/* Trending Events */}
-                                <SectionHeader title="Trending Events" onPressSeeAll={() => router.push('/events/trending')} />
-                                <ScrollView
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    className="mb-2 overflow-visible"
-                                >
-                                    {data?.data?.trending.map((event) => (
-                                        <Link
-                                            href={`/${event.slug}`}
-                                            key={event.id}
-                                            className="mr-4"
-                                        >
-                                            <EventCardCompact
-                                                image={endpoints.IMAGE_URL + event.images[0]}
-                                                title={event.name}
-                                                location={event.city || 'undisclosed'}
-                                                date={event.date}
-                                                price={'2000'}
-                                            />
-                                        </Link>
-                                    ))}
-                                </ScrollView>
-
-                                {/* Latest Events */}
-                                <SectionHeader title="Latest Events" onPressSeeAll={() => router.push('/events/latest')} />
-                                <ScrollView
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    className="mb-4 overflow-visible"
-                                >
-                                    {data?.data?.latest.map((event) => (
-                                        <Link
-                                            href={`/${event.slug}`}
-                                            key={event.id}
-                                            className="mr-4"
-                                        >
-                                            <EventCard
-                                                image={endpoints.IMAGE_URL + event.images[0]}
-                                                title={event.name}
-                                                location={event.city || 'undisclosed'}
-                                                date={event.date}
-                                                price={'2000'}
-                                            />
-                                        </Link>
-                                    ))}
-                                </ScrollView>
-                            </>
-                        )}
                     </View>
+                    <View className='gap-2'>
+                        <View className="bg-white p-5">
+                            {/* Featured Events */}
+                            <SectionHeader title="Featured Events" onPressSeeAll={() => router.push('/events/featured')} />
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                className="overflow-visible"
+                            >
+                                {data?.data?.featured.map((event) => (
+                                    <Link
+                                        href={`/${event.slug}`}
+                                        key={event.id}
+                                        className="mr-4"
+                                    >
+                                        <EventCard
+                                            image={endpoints.IMAGE_URL + event.images[0]}
+                                            title={event.name}
+                                            location={event.city || 'undisclosed'}
+                                            date={event.date}
+                                            price={event.tickets[0].price}
+                                        />
+                                    </Link>
+                                ))}
+                            </ScrollView>
+                        </View>
+
+                        <View className="bg-white p-5">
+                            {/* Trending Events */}
+                        <SectionHeader title="Trending Events" onPressSeeAll={() => router.push('/events/trending')} />
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            className="overflow-visible"
+                        >
+                            {data?.data?.trending.map((event) => (
+                                <Link
+                                    href={`/${event.slug}`}
+                                    key={event.id}
+                                    className="mr-4"
+                                >
+                                    <EventCardCompact
+                                        image={endpoints.IMAGE_URL + event.images[0]}
+                                        title={event.name}
+                                        location={event.city || 'undisclosed'}
+                                        date={event.date}
+                                        price={event.tickets[0].price}
+                                    />
+                                </Link>
+                            ))}
+                        </ScrollView>
+                        </View>
+
+                        <View className="bg-white p-5">
+                            {/* Latest Events */}
+                        <SectionHeader title="Latest Events" onPressSeeAll={() => router.push('/events/latest')} />
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            className="overflow-visible"
+                        >
+                            {data?.data?.latest.map((event) => (
+                                <Link
+                                    href={`/${event.slug}`}
+                                    key={event.id}
+                                    className="mr-4"
+                                >
+                                    <EventCard
+                                        image={endpoints.IMAGE_URL + event.images[0]}
+                                        title={event.name}
+                                        location={event.city || 'undisclosed'}
+                                        date={event.date}
+                                        price={event.tickets[0].price}
+                                    />
+                                </Link>
+                            ))}
+                        </ScrollView>
+                        </View>
+                    </View>
+                    </>
                 </ScrollView>
             </SafeAreaView>
         </ThemedView>

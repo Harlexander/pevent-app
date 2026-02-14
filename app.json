@@ -29,7 +29,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.matfam.pevent-app"
+      "bundleIdentifier": "com.matfam.pevent-app",
+      "appleTeamId": "CF75CAR33X"
     },
     "android": {
       "adaptiveIcon": {
