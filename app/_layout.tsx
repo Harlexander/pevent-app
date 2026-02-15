@@ -5,6 +5,7 @@ import 'react-native-reanimated';
 import { useFonts } from 'expo-font';
 
 import { useColorScheme } from '../hooks/use-color-scheme';
+import { useNotificationSetup } from '@/hooks/useNotificationSetup';
 
 import '../global.css';
 import { SessionProvider, useSession } from '@/Provider/session-provider';
@@ -53,21 +54,29 @@ export default function RootLayout() {
   );
 }
 
+function NotificationSetup() {
+  useNotificationSetup();
+  return null;
+}
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const { session } = useSession()  
+  const { session } = useSession();
 
   return (
+    <>
+      {session && <NotificationSetup />}
       <Stack>
-        <Stack.Protected guard={!!session}> 
+        <Stack.Protected guard={!!session}>
           <Stack.Screen name="(secured)" options={{ headerShown: false }} />
         </Stack.Protected>
 
-        <Stack.Protected guard={!session}> 
+        <Stack.Protected guard={!session}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
+    </>
   );
 }
 

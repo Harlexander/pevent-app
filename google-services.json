@@ -1,0 +1,30 @@
+
+{
+  "project_info": {
+    "project_number": "895335372212",
+    "project_id": "pevent-6b8d4",
+    "storage_bucket": "pevent-6b8d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895335372212:android:5e7104d075ae28c1f28ee1",
+        "android_client_info": {
+          "package_name": "com.peventapp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVCg3bAmUYBEiE_-I4Gt-nXmuKLYdRn74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

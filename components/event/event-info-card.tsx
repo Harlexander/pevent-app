@@ -11,11 +11,10 @@ interface EventInfoCardProps {
 
 const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
     return (
-        <View className='bg-white rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100'>
+        <View className='bg-white rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100 shadow-lg shadow-blue-500/20'>
             {/* Time */}
             <View className='items-center flex-1 border-r border-gray-100'>
                 <View className='flex-row items-center gap-1 mb-1'>
-                    <Ionicons name="time" size={14} color="#3673ffff" />
                     <ThemedText className='text-gray-400 text-xs'>Time</ThemedText>
                 </View>
                 <ThemedText className='text-blue-500 font-bold capitalize'>{time}</ThemedText>
@@ -24,7 +23,6 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
             {/* Date */}
             <View className='items-center flex-1 border-r border-gray-100'>
                 <View className='flex-row items-center gap-1 mb-1'>
-                    <Ionicons name="calendar" size={14} color="#3673ffff" />
                     <ThemedText className='text-gray-400 text-xs'>Date</ThemedText>
                 </View>
                 <ThemedText className='text-blue-500 font-bold capitalize'>{date}</ThemedText>
@@ -33,7 +31,6 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
             {/* Location */}
             <View className='items-center flex-1'>
                 <View className='flex-row items-center gap-1 mb-1'>
-                    <Ionicons name="location" size={14} color="#3673ffff" />
                     <ThemedText className='text-gray-400 text-xs'>Location</ThemedText>
                 </View>
                 <ThemedText className='text-blue-500 font-bold capitalize'>{location}</ThemedText>

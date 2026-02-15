@@ -61,8 +61,8 @@ const Login = () => {
 
                         <View className='mt-8'>
                             <View className='gap-2 mb-8'>
-                                <ThemedText className='text-3xl font-bold text-black'>Hey,</ThemedText>
-                                <ThemedText className='text-3xl font-bold text-black'>Welcome back!</ThemedText>
+                                <ThemedText className='text-3xl font-semibold text-black'>Hey,</ThemedText>
+                                <ThemedText className='text-3xl font-semibold text-black'>Welcome back!</ThemedText>
                                 <ThemedText className='text-base opacity-60 text-black'>
                                     Please enter your details to sign in.
                                 </ThemedText>
@@ -103,7 +103,7 @@ const Login = () => {
                                     />
 
                                     <View className='items-end'>
-                                        <Link href="/(onboarding)/reset-password" asChild>
+                                        <Link href="/(onboarding)/forgot-password" asChild>
                                             <Pressable>
                                                 <ThemedText className='text-blue-500 font-medium'>Forgot password?</ThemedText>
                                             </Pressable>

@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
 import { Dimensions, Platform, View } from 'react-native'
 import DateTime from '../date-time'
+import Currency from '../currency'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 const CARD_GAP = 12
@@ -17,6 +18,7 @@ interface EventCardCompactProps {
     location: string
     date: string
     price: string | number
+    time: string
 }
 
 const formatDate = (dateStr: string) => {
@@ -30,7 +32,7 @@ const formatDate = (dateStr: string) => {
     }
 }
 
-const EventCardCompact = ({ image, title, location, date, price }: EventCardCompactProps) => {
+const EventCardCompact = ({ image, title, location, date, price, time }: EventCardCompactProps) => {
     const { month, day } = formatDate(date)
 
     return (
@@ -45,9 +47,6 @@ const EventCardCompact = ({ image, title, location, date, price }: EventCardComp
                         shadowOffset: { width: 0, height: 4 },
                         shadowOpacity: 0.1,
                         shadowRadius: 12,
-                    },
-                    android: {
-                        elevation: 4,
                     },
                 }),
             }}
@@ -91,33 +90,34 @@ const EventCardCompact = ({ image, title, location, date, price }: EventCardComp
                     {title}
                 </ThemedText>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                    <Ionicons name="location-outline" size={11} color="#3d3d3dff" />
-                    <ThemedText
-                        numberOfLines={1}
-                        className='text-sm'
-                    >
-                        {location}
-                    </ThemedText>
+                <View className='flex-row gap-4'>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                        <Ionicons name="location-outline" size={11} color="#3d3d3dff" />
+                        <ThemedText
+                            numberOfLines={1}
+                            className='text-sm text-gray-600'
+                        >
+                            {location.length > 15 ? location.slice(0, 15) + '...' : location}
+                        </ThemedText>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                        <Ionicons name="time-outline" size={11} color="#3d3d3dff" />
+                        <ThemedText
+                            numberOfLines={1}
+                            className='text-sm text-gray-600'
+                        >
+                            {time}
+                        </ThemedText>
+                    </View>
                 </View>
 
                 <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginTop: 4,
-                    }}
                 >
-                    <ThemedText
-                        style={{
-                            fontSize: 13,
-                            fontWeight: '800',
-                            color: '#004cff',
-                        }}
+                    <Currency
                     >
-                        ₦{price}
-                    </ThemedText>
+                        {price}
+                    </Currency>
                 </View>
             </View>
         </View>

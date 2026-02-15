@@ -7,8 +7,9 @@ import { Notification, NotificationType } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import { NotificationListSkeleton } from '@/components/notifications/notification-skeleton'
 import React, { useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, TouchableOpacity, View } from 'react-native'
+import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const TYPE_CONFIG: Record<
@@ -157,9 +158,7 @@ const Notifications = () => {
                 </View>
 
                 {isLoading && !refreshing ? (
-                    <View className="flex-1 items-center justify-center">
-                        <ActivityIndicator size="large" color="#3B82F6" />
-                    </View>
+                    <NotificationListSkeleton />
                 ) : (
                     <FlatList
                         data={notificationList}

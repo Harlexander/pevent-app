@@ -1,6 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { signIn, signUp } from "../../actions/auth"
-import { getUser, updateUser, changePassword, ChangePasswordInput } from "../../actions/user"
+import {
+    getUser,
+    updateUser,
+    changePassword,
+    ChangePasswordInput,
+    emailVerification,
+    forgotPassword,
+    resetPassword,
+    ResetPasswordInput,
+    storeImage,
+    deleteAccount,
+} from "../../actions/user"
 import { useUserStore } from "@/store/user-store"
 import { User } from "@/types"
 
@@ -16,7 +27,8 @@ export const useSignIn = () => {
 
 export const useSignUp = () => {
     return useMutation({
-        mutationFn: async (data: { email: string, password: string }) => await signUp(data.email, data.password),
+        mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string }) =>
+            await signUp(data),
     })
 }
 
@@ -45,5 +57,46 @@ export const useUpdateUser = () => {
 export const useChangePassword = () => {
     return useMutation({
         mutationFn: async (data: ChangePasswordInput) => await changePassword(data),
+    })
+}
+
+export const useEmailVerification = () => {
+    return useMutation({
+        mutationFn: async (otp: number) => await emailVerification(otp),
+    })
+}
+
+export const useForgotPassword = () => {
+    return useMutation({
+        mutationFn: async (email: string) => await forgotPassword(email),
+    })
+}
+
+export const useResetPassword = () => {
+    return useMutation({
+        mutationFn: async (data: ResetPasswordInput) => await resetPassword(data),
+    })
+}
+
+export const useDeleteAccount = () => {
+    return useMutation({
+        mutationFn: deleteAccount,
+    })
+}
+
+export const useUploadImage = () => {
+    const queryClient = useQueryClient()
+    const { updateUser: updateUserStore } = useUserStore()
+
+    return useMutation({
+        mutationFn: async ({ uri, type }: { uri: string; type: string }) => {
+            const uploadResponse = await storeImage(uri, type)
+            const userResponse = await updateUser({ image: uploadResponse.file_path })
+            return userResponse
+        },
+        onSuccess: (response) => {
+            updateUserStore(response.data)
+            queryClient.invalidateQueries({ queryKey: ['user'] })
+        },
     })
 }

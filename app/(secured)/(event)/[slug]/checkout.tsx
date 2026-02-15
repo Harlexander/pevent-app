@@ -26,6 +26,8 @@ import React, { useState, useMemo, useCallback, useRef } from 'react'
 import { Alert, TouchableOpacity, View, ActivityIndicator, Modal, PanResponder, Animated } from 'react-native'
 import { usePaystack } from 'react-native-paystack-webview'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Colors } from '@/constants/theme'
+import SuccessIcon from '@/assets/icons/success.svg'
 
 const CheckoutScreen = () => {
   const { slug } = useLocalSearchParams()
@@ -72,7 +74,7 @@ const CheckoutScreen = () => {
   const [appliedDiscount, setAppliedDiscount] = useState(0)
 
   // Payment success
-  const [showSuccess, setShowSuccess] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const updateQuantity = useCallback(
     (id: string, delta: number) => {
@@ -605,7 +607,7 @@ const CheckoutScreen = () => {
           <View className="items-center flex-1 mx-4">
             <View className="flex-row items-center gap-2 mb-1">
               <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
-                <Ionicons name={getStepIcon() as any} size={16} color="#004cff" />
+                <Ionicons name={getStepIcon() as any} size={16} color={Colors.primary} />
               </View>
               <ThemedText className="text-lg font-bold text-gray-900">{getStepTitle()}</ThemedText>
             </View>
@@ -670,37 +672,18 @@ const CheckoutScreen = () => {
             {/* Success Header with Gradient */}
             <View className="bg-gradient-to-br from-green-400 to-emerald-500 p-8 items-center">
               <View
-                className="w-24 h-24 rounded-full bg-white items-center justify-center mb-4"
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 8,
-                }}
+                className="w-full h-44"
               >
-                <Ionicons name="checkmark-circle" size={64} color="#22c55e" />
+                <SuccessIcon style={{ width: '100%', height: '100%' }} />
               </View>
-              <ThemedText className="text-white text-2xl font-bold mb-2">Payment Successful!</ThemedText>
-              <ThemedText className="text-white/90 text-center text-sm">
+              <ThemedText className="text-black text-2xl font-bold mb-2">Payment Successful!</ThemedText>
+              <ThemedText className="text-black/90 text-center text-sm">
                 Your tickets have been purchased
               </ThemedText>
             </View>
 
             {/* Content */}
             <View className="p-6">
-              {/* Amount */}
-              <View className="bg-gray-50 rounded-2xl p-4 mb-6 items-center">
-                <ThemedText className="text-gray-500 text-sm mb-1">Amount Paid</ThemedText>
-                <Currency className="text-3xl font-bold text-gray-900">{finalPrice}</Currency>
-              </View>
-
-              {/* Ticket Info */}
-              <View className="flex-row items-center justify-center mb-6 bg-blue-50 p-3 rounded-xl">
-                <Ionicons name="ticket" size={20} color="#004cff" />
-                <ThemedText className="text-gray-700 ml-2">
-                  {totalTickets} {totalTickets === 1 ? 'Ticket' : 'Tickets'} • {event?.data?.name}
-                </ThemedText>
-              </View>
 
               {/* Action Buttons */}
               <TouchableOpacity
@@ -730,7 +713,7 @@ const CheckoutScreen = () => {
                   resetCheckoutStore()
                   router.replace('/(secured)/(main)/home')
                 }}
-                className="w-full py-4 rounded-2xl bg-gray-100 items-center"
+                className="w-full py-4 rounded-2xl items-center"
                 activeOpacity={0.8}
               >
                 <View className="flex-row items-center gap-2">

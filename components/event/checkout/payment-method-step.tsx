@@ -1,48 +1,46 @@
 import Currency from '@/components/currency'
 import { ThemedText } from '@/components/themed-text'
+import { Colors } from '@/constants/theme'
 import { useCards } from '@/hooks/query/useCard'
 import { useWallet } from '@/hooks/query/useWallet'
 import { PaymentChannel, useCheckoutStore } from '@/store/checkout-store'
 import { Card } from '@/types/Card'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import { PaymentMethodsSkeleton, SavedCardsSkeleton } from '@/components/event/checkout/payment-method-skeleton'
+import Skeleton from '@/components/ui/skeleton'
 import React from 'react'
-import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 
 const PAYMENT_METHODS: {
   id: PaymentChannel
   name: string
   icon: string
   description: string
-  gradient: string[]
 }[] = [
     {
       id: 'wallet',
       name: 'Pevent Wallet',
       icon: 'wallet',
       description: 'Instant & Secure',
-      gradient: ['#667eea', '#764ba2']
     },
     {
       id: 'card',
       name: 'Card Payment',
       icon: 'card',
       description: 'Visa, Mastercard, Verve',
-      gradient: ['#f093fb', '#f5576c']
     },
     {
       id: 'bank_transfer',
       name: 'Bank Transfer',
       icon: 'business',
       description: 'Direct bank payment',
-      gradient: ['#4facfe', '#00f2fe']
     },
     {
       id: 'ussd',
       name: 'USSD',
       icon: 'keypad',
       description: 'Dial *737# to pay',
-      gradient: ['#43e97b', '#38f9d7']
     },
   ]
 
@@ -145,20 +143,17 @@ const PaymentMethodStep = () => {
     >
       {/* Header */}
       <View className="mb-6">
-        <ThemedText className="text-2xl font-bold text-gray-900 mb-2">
+        <ThemedText className="text-lg font-bold text-gray-900 mb-2">
           Choose Payment Method
-        </ThemedText>
-        <ThemedText className="text-gray-500">
-          Select your preferred payment option
         </ThemedText>
       </View>
 
       {/* Saved Cards */}
       {cardsLoading ? (
-        <View className="py-8 items-center">
-          <ActivityIndicator size="large" color="#004cff" />
-          <ThemedText className="text-gray-400 mt-3">Loading payment methods...</ThemedText>
-        </View>
+        <>
+          <SavedCardsSkeleton />
+          <PaymentMethodsSkeleton />
+        </>
       ) : (
         <>
           {savedCards.length > 0 && (
@@ -199,18 +194,16 @@ const PaymentMethodStep = () => {
                 activeOpacity={0.7}
                 className="overflow-hidden rounded-2xl mb-3"
                 style={{
-                  shadowColor: isSelected ? method.gradient[0] : '#000',
+                  shadowColor: isSelected ? '#004cff' : '#000',
                   shadowOffset: { width: 0, height: 2 },
                   shadowOpacity: isSelected ? 0.2 : 0.05,
                   shadowRadius: 8,
                   elevation: isSelected ? 4 : 2,
                 }}
               >
-                <LinearGradient
-                  colors={isSelected ? method.gradient as any : ['#ffffff', '#ffffff']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  className="p-5"
+                <View
+                  className={isSelected ? 'bg-blue-500' : 'bg-white'}
+                  style={{ padding: 12 }}
                 >
                   <View className="flex-row items-center">
                     <View
@@ -219,7 +212,7 @@ const PaymentMethodStep = () => {
                       <Ionicons
                         name={method.icon as any}
                         size={24}
-                        color={isSelected ? '#ffffff' : method.gradient[0]}
+                        color={isSelected ? '#ffffff' : Colors.primary}
                       />
                     </View>
                     <View className="ml-4 flex-1">
@@ -243,7 +236,7 @@ const PaymentMethodStep = () => {
                       {isWallet && (
                         <View className="flex-row items-center mt-2">
                           {walletLoading ? (
-                            <ActivityIndicator size="small" color={isSelected ? '#ffffff' : '#9ca3af'} />
+                            <Skeleton width={80} height={14} borderRadius={4} />
                           ) : (
                             <>
                               <ThemedText className={`text-xs ${isSelected ? 'text-white/70' : 'text-gray-400'}`}>
@@ -264,14 +257,14 @@ const PaymentMethodStep = () => {
                       {isSelected && <View className="w-3.5 h-3.5 rounded-full bg-white" />}
                     </View>
                   </View>
-                </LinearGradient>
+                </View>
               </TouchableOpacity>
             )
           })}
 
           {/* Security Badge */}
           <View className="mt-6 p-4 bg-blue-50 rounded-xl flex-row items-center">
-            <Ionicons name="shield-checkmark" size={20} color="#004cff" />
+            <Ionicons name="shield-checkmark" size={20} color={Colors.primary} />
             <ThemedText className="text-xs text-gray-600 ml-3 flex-1">
               All payments are secured and encrypted with industry-standard SSL technology
             </ThemedText>

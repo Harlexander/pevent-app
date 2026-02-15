@@ -8,12 +8,13 @@ import { useAppTickets } from '@/hooks/query/useTicket'
 import { TicketBought } from '@/types'
 import { useRouter } from 'expo-router'
 import React, { useMemo, useState } from 'react'
-import { ActivityIndicator, FlatList, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import TicketEmptyState from '@/assets/icons/ticket-EmptyState.svg'
 
 const Passes = () => {
     const router = useRouter()
-    const [activeTab, setActiveTab] = useState<'All' | 'Upcoming' | 'Past'>('All')
+    const [activeTab, setActiveTab] = useState<'Upcoming' | 'Past'>('Upcoming')
 
     const { data, isLoading, error } = useAppTickets()
 
@@ -24,9 +25,7 @@ const Passes = () => {
         const now = new Date()
         const tickets = data.data
 
-        if (activeTab === 'All') {
-            return tickets
-        } else if (activeTab === 'Upcoming') {
+        if (activeTab === 'Upcoming') {
             return tickets.filter((ticket: TicketBought) => {
                 const eventDate = new Date(ticket.ticket.event.date)
                 return eventDate >= now
@@ -40,7 +39,7 @@ const Passes = () => {
     }, [data?.data, activeTab])
 
     return (
-        <ThemedView className='flex-1 bg-white'>
+        <ThemedView className='flex-1'>
             <SafeAreaView edges={['top']} className='flex-1 px-5'>
                 {/* Header */}
                 <ThemedText className='text-xl font-bold mt-2 mb-6'>My Ticket</ThemedText>
@@ -65,12 +64,22 @@ const Passes = () => {
 
                 {/* Empty State */}
                 {!isLoading && !error && filteredTickets.length === 0 && (
-                    <View className='flex-1 items-center justify-center'>
-                        <ThemedText className='text-gray-500'>
-                            {activeTab === 'All' ? 'No tickets found' :
-                                activeTab === 'Upcoming' ? 'No upcoming tickets' :
-                                    'No past tickets'}
+                    <View className='flex-1 items-center pt-20'>
+                        <TicketEmptyState width={235} height={188} />
+                        <ThemedText className='text-xl font-semibold mt-4'>
+                            {activeTab === 'Upcoming' ? 'No upcoming tickets' : 'No past tickets'}
                         </ThemedText>
+                        <ThemedText className='text-gray-500 text-center mt-1'>
+                            {activeTab === 'Upcoming'
+                                ? "You don't have any upcoming events yet."
+                                : "You haven't attended any events yet."}
+                        </ThemedText>
+                        <Pressable
+                            onPress={() => router.push('/home')}
+                            className='bg-primary mt-6 px-8 py-3 rounded-lg'
+                        >
+                            <ThemedText className='text-white font-semibold'>Browse Events</ThemedText>
+                        </Pressable>
                     </View>
                 )}
 

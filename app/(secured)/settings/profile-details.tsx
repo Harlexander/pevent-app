@@ -3,18 +3,22 @@ import UIModal from '@/components/UIModal'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { endpoints } from '@/constants/endpoints'
-import { useUpdateUser } from '@/hooks/query/useAuth'
+import { useUpdateUser, useUploadImage } from '@/hooks/query/useAuth'
 import { useUserStore } from '@/store/user-store'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useState } from 'react'
 import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Input from '@/components/ui/input'
+import Select from '@/components/ui/select'
+import { countries, states } from '@/constants/location'
 
 const ProfileDetails = () => {
     const user = useUserStore((state) => state.user)
     const { mutate: updateUser, isPending } = useUpdateUser()
+    const { mutate: uploadImage, isPending: isUploading } = useUploadImage()
     const [isPhotoModalVisible, setIsPhotoModalVisible] = useState(false)
 
     const [firstName, setFirstName] = useState(user?.firstName || '')
@@ -24,8 +28,15 @@ const ProfileDetails = () => {
     const [mobile, setMobile] = useState(user?.mobile || '')
     const [address, setAddress] = useState(user?.address || '')
     const [bio, setBio] = useState(user?.bio || '')
-    const [state, setState] = useState(user?.state || '')
     const [country, setCountry] = useState(user?.country || '')
+    const [state, setState] = useState(user?.state || '')
+
+    const stateOptions = country && states[country] ? states[country] : []
+
+    const handleCountryChange = (value: string) => {
+        setCountry(value)
+        setState('')
+    }
 
     const avatarSource = user?.image
         ? { uri: user.image.startsWith('http') ? user.image : endpoints.IMAGE_URL + user.image }
@@ -41,6 +52,61 @@ const ProfileDetails = () => {
                 onError: () => {
                     Alert.alert('Error', 'Failed to update profile')
                 },
+            },
+        )
+    }
+
+    const handleImageUpload = (uri: string) => {
+        setIsPhotoModalVisible(false)
+        uploadImage(
+            { uri, type: 'profile' },
+            {
+                onSuccess: () => Alert.alert('Success', 'Profile picture updated'),
+                onError: () => Alert.alert('Error', 'Failed to upload image'),
+            },
+        )
+    }
+
+    const pickFromLibrary = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+        if (status !== 'granted') {
+            Alert.alert('Permission needed', 'Please grant access to your photo library.')
+            return
+        }
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8,
+        })
+        if (!result.canceled && result.assets[0]) {
+            handleImageUpload(result.assets[0].uri)
+        }
+    }
+
+    const takePhoto = async () => {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync()
+        if (status !== 'granted') {
+            Alert.alert('Permission needed', 'Please grant access to your camera.')
+            return
+        }
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8,
+        })
+        if (!result.canceled && result.assets[0]) {
+            handleImageUpload(result.assets[0].uri)
+        }
+    }
+
+    const removePhoto = () => {
+        setIsPhotoModalVisible(false)
+        updateUser(
+            { image: null },
+            {
+                onSuccess: () => Alert.alert('Success', 'Profile picture removed'),
+                onError: () => Alert.alert('Error', 'Failed to remove photo'),
             },
         )
     }
@@ -68,9 +134,15 @@ const ProfileDetails = () => {
                                     style={{ width: '100%', height: '100%' }}
                                     contentFit="cover"
                                 />
+                                {isUploading && (
+                                    <View className="absolute inset-0 bg-black/40 items-center justify-center">
+                                        <ActivityIndicator color="white" size="small" />
+                                    </View>
+                                )}
                             </View>
                             <TouchableOpacity
                                 onPress={() => setIsPhotoModalVisible(true)}
+                                disabled={isUploading}
                                 className="absolute bottom-0 right-0 w-8 h-8 bg-blue-500 rounded-full items-center justify-center border-2 border-white"
                             >
                                 <Ionicons name="pencil" size={14} color="white" />
@@ -152,17 +224,24 @@ const ProfileDetails = () => {
                         </ThemedText>
 
                         <View className="gap-4">
-                            <Input
-                                label="State"
-                                placeholder="Enter your state"
-                                value={state}
-                                onChangeText={setState}
-                            />
-                            <Input
+                            <Select
                                 label="Country"
-                                placeholder="Enter your country"
+                                placeholder="Select your country"
                                 value={country}
-                                onChangeText={setCountry}
+                                options={countries}
+                                onValueChange={handleCountryChange}
+                                searchPlaceholder="Search countries..."
+                                icon="earth"
+                            />
+                            <Select
+                                label="State"
+                                placeholder={country ? 'Select your state' : 'Select a country first'}
+                                value={state}
+                                options={stateOptions}
+                                onValueChange={setState}
+                                disabled={!country}
+                                searchPlaceholder="Search states..."
+                                icon="location"
                             />
                         </View>
                     </View>
@@ -215,7 +294,7 @@ const ProfileDetails = () => {
                             Select an option to edit your profile image
                         </ThemedText>
 
-                        <TouchableOpacity className="flex-row items-center gap-4 py-4 border-b border-gray-100">
+                        <TouchableOpacity onPress={pickFromLibrary} className="flex-row items-center gap-4 py-4 border-b border-gray-100">
                             <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
                                 <Ionicons name="image-outline" size={20} color="#64748b" />
                             </View>
@@ -224,7 +303,7 @@ const ProfileDetails = () => {
                             </ThemedText>
                         </TouchableOpacity>
 
-                        <TouchableOpacity className="flex-row items-center gap-4 py-4 border-b border-gray-100">
+                        <TouchableOpacity onPress={takePhoto} className="flex-row items-center gap-4 py-4 border-b border-gray-100">
                             <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
                                 <Ionicons name="camera-outline" size={20} color="#64748b" />
                             </View>
@@ -233,7 +312,7 @@ const ProfileDetails = () => {
                             </ThemedText>
                         </TouchableOpacity>
 
-                        <TouchableOpacity className="flex-row items-center gap-4 py-4">
+                        <TouchableOpacity onPress={removePhoto} className="flex-row items-center gap-4 py-4">
                             <View className="w-10 h-10 rounded-full bg-red-50 items-center justify-center">
                                 <Ionicons name="trash-outline" size={20} color="#ef4444" />
                             </View>

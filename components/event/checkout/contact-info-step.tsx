@@ -65,7 +65,7 @@ const ContactInfoStep = ({
                 {hasUserData && onToggleUseDefault && (
                     <TouchableOpacity
                         onPress={() => handleToggleDefault(!useDefaultInfo)}
-                        className={`flex-row items-center justify-between p-4 rounded-xl border ${useDefaultInfo ? 'bg-primary/5 border-primary' : 'bg-gray-50 border-transparent'}`}
+                        className={`flex-row items-center justify-between p-4 rounded-xl border ${useDefaultInfo ? 'bg-primary/5 border-primary' : 'bg-gray-100 border-gray-200'}`}
                         activeOpacity={0.7}
                     >
                         <View className='flex-row items-center gap-3 flex-1'>

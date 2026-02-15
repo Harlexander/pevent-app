@@ -1,5 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
-import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -23,11 +23,11 @@ const OrganizerInfo = ({ name, role, image, organiserId }: OrganizerInfoProps) =
 
     return (
         <Pressable
-            className='flex-row items-center gap-3 mb-6 active:opacity-70'
+            className='flex-row items-center gap-3 active:opacity-70'
             onPress={handlePress}
             disabled={!organiserId}
         >
-            <View className='w-12 h-12 rounded-full overflow-hidden bg-blue-100 items-center justify-center'>
+            <View className='w-16 h-16 rounded-full overflow-hidden bg-blue-500 items-center justify-center'>
                 {image ? (
                     <Image
                         source={{ uri: image }}
@@ -35,7 +35,7 @@ const OrganizerInfo = ({ name, role, image, organiserId }: OrganizerInfoProps) =
                         contentFit="cover"
                     />
                 ) : (
-                    <Ionicons name="person" size={24} color="#9CA3AF" />
+                    <FontAwesome5 name="user" size={18} color="white" />
                 )}
             </View>
             <View className='flex-1'>

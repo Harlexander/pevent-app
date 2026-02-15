@@ -7,6 +7,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import NotificationIcon from '@/assets/icons/notification.svg'
 
 const HomeHeader = () => {
     const { user } = useUserStore()
@@ -27,7 +28,7 @@ const HomeHeader = () => {
                     style={{ width: 45, height: 45, borderRadius: 25 }}
                 />
                 <View>
-                    <ThemedText className="text-base font-bold text-black">
+                    <ThemedText className="text-xl capitalize font-bold text-blue-900">
                         Hi, {user?.firstName || 'there'}
                     </ThemedText>
                     <View className="flex-row items-center gap-1">
@@ -47,7 +48,7 @@ const HomeHeader = () => {
                     {unreadCount > 0 && (
                         <View className="bg-primary w-2.5 h-2.5 rounded-full absolute top-0 right-0 z-10 border-2 border-white" />
                     )}
-                    <EvilIcons name="bell" size={30} color="#424242ff" />
+                    <NotificationIcon width={30} height={30} color="#fff" />
                 </TouchableOpacity>
             </View>
         </View>

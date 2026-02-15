@@ -2,8 +2,12 @@ import React from 'react'
 import { ThemedText } from './themed-text'
 
 const Currency = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+  const formattedValue = typeof children === 'number'
+    ? children.toLocaleString('en-US')
+    : children
+
   return (
-    <ThemedText className={`${className}`}>₦{children}</ThemedText>
+    <ThemedText className={`${className}`}>₦{formattedValue}</ThemedText>
   )
 }
 

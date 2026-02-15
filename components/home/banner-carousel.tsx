@@ -74,17 +74,6 @@ const BannerCarousel = ({ images, height = 96 }: BannerCarouselProps) => {
           </View>
         )}
       />
-
-      {images.length > 1 && (
-        <View className="flex-row justify-center gap-1.5 mt-2">
-          {images.map((_, i) => (
-            <View
-              key={i}
-              className={`h-1.5 rounded-full ${i === activeIndex ? 'bg-primary w-4' : 'bg-gray-300 w-1.5'}`}
-            />
-          ))}
-        </View>
-      )}
     </View>
   )
 }

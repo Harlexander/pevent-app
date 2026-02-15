@@ -7,7 +7,7 @@ export const signIn = async (email: string, password: string) => {
     return response.data
 }
 
-export const signUp = async (email: string, password: string) => {
-    const response = await api.post<SignUpResponse>(endpoints.AUTH.register, { email, password })
+export const signUp = async (data: { email: string; password: string; firstName: string; lastName: string }) => {
+    const response = await api.post<SignUpResponse>(endpoints.AUTH.register, data)
     return response.data
 }

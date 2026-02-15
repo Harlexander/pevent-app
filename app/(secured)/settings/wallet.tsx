@@ -7,6 +7,12 @@ import { AddCardCheckout, FundWalletCheckout } from '@/components/wallet/paystac
 import TransactionItem from '@/components/wallet/transaction-item';
 import { useCards, useDeleteCard } from '@/hooks/query/useCard';
 import { useWallet, useWalletTransactions } from '@/hooks/query/useWallet';
+import {
+  BalanceCardSkeleton,
+  CardListSkeleton,
+  TabsSkeleton,
+  TransactionListSkeleton,
+} from '@/components/wallet/wallet-skeleton';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useRef, useState } from 'react';
@@ -124,66 +130,70 @@ const Wallet = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         {/* Balance Card */}
-        <LinearGradient
-          colors={['#00359E', '#002570']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ borderRadius: 14, marginBottom: 16 }}
-        >
-          <View className="p-6">
-            <View className="absolute -right-10 -bottom-20 w-64 h-64 rounded-full border border-white/10" />
-            <View className="absolute -left-10 -top-10 w-32 h-32 rounded-full bg-blue-400/20" />
+        {walletLoading && !refreshing ? (
+          <BalanceCardSkeleton />
+        ) : (
+          <LinearGradient
+            colors={['#00359E', '#002570']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{ borderRadius: 14, marginBottom: 16 }}
+          >
+            <View className="p-6">
+              <View className="absolute -right-10 -bottom-20 w-64 h-64 rounded-full border border-white/10" />
+              <View className="absolute -left-10 -top-10 w-32 h-32 rounded-full bg-blue-400/20" />
 
-            <View>
-              <ThemedText className="text-white font-medium mb-1">Balance</ThemedText>
-              {walletLoading ? (
-                <ActivityIndicator color="white" className="self-start mt-2" />
-              ) : (
+              <View>
+                <ThemedText className="text-white font-medium mb-1">Balance</ThemedText>
                 <Currency className="text-white text-3xl font-bold">
                   {formatAmount(wallet?.data?.balance ?? 0)}
                 </Currency>
-              )}
-            </View>
-
-            <TouchableOpacity
-              className="self-end"
-              onPress={() => setShowFundModal(true)}
-              disabled={checkoutAmount !== null}
-            >
-              <View className="w-10 h-10 rounded-full border-2 border-white items-center justify-center">
-                {checkoutAmount !== null ? (
-                  <ActivityIndicator color="white" size="small" />
-                ) : (
-                  <Ionicons name="add" size={24} color="white" />
-                )}
               </View>
-            </TouchableOpacity>
-          </View>
-        </LinearGradient>
+
+              <TouchableOpacity
+                className="self-end"
+                onPress={() => setShowFundModal(true)}
+                disabled={checkoutAmount !== null}
+              >
+                <View className="w-10 h-10 rounded-full border-2 border-white items-center justify-center">
+                  {checkoutAmount !== null ? (
+                    <ActivityIndicator color="white" size="small" />
+                  ) : (
+                    <Ionicons name="add" size={24} color="white" />
+                  )}
+                </View>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        )}
 
         {/* Tabs */}
-        <View className="flex-row bg-gray-100 p-1.5 rounded-xl mb-6">
-          {(['Transactions', 'Cards'] as const).map((tab) => {
-            const tabKey = tab === 'Cards' ? 'cards' : 'transactions';
-            return (
-              <TouchableOpacity
-                key={tab}
-                onPress={() => setActiveTab(tabKey)}
-                className={`flex-1 py-3 items-center rounded-lg ${activeTab === tabKey ? 'bg-blue-500' : 'bg-gray-100'}`}
-              >
-                <ThemedText
-                  className={`font-medium ${activeTab === tabKey ? 'text-white' : 'text-gray-500'}`}
+        {isLoading && !refreshing ? (
+          <TabsSkeleton />
+        ) : (
+          <View className="flex-row bg-gray-100 p-1.5 rounded-xl mb-6">
+            {(['Transactions', 'Cards'] as const).map((tab) => {
+              const tabKey = tab === 'Cards' ? 'cards' : 'transactions';
+              return (
+                <TouchableOpacity
+                  key={tab}
+                  onPress={() => setActiveTab(tabKey)}
+                  className={`flex-1 py-3 items-center rounded-lg ${activeTab === tabKey ? 'bg-blue-500' : 'bg-gray-100'}`}
                 >
-                  {tab}
-                </ThemedText>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+                  <ThemedText
+                    className={`font-medium ${activeTab === tabKey ? 'text-white' : 'text-gray-500'}`}
+                  >
+                    {tab}
+                  </ThemedText>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
 
         {/* Tab Content */}
         {isLoading && !refreshing ? (
-          <ActivityIndicator className="mt-10" color="#004cff" />
+          activeTab === 'cards' ? <CardListSkeleton /> : <TransactionListSkeleton />
         ) : activeTab === 'cards' ? (
           <View className="gap-3">
             {cards?.data && cards.data.length > 0 ? (

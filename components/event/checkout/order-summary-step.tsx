@@ -42,11 +42,11 @@ const OrderSummaryStep = ({
                     <ThemedText className='text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest'>
                         Your Tickets ({totalTickets})
                     </ThemedText>
-                    <View className='bg-gray-50 rounded-xl p-4 gap-3'>
+                    <View className='bg-gray-50 rounded-xl gap-3'>
                         {tickets.filter(t => quantities[t.id] > 0).map((ticket, index, arr) => (
                             <View
                                 key={ticket.id}
-                                className={`flex-row justify-between items-center ${index !== arr.length - 1 ? 'pb-3 border-b border-gray-200' : ''}`}
+                                className={`flex-row bg-white rounded-xl p-4 justify-between items-center `}
                             >
                                 <View className='flex-1'>
                                     <ThemedText className='font-semibold text-gray-800'>{ticket.name}</ThemedText>

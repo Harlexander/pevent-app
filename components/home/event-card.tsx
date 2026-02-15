@@ -4,6 +4,9 @@ import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import React from 'react'
 import { View } from 'react-native'
+import MapIcon from '@/assets/icons/map.svg';
+import CalendarIcon from '@/assets/icons/calender.svg';
+import Currency from '../currency'
 
 interface EventCardProps {
     image: any
@@ -27,27 +30,19 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                 <View className="overflow-hidden rounded-xl">
                     <View className="flex-row justify-between items-end p-3 rounded-xl z-20">
                         <View className="flex-1">
-                            <ThemedText className="text-white text-lg font-bold mb-2 capitalize line-clamp-1">
+                            <ThemedText className="text-white text-lg font-semibold mb-2 capitalize line-clamp-1">
                                 {title}
                             </ThemedText>
 
                             <View className="flex-row items-center gap-1 mb-1">
-                                <Ionicons
-                                    name="location-outline"
-                                    size={14}
-                                    color="rgba(255,255,255,0.8)"
-                                />
+                                <MapIcon width={14} height={14} color="#fff" />
                                 <ThemedText className="text-white text-xs opacity-80 line-clamp-1">
                                     {location}
                                 </ThemedText>
                             </View>
 
                             <View className="flex-row items-center gap-1">
-                                <Ionicons
-                                    name="calendar-outline"
-                                    size={14}
-                                    color="rgba(255,255,255,0.8)"
-                                />
+                                <CalendarIcon width={14} height={14} color="#fff" />
                                 <ThemedText className="text-white text-xs opacity-80">
                                     {date}
                                 </ThemedText>
@@ -58,7 +53,7 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                             <ThemedText className="text-white text-xs opacity-70 mb-1">
                                 Start from
                             </ThemedText>
-                            <ThemedText className="text-white text-lg font-bold">₦{price}</ThemedText>
+                            <Currency className="text-white text-lg font-bold">{price}</Currency>
                         </View>
                     </View>
                     <BlurView intensity={80} tint="dark" className="absolute inset-0" />

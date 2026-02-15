@@ -11,7 +11,7 @@ const TabSection = ({ activeTab, onTabChange }: TabSectionProps) => {
     const tabs = ['Description', 'Gallery']
 
     return (
-        <View className='flex-row border-b border-gray-100 mb-6'>
+        <View className='flex-row border-b border-gray-100'>
             {tabs.map((tab) => (
                 <Pressable
                     key={tab}

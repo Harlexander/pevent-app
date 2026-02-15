@@ -3,11 +3,7 @@ export const endpoints = {
     IMAGE_URL: "https://pevent.com.ng/",
     AUTH: {
         login: "/auth/login",
-        register: "/auth/register",
-        verify: "/auth/verify",
-        resend: "/auth/resend",
-        forgot: "/auth/forgot",
-        reset: "/auth/reset",
+        register: "/auth/create"
     },
     user: {
         get: "/user",
@@ -15,7 +11,8 @@ export const endpoints = {
         changePassword: "/user/change-password",
         emailVerification: "/user/email-verification",
         resetPassword: "/user/reset-password",
-
+        forgotPassword: "/user/forgot-password",
+        deleteAccount: "/user/delete-account",
     },
     event: {
         app: "/app/event",
@@ -41,8 +38,17 @@ export const endpoints = {
         transactions: "/wallet/transactions",
         spend: "/wallet/spend"
     },
+    fileUpload: "/file-upload",
     notification: {
         all: "/notifications",
         markAsRead: "/notifications/:id"
+    },
+    referral: {
+        get: "/user/referral",
+        apply: "/user/referral",
+    },
+    pushToken: {
+        register: "/user/notification-token",
+        toggle: "/user/notification-token",
     }
 }
