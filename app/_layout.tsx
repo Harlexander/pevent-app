@@ -1,26 +1,26 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useFonts } from 'expo-font';
+import { useEffect } from 'react';
 
 import { useColorScheme } from '../hooks/use-color-scheme';
 import { useNotificationSetup } from '@/hooks/useNotificationSetup';
 
 import '../global.css';
 import { SessionProvider, useSession } from '@/Provider/session-provider';
-import { SplashScreenController } from '@/components/splash';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PaystackCustomProvider from '@/Provider/paystack-provider';
+
+SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
+export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
     'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
@@ -34,23 +34,15 @@ export default function RootLayout() {
     'Lato-ThinItalic': require('../assets/fonts/Lato-ThinItalic.ttf'),
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
-          <QueryClientProvider client={queryClient}>
-           <PaystackCustomProvider>
-                  <SessionProvider>
-
-              <RootLayoutNav />
-              <StatusBar style="auto" />
-              <SplashScreenController />
-                    </SessionProvider>
-
-           </PaystackCustomProvider>
-
-          </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaystackCustomProvider>
+        <SessionProvider>
+          <RootLayoutNav fontsLoaded={fontsLoaded} />
+          <StatusBar style="auto" />
+        </SessionProvider>
+      </PaystackCustomProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -59,9 +51,21 @@ function NotificationSetup() {
   return null;
 }
 
-function RootLayoutNav() {
+function RootLayoutNav({ fontsLoaded }: { fontsLoaded: boolean }) {
   const colorScheme = useColorScheme();
-  const { session } = useSession();
+  const { session, isLoading } = useSession();
+
+  const appReady = fontsLoaded && !isLoading;
+
+  useEffect(() => {
+    if (appReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [appReady]);
+
+  if (!appReady) {
+    return null;
+  }
 
   return (
     <>
