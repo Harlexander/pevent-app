@@ -1,6 +1,6 @@
 export const endpoints = {
-    BASE_URL: "https://centipedal-burt-nonprominently.ngrok-free.dev/api",
-    IMAGE_URL: "https://pevent.com.ng/",
+    BASE_URL: process.env.EXPO_PUBLIC_ENVIROMENT === "production" ? process.env.EXPO_PUBLIC_PRODUCTION_URL : process.env.EXPO_PUBLIC_DEVELOPMENT_URL,
+    IMAGE_URL: process.env.EXPO_PUBLIC_ENVIROMENT === "production" ? process.env.EXPO_PUBLIC_PRODUCTION_IMAGE_URL : process.env.EXPO_PUBLIC_DEVELOPMENT_IMAGE_URL,
     AUTH: {
         login: "/auth/login",
         register: "/auth/create"

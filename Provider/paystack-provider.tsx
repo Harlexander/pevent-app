@@ -7,8 +7,8 @@ const PaystackCustomProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <PaystackProvider
-      publicKey='pk_test_13d3aa205530448f5a93b860993d658e429dd44e'
-      defaultChannels={[paymentChannel]}
+      publicKey={process.env.EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY || ""}
+      defaultChannels={[paymentChannel as any]}
     >
       {children}
     </PaystackProvider>

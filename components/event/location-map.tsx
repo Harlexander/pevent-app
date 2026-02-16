@@ -11,20 +11,6 @@ interface LocationMapProps {
   coordinates?: Coordinates | null
 }
 
-function getStaticMapUrl(lat: string, lng: string): string {
-  const zoom = 15
-  const latNum = parseFloat(lat)
-  const lngNum = parseFloat(lng)
-
-  const n = Math.pow(2, zoom)
-  const xtile = Math.floor(((lngNum + 180) / 360) * n)
-  const ytile = Math.floor(
-    ((1 - Math.log(Math.tan((latNum * Math.PI) / 180) + 1 / Math.cos((latNum * Math.PI) / 180)) / Math.PI) / 2) * n,
-  )
-
-  return `https://tile.openstreetmap.org/${zoom}/${xtile}/${ytile}.png`
-}
-
 function openMaps(lat: string, lng: string, label: string) {
   const latNum = parseFloat(lat)
   const lngNum = parseFloat(lng)
@@ -60,19 +46,11 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
         disabled={!hasCoordinates}
         className="w-full h-48 rounded-3xl overflow-hidden relative"
       >
-        {hasCoordinates ? (
-          <Image
-            source={{ uri: getStaticMapUrl(coordinates.lat, coordinates.lng) }}
-            style={{ width: '100%', height: '100%' }}
-            contentFit="cover"
-          />
-        ) : (
-          <Image
-            source={require('@/assets/images/map_placeholder.png')}
-            style={{ width: '100%', height: '100%' }}
-            contentFit="cover"
-          />
-        )}
+        <Image
+          source={require('@/assets/images/map_placeholder.png')}
+          style={{ width: '100%', height: '100%' }}
+          contentFit="cover"
+        />
 
         <View className="absolute bottom-0 w-full bg-white/80 backdrop-blur-sm h-12 flex-row items-center justify-center gap-2">
           <Ionicons name="navigate-outline" size={16} color="#4b5563" />

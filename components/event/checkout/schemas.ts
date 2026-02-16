@@ -5,7 +5,7 @@ export const contactSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
     email: z.string().min(1, 'Email is required').email('Invalid email address'),
-    mobile: z.string().min(1, 'Mobile number is required').min(10, 'Invalid mobile number'),
+    mobile: z.string().optional(),
 })
 
 export const attendeeSchema = z.object({

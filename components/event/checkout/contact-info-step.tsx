@@ -122,7 +122,7 @@ const ContactInfoStep = ({
                 />
 
                 <Input
-                    label="Mobile Number"
+                    label="Mobile Number (Optional)"
                     placeholder="+234 800 000 0000"
                     keyboardType="phone-pad"
                     value={data.mobile}
