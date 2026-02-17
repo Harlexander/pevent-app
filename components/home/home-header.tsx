@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/themed-text'
 import { useUserStore } from '@/store/user-store'
 import { endpoints } from '@/constants/endpoints'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { useNotifications } from '@/hooks/query/useNotification'
 import { EvilIcons, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
@@ -11,6 +12,7 @@ import NotificationIcon from '@/assets/icons/notification.svg'
 
 const HomeHeader = () => {
     const { user } = useUserStore()
+    const { colorScheme } = useColorScheme()
     const router = useRouter()
     const { data } = useNotifications()
 
@@ -27,12 +29,12 @@ const HomeHeader = () => {
                     source={avatarSource}
                     style={{ width: 45, height: 45, borderRadius: 25 }}
                 />
-                <View>
-                    <ThemedText className="text-xl capitalize font-bold text-blue-900">
+                <View className='gap-1'>
+                    <ThemedText className="capitalize font-bold text-blue-900 dark:text-white">
                         Hi, {user?.firstName || 'there'}
                     </ThemedText>
                     <View className="flex-row items-center gap-1">
-                        <ThemedText className="text-gray-500 text-sm">
+                        <ThemedText className="text-gray-500 dark:text-gray-400 text-xs">
                             {user?.state}, {user?.country}
                         </ThemedText>
                     </View>
@@ -41,14 +43,14 @@ const HomeHeader = () => {
 
             <View className="flex-row gap-3 items-center">
                 <TouchableOpacity onPress={() => router.push('/search')} className="relative">
-                    <EvilIcons name="search" size={30} color="#424242ff" />
+                    <EvilIcons name="search" size={30} color={colorScheme === 'dark' ? '#d1d5db' : '#424242ff'} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => router.push('/notifications')} className="relative">
                     {unreadCount > 0 && (
-                        <View className="bg-primary w-2.5 h-2.5 rounded-full absolute top-0 right-0 z-10 border-2 border-white" />
+                        <View className="bg-primary w-2.5 h-2.5 rounded-full absolute top-0 right-0 z-10 border-2 border-white dark:border-gray-900" />
                     )}
-                    <NotificationIcon width={30} height={30} color="#fff" />
+                    <NotificationIcon width={30} height={30} fill={colorScheme === 'dark' ? '#ffffffff' : '#003577ff'} />
                 </TouchableOpacity>
             </View>
         </View>

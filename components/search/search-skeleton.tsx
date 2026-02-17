@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 const SearchResultSkeleton = () => (
-  <View className="mb-3 flex-row bg-white rounded-2xl border border-gray-100 overflow-hidden">
+  <View className="mb-3 flex-row bg-white dark:bg-dark-bg rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
     <Skeleton width={112} height={112} borderRadius={0} />
     <View className="flex-1 px-3 py-2.5 justify-between">
       <Skeleton width="90%" height={16} borderRadius={4} />

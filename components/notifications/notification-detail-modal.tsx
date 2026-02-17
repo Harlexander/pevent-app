@@ -37,7 +37,7 @@ const NotificationDetailModal = ({
 
     return (
         <UIModal isVisible={visible} close={onClose}>
-            <View className="bg-white rounded-t-3xl overflow-hidden">
+            <View className="bg-white dark:bg-dark-bg rounded-t-3xl overflow-hidden">
                 {/* Image */}
                 {notification.image && (
                     <Image
@@ -72,12 +72,12 @@ const NotificationDetailModal = ({
                     </View>
 
                     {/* Title */}
-                    <ThemedText className="text-xl font-bold text-slate-900 mb-3">
+                    <ThemedText className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
                         {notification.title}
                     </ThemedText>
 
                     {/* Content */}
-                    <ThemedText className="text-sm text-gray-600 leading-6 mb-6">
+                    <ThemedText className="text-sm text-gray-600 dark:text-gray-300 leading-6 mb-6">
                         {notification.content}
                     </ThemedText>
 

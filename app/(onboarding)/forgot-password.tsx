@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <ThemedView className="flex-1 h-screen bg-white">
+    <ThemedView className="flex-1 h-screen bg-white dark:bg-dark-bg">
       <SafeAreaView className="flex-1">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
           <ScrollView
@@ -56,8 +56,8 @@ const ForgotPassword = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black">Forgot Password</ThemedText>
-                <ThemedText className="text-base opacity-60 text-black">
+                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Forgot Password</ThemedText>
+                <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">
                   Enter your email address and we'll send you a reset link.
                 </ThemedText>
               </View>

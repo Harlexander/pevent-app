@@ -30,31 +30,37 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                 <View className="overflow-hidden rounded-xl">
                     <View className="flex-row justify-between items-end p-3 rounded-xl z-20">
                         <View className="flex-1">
-                            <ThemedText className="text-white text-lg font-semibold mb-2 capitalize line-clamp-1">
+                            <ThemedText className="text-white mb-2 capitalize line-clamp-1">
                                 {title}
                             </ThemedText>
 
                             <View className="flex-row items-center gap-1 mb-1">
-                                <MapIcon width={14} height={14} color="#fff" />
-                                <ThemedText className="text-white text-xs opacity-80 line-clamp-1">
+                                <MapIcon width={13} height={13} fill="#ffffffff" />
+                                <ThemedText className="text-white text-xs opacity-80 line-clamp-1 capitalize">
                                     {location}
                                 </ThemedText>
                             </View>
 
                             <View className="flex-row items-center gap-1">
-                                <CalendarIcon width={14} height={14} color="#fff" />
+                                <CalendarIcon width={13} height={13} color="#fff" />
                                 <ThemedText className="text-white text-xs opacity-80">
                                     {date}
                                 </ThemedText>
                             </View>
                         </View>
 
-                        <View>
-                            <ThemedText className="text-white text-xs opacity-70 mb-1">
-                                Start from
-                            </ThemedText>
-                            <Currency className="text-white text-lg font-bold">{price}</Currency>
-                        </View>
+                        {
+                            price === 'Unlisted' ? (
+                                <></>
+                            ) : (
+                                <View>
+                                    <ThemedText className="text-white text-xs opacity-70 mb-1">
+                                        Start from
+                                    </ThemedText>
+                                    <Currency className="text-white text-lg font-bold">{price}</Currency>
+                                </View>
+                            )
+                        }
                     </View>
                     <BlurView intensity={80} tint="dark" className="absolute inset-0" />
                 </View>

@@ -25,7 +25,7 @@ const Home = () => {
       {showLocationModal && <LocationModal visible onClose={() => setLocationModalVisible(false)} />}
 
       <ScrollView contentContainerStyle={{ paddingBottom: 100, gap: 6 }} showsVerticalScrollIndicator={false}>
-        <SafeAreaView className="bg-white" edges={['top']}>
+        <SafeAreaView className="bg-white dark:bg-dark-bg" edges={['top']}>
           {isLoading ? (
             <HomeSkeleton />
           ) : (

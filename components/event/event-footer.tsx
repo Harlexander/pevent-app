@@ -9,7 +9,7 @@ interface EventFooterProps {
 
 const EventFooter = ({ onBuyPress }: EventFooterProps) => {
     return (
-        <View className='absolute bottom-0 w-full bg-white border-t border-gray-100 p-5 pb-8 flex-row items-center justify-between shadow-lg gap-4'>
+        <View className='absolute bottom-0 w-full bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-700 p-5 pb-8 flex-row items-center justify-between shadow-lg gap-4'>
             <Button onPress={onBuyPress}>
                 Buy Tickets
             </Button>

@@ -12,13 +12,24 @@ import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
 import { togglePushNotifications } from '@/actions/user'
 import { useMutation } from '@tanstack/react-query'
+import { useThemeStore } from '@/store/theme-store'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, ScrollView, Switch, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native'
+import CustomSwitch from '@/components/ui/custom-switch'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Profile = () => {
     const router = useRouter()
     const user = useUserStore((state) => state.user)
+    const { colorScheme, toggleTheme } = useThemeStore()
+    const { setColorScheme } = useColorScheme()
+
+    const handleToggleTheme = () => {
+        const newScheme = colorScheme === 'light' ? 'dark' : 'light'
+        toggleTheme()
+        setColorScheme(newScheme)
+    }
     const [notificationsEnabled, setNotificationsEnabled] = useState(true)
     const [isRankingModalVisible, setIsRankingModalVisible] = useState(false)
     const [isPhotoModalVisible, setIsPhotoModalVisible] = useState(false)
@@ -121,14 +132,14 @@ const Profile = () => {
     }) => (
         <TouchableOpacity
             onPress={onPress}
-            className="flex-row items-center justify-between p-5 bg-white"
+            className="flex-row items-center justify-between p-5 bg-white dark:bg-dark-bg"
             disabled={!onPress}
         >
             <View className="flex-row items-center gap-3">
-                <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center">
+                <View className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 items-center justify-center">
                     <Ionicons name={icon as any} size={20} color="#3b82f6" />
                 </View>
-                <ThemedText className="text-base font-medium text-slate-900">{label}</ThemedText>
+                <ThemedText className="text-base font-medium text-slate-900 dark:text-gray-100">{label}</ThemedText>
             </View>
 
             {rightElement
@@ -138,7 +149,7 @@ const Profile = () => {
     )
 
     return (
-        <ThemedView className="flex-1 bg-white">
+        <ThemedView className="flex-1 bg-white dark:bg-dark-bg">
             <ScrollView className="flex-1">
                 {/* Header */}
                 <SafeAreaView edges={['top']} className="items-center bg-blue-500 py-10">
@@ -148,7 +159,7 @@ const Profile = () => {
                         activeOpacity={0.8}
                         className="relative mb-4"
                     >
-                        <View className="w-24 h-24 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                        <View className="w-24 h-24 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
                             <Image
                                 source={avatarSource}
                                 style={{ width: '100%', height: '100%' }}
@@ -160,7 +171,7 @@ const Profile = () => {
                                 </View>
                             )}
                         </View>
-                        <View className="absolute bottom-0 right-0 w-7 h-7 bg-white rounded-full items-center justify-center border border-gray-200">
+                        <View className="absolute bottom-0 right-0 w-7 h-7 bg-white dark:bg-dark-bg rounded-full items-center justify-center border border-gray-200 dark:border-gray-700">
                             <Ionicons name="camera" size={14} color="#3b82f6" />
                         </View>
                     </TouchableOpacity>
@@ -174,9 +185,9 @@ const Profile = () => {
                     {/* Badges */}
                     <View className="flex-row gap-3 mt-4 items-center">
                         {/* Total Tickets Badge */}
-                        <View className="bg-white rounded-full px-4 py-2 flex-row items-center gap-2">
+                        <View className="bg-white dark:bg-dark-bg rounded-full px-4 py-2 flex-row items-center gap-2">
                             <Ionicons name="ticket-outline" size={16} color="#3b82f6" />
-                            <ThemedText className="text-sm font-semibold text-gray-700">
+                            <ThemedText className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                                 {totalTickets} Tickets
                             </ThemedText>
                         </View>
@@ -184,11 +195,11 @@ const Profile = () => {
                         {/* Rank Badge - Clickable */}
                         <TouchableOpacity
                             onPress={() => setIsRankingModalVisible(true)}
-                            className="bg-white rounded-full px-4 py-2 flex-row items-center gap-2"
+                            className="bg-white dark:bg-dark-bg rounded-full px-4 py-2 flex-row items-center gap-2"
                             activeOpacity={0.7}
                         >
                             <Ionicons name="trophy" size={16} color="#f59e0b" />
-                            <ThemedText className="text-sm font-semibold text-gray-700">
+                            <ThemedText className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                                 {userRank}
                             </ThemedText>
                         </TouchableOpacity>
@@ -223,12 +234,21 @@ const Profile = () => {
                             label="Receive notifications"
                             showArrow={false}
                             rightElement={
-                                <Switch
+                                <CustomSwitch
                                     value={notificationsEnabled}
                                     onValueChange={(value) => toggleNotificationsMutation.mutate(value)}
                                     disabled={toggleNotificationsMutation.isPending}
-                                    trackColor={{ false: '#767577', true: '#3b82f6' }}
-                                    thumbColor={notificationsEnabled ? '#fff' : '#f4f3f4'}
+                                />
+                            }
+                        />
+                        <MenuItem
+                            icon="moon-outline"
+                            label="Dark mode"
+                            showArrow={false}
+                            rightElement={
+                                <CustomSwitch
+                                    value={colorScheme === 'dark'}
+                                    onValueChange={handleToggleTheme}
                                 />
                             }
                         />
@@ -255,30 +275,30 @@ const Profile = () => {
             />
 
             <UIModal isVisible={isPhotoModalVisible} close={() => setIsPhotoModalVisible(false)}>
-                <View className="bg-white rounded-t-3xl p-6 pb-10">
-                    <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
+                <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
+                    <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                    <ThemedText className="text-xl font-bold text-center text-blue-900 mb-2">
+                    <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">
                         Photo
                     </ThemedText>
                     <ThemedText className="text-center text-gray-400 mb-8">
                         Select an option to edit your profile image
                     </ThemedText>
 
-                    <TouchableOpacity onPress={pickFromLibrary} className="flex-row items-center gap-4 py-4 border-b border-gray-100">
-                        <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
+                    <TouchableOpacity onPress={pickFromLibrary} className="flex-row items-center gap-4 py-4 border-b border-gray-100 dark:border-gray-700">
+                        <View className="w-10 h-10 rounded-full bg-gray-50 dark:bg-dark-card items-center justify-center">
                             <Ionicons name="image-outline" size={20} color="#64748b" />
                         </View>
-                        <ThemedText className="text-base font-medium text-slate-600">
+                        <ThemedText className="text-base font-medium text-slate-600 dark:text-gray-300">
                             Upload from device
                         </ThemedText>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={takePhoto} className="flex-row items-center gap-4 py-4">
-                        <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
+                        <View className="w-10 h-10 rounded-full bg-gray-50 dark:bg-dark-card items-center justify-center">
                             <Ionicons name="camera-outline" size={20} color="#64748b" />
                         </View>
-                        <ThemedText className="text-base font-medium text-slate-600">
+                        <ThemedText className="text-base font-medium text-slate-600 dark:text-gray-300">
                             Take a photo
                         </ThemedText>
                     </TouchableOpacity>

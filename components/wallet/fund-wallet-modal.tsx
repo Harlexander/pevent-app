@@ -25,18 +25,18 @@ const FundWalletModal = ({
   return (
     <UIModal isVisible={isVisible} close={onClose} onModalHide={onModalHide}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <View className="bg-white rounded-t-3xl p-6 pb-10">
-          <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
+        <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
+          <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-          <ThemedText className="text-xl font-bold text-center text-blue-900 mb-2">Fund Wallet</ThemedText>
+          <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">Fund Wallet</ThemedText>
           <ThemedText className="text-center text-gray-400 mb-6">
             Enter the amount you want to add to your wallet
           </ThemedText>
 
-          <View className="flex-row items-center bg-gray-50 rounded-xl px-4 py-3 mb-4">
+          <View className="flex-row items-center bg-gray-50 dark:bg-dark-card rounded-xl px-4 py-3 mb-4">
             <ThemedText className="text-2xl font-bold text-gray-400 mr-2">₦</ThemedText>
             <TextInput
-              className="flex-1 text-2xl font-bold text-slate-900"
+              className="flex-1 text-2xl font-bold text-slate-900 dark:text-gray-100"
               placeholder="0.00"
               placeholderTextColor="#d1d5db"
               keyboardType="numeric"
@@ -51,9 +51,9 @@ const FundWalletModal = ({
               <TouchableOpacity
                 key={preset}
                 onPress={() => onChangeAmount(String(preset))}
-                className="flex-1 py-2.5 rounded-lg bg-gray-100 items-center"
+                className="flex-1 py-2.5 rounded-lg bg-gray-100 dark:bg-dark-card items-center"
               >
-                <ThemedText className="text-sm font-medium text-gray-600">
+                <ThemedText className="text-sm font-medium text-gray-600 dark:text-gray-300">
                   ₦{formatAmount(preset)}
                 </ThemedText>
               </TouchableOpacity>
@@ -63,7 +63,7 @@ const FundWalletModal = ({
           <TouchableOpacity
             onPress={onSubmit}
             disabled={isDisabled}
-            className={`w-full py-4 rounded-xl items-center ${isDisabled ? 'bg-gray-300' : 'bg-blue-500'}`}
+            className={`w-full py-4 rounded-xl items-center ${isDisabled ? 'bg-gray-300 dark:bg-gray-600' : 'bg-blue-500'}`}
           >
             <ThemedText className="text-white font-bold text-base">Continue to Payment</ThemedText>
           </TouchableOpacity>

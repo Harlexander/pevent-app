@@ -29,7 +29,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
             activeOpacity={0.7}
             className="mb-3"
         >
-            <View className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <View className="bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700">
                 {/* Main Content */}
                 <View className="p-4">
                     {/* Top Row: Logo, Event Info, and Badge */}
@@ -37,7 +37,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                         {/* Left: Logo and Event Info */}
                         <View className="flex-row items-center flex-1 mr-3">
                             {/* Event Logo */}
-                            <View className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 mr-3">
+                            <View className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 dark:bg-dark-card mr-3">
                                 <Image
                                     source={{ uri: imageUrl }}
                                     contentFit="cover"
@@ -49,13 +49,13 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <View className="flex-1">
                                 <ThemedText
                                     numberOfLines={1}
-                                    className="text-base font-bold text-gray-900 capitalize mb-0.5"
+                                    className="text-base font-bold text-gray-900 dark:text-gray-100 capitalize mb-0.5"
                                 >
                                     {event.name}
                                 </ThemedText>
                                 <ThemedText
                                     numberOfLines={1}
-                                    className="text-xs text-gray-500"
+                                    className="text-xs text-gray-500 capitalize dark:text-gray-400"
                                 >
                                     {event.venue}
                                 </ThemedText>
@@ -81,7 +81,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 Admits
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900 flex-row items-center gap-2">
+                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100 flex-row items-center gap-2">
                                 <Feather name={'users'} size={16} color={Colors.primary} /> {ticket.ticket.numPersons}
                             </ThemedText>
                         </View>
@@ -91,7 +91,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 ID
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900">
+                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
                                 #{ticketNumber}
                             </ThemedText>
                         </View>
@@ -101,7 +101,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 Date
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900">
+                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
                                 {formattedDate} 
                             </ThemedText>
                         </View>

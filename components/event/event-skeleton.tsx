@@ -29,7 +29,7 @@ export const EventTitleSkeleton = () => (
 );
 
 export const EventInfoCardSkeleton = () => (
-  <View className="bg-white rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100">
+  <View className="bg-white dark:bg-dark-bg rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100 dark:border-gray-700">
     {[1, 2, 3].map((i) => (
       <View key={i} className="items-center flex-1 gap-2">
         <Skeleton width={40} height={12} borderRadius={4} />
@@ -67,7 +67,7 @@ export const DescriptionSkeleton = () => (
 );
 
 export const FooterSkeleton = () => (
-  <View className="absolute bottom-0 w-full bg-white border-t border-gray-100 p-5 pb-8">
+  <View className="absolute bottom-0 w-full bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-700 p-5 pb-8">
     <Skeleton width="100%" height={48} borderRadius={12} />
   </View>
 );

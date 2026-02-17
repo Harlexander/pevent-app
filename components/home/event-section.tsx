@@ -15,7 +15,7 @@ interface EventSectionProps {
 }
 
 const EventSection = ({ title, events, onPressSeeAll, variant = 'default' }: EventSectionProps) => (
-  <View className="bg-white p-5">
+  <View className="bg-white dark:bg-dark-bg p-5">
     <SectionHeader title={title} onPressSeeAll={onPressSeeAll} />
     <ScrollView horizontal showsHorizontalScrollIndicator={false} className="overflow-visible">
       {events.map((event) => (
@@ -27,7 +27,7 @@ const EventSection = ({ title, events, onPressSeeAll, variant = 'default' }: Eve
               location={event.city || 'undisclosed'}
               date={event.date}
               time={event.time}
-              price={event.tickets[0].price}
+              price={event.tickets[0]?.price || 'Unlisted'}
             />
           ) : (
             <EventCard
@@ -35,7 +35,7 @@ const EventSection = ({ title, events, onPressSeeAll, variant = 'default' }: Eve
               title={event.name}
               location={event.city || 'undisclosed'}
               date={event.date}
-              price={event.tickets[0].price}
+              price={event.tickets[0]?.price || 'Unlisted'}
             />
           )}
         </Link>

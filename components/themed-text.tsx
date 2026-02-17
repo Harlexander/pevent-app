@@ -20,8 +20,6 @@ const fontWeightMap: Record<string, string> = {
 };
 
 export function ThemedText({ style, lightColor, darkColor, className, ...rest }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
   const fontFamily = useMemo(() => {
     if (!className) return 'Lato-Regular';
     const classes = className.split(' ');
@@ -31,5 +29,5 @@ export function ThemedText({ style, lightColor, darkColor, className, ...rest }:
     return 'Lato-Regular';
   }, [className]);
 
-  return <Text className={`text-${color} ${className}`} style={[{ fontFamily }, style]} {...rest} />;
+  return <Text className={`${className}`} style={[{ fontFamily }, style]} {...rest} />;
 }

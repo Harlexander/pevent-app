@@ -33,7 +33,7 @@ const EventSlug = () => {
 
   return (
     <ThemedView className="flex-1">
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false} className="flex-1">
+      <ScrollView contentContainerStyle={{ paddingBottom: 100, flex : 1}} showsVerticalScrollIndicator={false}>
         {/* Header */}
         {isLoading ? (
           <EventHeaderSkeleton />
@@ -41,12 +41,12 @@ const EventSlug = () => {
           <EventHeader images={event?.data?.images?.map((img: string) => endpoints.IMAGE_URL + img) || []} />
         )}
 
-        <View className="px-5 py-5 bg-white flex-1 gap-5">
+        <View className="px-5 py-5 bg-white dark:bg-dark-bg flex-1 gap-5 h-full">
           {/* Title */}
           {isLoading ? (
             <EventTitleSkeleton />
           ) : (
-            <ThemedText className="text-2xl capitalize font-bold text-black">{event?.data?.name}</ThemedText>
+            <ThemedText className="text-2xl capitalize font-bold text-black dark:text-white">{event?.data?.name}</ThemedText>
           )}
 
           {/* Info Card */}
@@ -68,9 +68,10 @@ const EventSlug = () => {
               <TabSection activeTab={activeTab} onTabChange={setActiveTab} />
             )}
 
-            {/* Organizer */}
-            {activeTab === 'Description' &&
-              (isLoading ? (
+            <View className='gap-8'>
+              {/* Organizer */}
+              {activeTab === 'Description' &&
+                (isLoading ? (
                 <OrganizerSkeleton />
               ) : (
                 <OrganizerInfo
@@ -87,9 +88,9 @@ const EventSlug = () => {
                 />
               ))}
 
-            {/* Content Sections */}
-            {activeTab === 'Description' &&
-              (isLoading ? (
+              {/* Content Sections */}
+              {activeTab === 'Description' &&
+                (isLoading ? (
                 <DescriptionSkeleton />
               ) : (
                 <>
@@ -100,6 +101,7 @@ const EventSlug = () => {
                   />
                 </>
               ))}
+            </View>
 
             {activeTab === 'Gallery' && !isLoading && (
               <EventGallery images={event?.data?.images?.map((img: string) => endpoints.IMAGE_URL + img) || []} />

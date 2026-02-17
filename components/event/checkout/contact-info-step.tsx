@@ -65,23 +65,23 @@ const ContactInfoStep = ({
                 {hasUserData && onToggleUseDefault && (
                     <TouchableOpacity
                         onPress={() => handleToggleDefault(!useDefaultInfo)}
-                        className={`flex-row items-center justify-between p-4 rounded-xl border ${useDefaultInfo ? 'bg-primary/5 border-primary' : 'bg-gray-100 border-gray-200'}`}
+                        className={`flex-row items-center justify-between p-4 rounded-xl border ${useDefaultInfo ? 'bg-primary/5 border-primary' : 'bg-gray-100 dark:bg-dark-card border-gray-200 dark:border-gray-700'}`}
                         activeOpacity={0.7}
                     >
                         <View className='flex-row items-center gap-3 flex-1'>
-                            <View className={`w-10 h-10 rounded-full items-center justify-center ${useDefaultInfo ? 'bg-primary/10' : 'bg-gray-200'}`}>
+                            <View className={`w-10 h-10 rounded-full items-center justify-center ${useDefaultInfo ? 'bg-primary/10' : 'bg-gray-200 dark:bg-gray-700'}`}>
                                 <Ionicons name="person" size={20} color={useDefaultInfo ? '#004cffff' : '#6b7280'} />
                             </View>
                             <View className='flex-1'>
                                 <ThemedText className={`font-medium ${useDefaultInfo ? 'text-primary' : ''}`}>
                                     Use my account info
                                 </ThemedText>
-                                <ThemedText className='text-gray-500 text-xs'>
+                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>
                                     {user?.email}
                                 </ThemedText>
                             </View>
                         </View>
-                        <View className={`w-6 h-6 rounded-md border-2 items-center justify-center ${useDefaultInfo ? 'bg-primary border-primary' : 'border-gray-300'}`}>
+                        <View className={`w-6 h-6 rounded-md border-2 items-center justify-center ${useDefaultInfo ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600'}`}>
                             {useDefaultInfo && <Ionicons name="checkmark" size={16} color="white" />}
                         </View>
                     </TouchableOpacity>
@@ -134,16 +134,16 @@ const ContactInfoStep = ({
                 {totalTickets > 1 && onToggleSendToDifferent && (
                     <TouchableOpacity
                         onPress={() => onToggleSendToDifferent(!sendToDifferentEmails)}
-                        className='flex-row items-center justify-between p-4 bg-gray-50 rounded-xl mt-2'
+                        className='flex-row items-center justify-between p-4 bg-gray-50 dark:bg-dark-card rounded-xl mt-2'
                         activeOpacity={0.7}
                     >
                         <View className='flex-row items-center gap-3 flex-1'>
-                            <View className='w-10 h-10 rounded-full bg-blue-100 items-center justify-center'>
+                            <View className='w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 items-center justify-center'>
                                 <Ionicons name="people" size={20} color="#3b82f6" />
                             </View>
                             <View className='flex-1'>
-                                <ThemedText className='font-medium'>Send to different attendees</ThemedText>
-                                <ThemedText className='text-gray-500 text-xs'>
+                                <ThemedText className='font-medium text-black dark:text-white'>Send to different attendees</ThemedText>
+                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>
                                     Each ticket holder will receive their own ticket
                                 </ThemedText>
                             </View>

@@ -61,7 +61,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <ThemedView className="flex-1 h-screen bg-white">
+    <ThemedView className="flex-1 h-screen bg-white dark:bg-dark-bg">
       <SafeAreaView className="flex-1">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
           <ScrollView
@@ -72,8 +72,8 @@ const ResetPassword = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black">Reset Password</ThemedText>
-                <ThemedText className="text-base opacity-60 text-black">Enter your new password below.</ThemedText>
+                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Reset Password</ThemedText>
+                <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">Enter your new password below.</ThemedText>
               </View>
 
               <View className="gap-5">

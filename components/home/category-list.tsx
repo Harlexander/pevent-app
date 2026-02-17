@@ -21,10 +21,10 @@ const CategoryList = ({ activeCategory, onSelectCategory }: CategoryListProps) =
                 <TouchableOpacity
                     key={category}
                     onPress={() => onSelectCategory(category)}
-                    className={`px-6 py-2 rounded-xl ${activeCategory === category ? 'bg-blue-100' : 'bg-gray-100'}`}
+                    className={`px-6 py-2 rounded-xl ${activeCategory === category ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-gray-100 dark:bg-dark-card'}`}
                 >
                     <ThemedText
-                        className={`${activeCategory === category ? 'text-primary font-bold' : 'text-gray-700 font-medium'}`}
+                        className={`${activeCategory === category ? 'text-primary font-bold' : 'text-gray-700 dark:text-gray-300 font-medium'}`}
                     >
                         {category}
                     </ThemedText>

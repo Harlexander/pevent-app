@@ -24,7 +24,7 @@ const SECTION_CONFIG: Record<string, { title: string; description: string; icon:
     description: 'The hottest events everyone is talking about',
     icon: 'flame',
     color: '#ef4444',
-    bg: 'bg-red-50',
+    bg: 'bg-red-50 dark:bg-red-900/20',
   },
   latest: {
     title: 'Latest Events',
@@ -44,16 +44,16 @@ const EventSection = () => {
     description: 'Browse all events',
     icon: 'calendar' as const,
     color: '#3b82f6',
-    bg: 'bg-blue-50',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
   };
   const events = data?.data?.[section as keyof typeof data.data] || [];
 
   const renderEmpty = () => (
     <View className="flex-1 items-center justify-center pt-20">
-      <View className="w-20 h-20 rounded-full bg-gray-100 items-center justify-center mb-4">
+      <View className="w-20 h-20 rounded-full bg-gray-100 dark:bg-dark-card items-center justify-center mb-4">
         <Ionicons name="calendar-outline" size={36} color="#D1D5DB" />
       </View>
-      <ThemedText className="text-gray-500 font-semibold text-base mb-1">No events found</ThemedText>
+      <ThemedText className="text-gray-500 dark:text-gray-400 font-semibold text-base mb-1">No events found</ThemedText>
       <ThemedText className="text-gray-400 text-sm text-center px-10">
         Check back later for new {section} events
       </ThemedText>
@@ -61,17 +61,17 @@ const EventSection = () => {
   );
 
   return (
-    <ThemedView className="flex-1 bg-gray-50">
+    <ThemedView className="flex-1 bg-gray-50 dark:bg-dark-card">
       <SafeAreaView className="flex-1">
         {/* Header */}
-        <View className="bg-white px-5 pt-4 pb-5 border-b border-gray-100">
+        <View className="bg-white gap-4 dark:bg-dark-bg px-5 pt-4 pb-5 border-b border-gray-100 dark:border-gray-700">
+          <BackButton />
           <View className="flex-row items-center gap-3 mb-3">
-            <BackButton />
             <View className={`w-10 h-10 rounded-xl items-center justify-center ${config.bg}`}>
               <Ionicons name={config.icon} size={20} color={config.color} />
             </View>
             <View className="flex-1">
-              <ThemedText className="text-xl font-bold text-gray-900">{config.title}</ThemedText>
+              <ThemedText className="text-xl font-bold text-gray-900 dark:text-gray-100">{config.title}</ThemedText>
               <ThemedText className="text-xs text-gray-400 mt-0.5">{config.description}</ThemedText>
             </View>
           </View>

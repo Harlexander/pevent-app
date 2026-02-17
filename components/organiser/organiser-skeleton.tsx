@@ -3,21 +3,21 @@ import React from 'react';
 import { View } from 'react-native';
 
 export const OrganiserHeaderSkeleton = () => (
-  <View className="px-5 py-4 flex-row items-center bg-white">
+  <View className="px-5 py-4 flex-row items-center bg-white dark:bg-dark-bg">
     <Skeleton width={24} height={24} borderRadius={4} className="mr-3" />
     <Skeleton width={160} height={22} borderRadius={4} />
   </View>
 );
 
 export const ProfileCardSkeleton = () => (
-  <View className="mx-5 mt-5 bg-white rounded-3xl overflow-hidden shadow-sm">
+  <View className="mx-5 mt-5 bg-white dark:bg-dark-bg rounded-3xl overflow-hidden shadow-sm">
     {/* Gradient background */}
     <Skeleton width="100%" height={128} borderRadius={0} />
 
     <View className="px-6 pb-6">
       {/* Avatar */}
       <View className="-mt-16 mb-4 items-center">
-        <View className="w-32 h-32 rounded-full bg-white p-2">
+        <View className="w-32 h-32 rounded-full bg-white dark:bg-dark-bg p-2">
           <Skeleton width="100%" height="100%" borderRadius={999} />
         </View>
       </View>
@@ -34,13 +34,13 @@ export const ProfileCardSkeleton = () => (
       </View>
 
       {/* Stats */}
-      <View className="rounded-2xl p-4 mb-6 bg-gray-50">
+      <View className="rounded-2xl p-4 mb-6 bg-gray-50 dark:bg-dark-card">
         <View className="flex-row justify-around">
           <View className="items-center gap-2">
             <Skeleton width={40} height={32} borderRadius={6} />
             <Skeleton width={50} height={14} borderRadius={4} />
           </View>
-          <View className="w-px bg-gray-200" />
+          <View className="w-px bg-gray-200 dark:bg-gray-700" />
           <View className="items-center gap-2">
             <Skeleton width={40} height={32} borderRadius={6} />
             <Skeleton width={70} height={14} borderRadius={4} />
@@ -73,7 +73,7 @@ export const EventsListSkeleton = () => (
 
     <View className="flex-row flex-wrap justify-between">
       {[1, 2, 3, 4].map((i) => (
-        <View key={i} className="w-[48%] mb-4 bg-white rounded-2xl overflow-hidden">
+        <View key={i} className="w-[48%] mb-4 bg-white dark:bg-dark-bg rounded-2xl overflow-hidden">
           <Skeleton width="100%" height={144} borderRadius={0} />
           <View className="p-3 gap-2">
             <Skeleton width={60} height={20} borderRadius={10} />

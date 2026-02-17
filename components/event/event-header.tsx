@@ -25,13 +25,13 @@ const EventHeader = ({ images }: EventHeaderProps) => {
             <View className='absolute top-12 left-5 right-5 flex-row justify-between items-center z-10'>
                 <TouchableOpacity
                     onPress={() => router.back()}
-                    className='w-10 h-10 bg-white/30 rounded-full items-center justify-center backdrop-blur-md'
+                    className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
                 >
                     <Ionicons name="chevron-back" size={24} color="white" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    className='w-10 h-10 bg-white/30 rounded-full items-center justify-center backdrop-blur-md'
+                    className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
                 >
                     <Ionicons name="heart-outline" size={24} color="white" />
                 </TouchableOpacity>

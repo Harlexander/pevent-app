@@ -148,15 +148,15 @@ const Index = () => {
             </SafeAreaView>
             <UIModal isVisible={isModalVisible} close={() => setIsModalVisible(false)}>
                 <ThemedView className='rounded-t-3xl p-5 pb-10 gap-6 items-center'>
-                    <View className='w-12 h-1 bg-gray-300 rounded-full mb-2' />
+                    <View className='w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mb-2' />
                     <Image
                         source={require('@/assets/logo.png')}
                         style={{ width: 60, height: 60 }}
                         contentFit="contain"
                     />
                     <ThemedView className='items-center gap-2 mb-4'>
-                        <ThemedText className='text-3xl font-bold text-black'>Get Started</ThemedText>
-                        <ThemedText className='text-center text-base opacity-70 px-4 text-black'>
+                        <ThemedText className='text-3xl font-bold text-black dark:text-gray-100'>Get Started</ThemedText>
+                        <ThemedText className='text-center text-base opacity-70 px-4 text-black dark:text-gray-100'>
                             Your business network is a reflection of your career. Grow it today!
                         </ThemedText>
                     </ThemedView>
@@ -164,8 +164,8 @@ const Index = () => {
                         <Button onPress={() => navigateTo('/(onboarding)/register')} className='rounded-full'>
                             Sign up
                         </Button>
-                        <Button onPress={() => navigateTo('/(onboarding)/login')} className='bg-gray-100 rounded-full'>
-                            <ThemedText type="defaultSemiBold" className='text-black'>Log in</ThemedText>
+                        <Button onPress={() => navigateTo('/(onboarding)/login')} className='bg-gray-100 dark:bg-dark-card rounded-full'>
+                            <ThemedText type="defaultSemiBold" className='text-black dark:text-gray-100'>Log in</ThemedText>
                         </Button>
                     </ThemedView>
                 </ThemedView>

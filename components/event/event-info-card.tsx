@@ -11,9 +11,9 @@ interface EventInfoCardProps {
 
 const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
     return (
-        <View className='bg-white rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100 shadow-lg shadow-blue-500/20'>
+        <View className='bg-white dark:bg-dark-bg rounded-2xl p-4 flex-row justify-between mb-6 border border-gray-100 dark:border-gray-700 shadow-lg shadow-blue-500/20'>
             {/* Time */}
-            <View className='items-center flex-1 border-r border-gray-100'>
+            <View className='items-center flex-1 border-r border-gray-100 dark:border-gray-700'>
                 <View className='flex-row items-center gap-1 mb-1'>
                     <ThemedText className='text-gray-400 text-xs'>Time</ThemedText>
                 </View>
@@ -21,7 +21,7 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
             </View>
 
             {/* Date */}
-            <View className='items-center flex-1 border-r border-gray-100'>
+            <View className='items-center flex-1 border-r border-gray-100 dark:border-gray-700'>
                 <View className='flex-row items-center gap-1 mb-1'>
                     <ThemedText className='text-gray-400 text-xs'>Date</ThemedText>
                 </View>

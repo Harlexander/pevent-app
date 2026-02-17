@@ -8,7 +8,7 @@ const CardItem = ({ card, onDelete }: { card: Card; onDelete: (id: string) => vo
   const isVisa = card.cardType?.toLowerCase() === 'visa';
 
   return (
-    <View className="flex-row items-center justify-between bg-white border border-gray-100 p-4 rounded-xl">
+    <View className="flex-row items-center justify-between bg-white dark:bg-dark-bg border border-gray-100 dark:border-gray-700 p-4 rounded-xl">
       <View className="flex-row items-center gap-4">
         <View
           className={`w-12 h-8 rounded items-center justify-center ${isVisa ? 'bg-blue-600' : 'bg-red-500'}`}
@@ -23,7 +23,7 @@ const CardItem = ({ card, onDelete }: { card: Card; onDelete: (id: string) => vo
           )}
         </View>
         <View>
-          <ThemedText className="text-slate-900 font-bold">**** **** **** {card.last4}</ThemedText>
+          <ThemedText className="text-slate-900 dark:text-gray-100 font-bold">**** **** **** {card.last4}</ThemedText>
           <ThemedText className="text-gray-400 text-xs">
             {card.bank} - Expires {card.expMonth}/{card.expYear}
           </ThemedText>

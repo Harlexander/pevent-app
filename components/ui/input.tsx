@@ -13,10 +13,10 @@ const Input = ({ label, error, className, editable = true, ...props }: InputProp
 
     return (
         <View className={`gap-2 ${className}`}>
-            {label && <ThemedText className={`text-base font-medium ${isDisabled ? 'opacity-50' : 'opacity-80'}`}>{label}</ThemedText>}
-            <View className={`border rounded-xl justify-center ${error ? 'border-red-500' : 'border-gray-200'} ${isDisabled ? 'bg-gray-100' : 'bg-white'}`}>
+            {label && <ThemedText className={`text-base font-medium text-black dark:text-white ${isDisabled ? 'opacity-50' : 'opacity-80'}`}>{label}</ThemedText>}
+            <View className={`border rounded-xl justify-center ${error ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} ${isDisabled ? 'bg-gray-100 dark:bg-dark-card' : 'bg-white dark:bg-dark-bg'}`}>
                 <TextInput
-                    className={`p-4 ${isDisabled ? 'text-gray-500' : 'text-black'}`}
+                    className={`p-4 ${isDisabled ? 'text-gray-500' : 'text-black dark:text-white'}`}
                     placeholderTextColor="#9CA3AF"
                     editable={editable}
                     {...props}

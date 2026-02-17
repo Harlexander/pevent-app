@@ -26,10 +26,12 @@ import React, { useState, useMemo, useCallback, useRef } from 'react'
 import { Alert, TouchableOpacity, View, ActivityIndicator, Modal, PanResponder, Animated } from 'react-native'
 import { usePaystack } from 'react-native-paystack-webview'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Colors } from '@/constants/theme'
 import SuccessIcon from '@/assets/icons/success.svg'
 
 const CheckoutScreen = () => {
+  const { colorScheme } = useColorScheme()
   const { slug } = useLocalSearchParams()
   const router = useRouter()
   const { popup } = usePaystack()
@@ -547,7 +549,7 @@ const CheckoutScreen = () => {
       {Array.from({ length: getTotalSteps() }).map((_, i) => (
         <View
           key={i}
-          className={`flex-1 h-1.5 rounded-full ${i <= step ? 'bg-primary' : 'bg-gray-200'}`}
+          className={`flex-1 h-1.5 rounded-full ${i <= step ? 'bg-primary' : 'bg-gray-200 dark:bg-gray-700'}`}
           style={{
             shadowColor: i <= step ? '#004cff' : 'transparent',
             shadowOffset: { width: 0, height: 1 },
@@ -592,16 +594,16 @@ const CheckoutScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-dark-card">
       {/* Header */}
-      <View className="bg-white border-b border-gray-100">
+      <View className="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-700">
         <View className="flex-row justify-between items-center px-5 py-4">
           <TouchableOpacity
             onPress={handleBack}
-            className="w-11 h-11 items-center justify-center rounded-full bg-gray-100"
+            className="w-11 h-11 items-center justify-center rounded-full bg-gray-100 dark:bg-dark-card"
             activeOpacity={0.7}
           >
-            <Ionicons name={step === 0 ? 'close' : 'arrow-back'} size={22} color="#1f2937" />
+            <Ionicons name={step === 0 ? 'close' : 'arrow-back'} size={22} color={colorScheme === 'dark' ? '#e5e7eb' : '#1f2937'} />
           </TouchableOpacity>
 
           <View className="items-center flex-1 mx-4">
@@ -609,7 +611,7 @@ const CheckoutScreen = () => {
               <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
                 <Ionicons name={getStepIcon() as any} size={16} color={Colors.primary} />
               </View>
-              <ThemedText className="text-lg font-bold text-gray-900">{getStepTitle()}</ThemedText>
+              <ThemedText className="text-lg font-bold text-gray-900 dark:text-gray-100">{getStepTitle()}</ThemedText>
             </View>
             <ThemedText className="text-xs text-gray-400">
               Step {step + 1} of {getTotalSteps()}
@@ -631,11 +633,11 @@ const CheckoutScreen = () => {
       </Animated.View>
 
       {/* Footer */}
-      <View className="px-5 py-4 border-t border-gray-100 bg-white" style={{ paddingBottom: 32 }}>
+      <View className="px-5 py-4 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-dark-bg" style={{ paddingBottom: 32 }}>
         {step > 0 && (
           <View className="flex-row justify-between items-center mb-4">
-            <ThemedText className="text-gray-500 font-medium">Total Amount</ThemedText>
-            <Currency className="text-2xl font-bold text-gray-900">
+            <ThemedText className="text-gray-500 dark:text-gray-400 font-medium">Total Amount</ThemedText>
+            <Currency className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {(sendToDifferentEmails ? step >= 3 : step >= 2) ? finalPrice : totalPrice}
             </Currency>
           </View>
@@ -643,7 +645,7 @@ const CheckoutScreen = () => {
 
         <TouchableOpacity
           onPress={handleNext}
-          className={`w-full py-4 rounded-2xl flex-row items-center justify-center gap-2 ${isNextDisabled() ? 'bg-gray-300' : 'bg-primary'}`}
+          className={`w-full py-4 rounded-2xl flex-row items-center justify-center gap-2 ${isNextDisabled() ? 'bg-gray-300 dark:bg-gray-600' : 'bg-primary'}`}
           disabled={isNextDisabled()}
           activeOpacity={0.8}
           style={{
@@ -668,7 +670,7 @@ const CheckoutScreen = () => {
       {/* Success Dialog */}
       <Modal visible={showSuccess} transparent animationType="fade">
         <View className="flex-1 bg-black/60 items-center justify-center px-6">
-          <View className="bg-white rounded-3xl w-full max-w-sm overflow-hidden">
+          <View className="bg-white dark:bg-dark-bg rounded-3xl w-full max-w-sm overflow-hidden">
             {/* Success Header with Gradient */}
             <View className="bg-gradient-to-br from-green-400 to-emerald-500 p-8 items-center">
               <View
@@ -676,8 +678,8 @@ const CheckoutScreen = () => {
               >
                 <SuccessIcon style={{ width: '100%', height: '100%' }} />
               </View>
-              <ThemedText className="text-black text-2xl font-bold mb-2">Payment Successful!</ThemedText>
-              <ThemedText className="text-black/90 text-center text-sm">
+              <ThemedText className="text-black dark:text-white text-2xl font-bold mb-2">Payment Successful!</ThemedText>
+              <ThemedText className="text-black/90 dark:text-white/90 text-center text-sm">
                 Your tickets have been purchased
               </ThemedText>
             </View>
@@ -717,8 +719,8 @@ const CheckoutScreen = () => {
                 activeOpacity={0.8}
               >
                 <View className="flex-row items-center gap-2">
-                  <Ionicons name="home-outline" size={20} color="#6b7280" />
-                  <ThemedText className="font-bold text-base text-gray-600">Back to Home</ThemedText>
+                  <Ionicons name="home-outline" size={20} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
+                  <ThemedText className="font-bold text-base text-gray-600 dark:text-gray-300">Back to Home</ThemedText>
                 </View>
               </TouchableOpacity>
             </View>

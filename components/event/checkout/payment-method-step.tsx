@@ -1,6 +1,7 @@
 import Currency from '@/components/currency'
 import { ThemedText } from '@/components/themed-text'
 import { Colors } from '@/constants/theme'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { useCards } from '@/hooks/query/useCard'
 import { useWallet } from '@/hooks/query/useWallet'
 import { PaymentChannel, useCheckoutStore } from '@/store/checkout-store'
@@ -94,7 +95,7 @@ const SavedCardItem = ({
             )}
           </View>
           <View className="ml-4 flex-1">
-            <ThemedText className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+            <ThemedText className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
               •••• •••• •••• {card.last4}
             </ThemedText>
             <ThemedText className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
@@ -102,7 +103,7 @@ const SavedCardItem = ({
             </ThemedText>
           </View>
           <View
-            className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300'}`}
+            className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300 dark:border-gray-600'}`}
           >
             {isSelected && <View className="w-3 h-3 rounded-full bg-white" />}
           </View>
@@ -113,6 +114,7 @@ const SavedCardItem = ({
 }
 
 const PaymentMethodStep = () => {
+  const { colorScheme } = useColorScheme()
   const paymentChannel = useCheckoutStore((state) => state.paymentChannel)
   const selectedCardId = useCheckoutStore((state) => state.selectedCardId)
   const setPaymentChannel = useCheckoutStore((state) => state.setPaymentChannel)
@@ -137,13 +139,13 @@ const PaymentMethodStep = () => {
 
   return (
     <ScrollView
-      className="flex-1 bg-gray-50"
+      className="flex-1 bg-gray-50 dark:bg-dark-card"
       contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
     >
       {/* Header */}
       <View className="mb-6">
-        <ThemedText className="text-lg font-bold text-gray-900 mb-2">
+        <ThemedText className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
           Choose Payment Method
         </ThemedText>
       </View>
@@ -159,8 +161,8 @@ const PaymentMethodStep = () => {
           {savedCards.length > 0 && (
             <View className="mb-6">
               <View className="flex-row items-center mb-4">
-                <Ionicons name="card" size={18} color="#6b7280" />
-                <ThemedText className="text-sm font-bold text-gray-700 ml-2">
+                <Ionicons name="card" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
+                <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
                   SAVED CARDS
                 </ThemedText>
               </View>
@@ -177,8 +179,8 @@ const PaymentMethodStep = () => {
 
           {/* Payment Methods */}
           <View className="flex-row items-center mb-4">
-            <Ionicons name="options" size={18} color="#6b7280" />
-            <ThemedText className="text-sm font-bold text-gray-700 ml-2">
+            <Ionicons name="options" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
+            <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
               {savedCards.length > 0 ? 'OTHER METHODS' : 'PAYMENT METHODS'}
             </ThemedText>
           </View>
@@ -202,12 +204,12 @@ const PaymentMethodStep = () => {
                 }}
               >
                 <View
-                  className={isSelected ? 'bg-blue-500' : 'bg-white'}
+                  className={isSelected ? 'bg-blue-500' : 'bg-white dark:bg-dark-bg'}
                   style={{ padding: 12 }}
                 >
                   <View className="flex-row items-center">
                     <View
-                      className={`w-12 h-12 rounded-xl items-center justify-center ${isSelected ? 'bg-white/20' : 'bg-gray-100'}`}
+                      className={`w-12 h-12 rounded-xl items-center justify-center ${isSelected ? 'bg-white/20' : 'bg-gray-100 dark:bg-dark-card'}`}
                     >
                       <Ionicons
                         name={method.icon as any}
@@ -218,12 +220,12 @@ const PaymentMethodStep = () => {
                     <View className="ml-4 flex-1">
                       <View className="flex-row items-center">
                         <ThemedText
-                          className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900'}`}
+                          className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}
                         >
                           {method.name}
                         </ThemedText>
                         {isWallet && walletBalance > 0 && (
-                          <View className={`ml-2 px-2 py-0.5 rounded-full ${isSelected ? 'bg-white/20' : 'bg-green-100'}`}>
+                          <View className={`ml-2 px-2 py-0.5 rounded-full ${isSelected ? 'bg-white/20' : 'bg-green-100 dark:bg-green-900/30'}`}>
                             <ThemedText className={`text-[10px] font-bold ${isSelected ? 'text-white' : 'text-green-600'}`}>
                               RECOMMENDED
                             </ThemedText>
@@ -242,7 +244,7 @@ const PaymentMethodStep = () => {
                               <ThemedText className={`text-xs ${isSelected ? 'text-white/70' : 'text-gray-400'}`}>
                                 Balance:
                               </ThemedText>
-                              <Currency className={`text-sm font-bold ml-1 ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+                              <Currency className={`text-sm font-bold ml-1 ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
                                 {walletBalance.toLocaleString()}
                               </Currency>
                             </>
@@ -252,7 +254,7 @@ const PaymentMethodStep = () => {
                     </View>
 
                     <View
-                      className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300'}`}
+                      className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300 dark:border-gray-600'}`}
                     >
                       {isSelected && <View className="w-3.5 h-3.5 rounded-full bg-white" />}
                     </View>
@@ -263,9 +265,9 @@ const PaymentMethodStep = () => {
           })}
 
           {/* Security Badge */}
-          <View className="mt-6 p-4 bg-blue-50 rounded-xl flex-row items-center">
+          <View className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex-row items-center">
             <Ionicons name="shield-checkmark" size={20} color={Colors.primary} />
-            <ThemedText className="text-xs text-gray-600 ml-3 flex-1">
+            <ThemedText className="text-xs text-gray-600 dark:text-gray-300 ml-3 flex-1">
               All payments are secured and encrypted with industry-standard SSL technology
             </ThemedText>
           </View>

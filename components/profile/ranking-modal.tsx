@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -83,6 +84,7 @@ const RANKS = [
 ]
 
 const RankingModal = ({ visible, onClose, currentRank, currentTickets }: RankingModalProps) => {
+    const { colorScheme } = useColorScheme()
     const router = useRouter()
 
     const currentRankIndex = RANKS.findIndex(r => r.name === currentRank)
@@ -107,22 +109,22 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
             onRequestClose={onClose}
         >
             <View className="flex-1 bg-black/60 justify-end">
-                <View className="bg-white rounded-t-3xl max-h-[90%]">
+                <View className="bg-white dark:bg-dark-bg rounded-t-3xl max-h-[90%]">
                     {/* Header */}
-                    <View className="px-6 pt-6 pb-4 border-b border-gray-100">
+                    <View className="px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-700">
                         <View className="flex-row items-center justify-between mb-1">
-                            <ThemedText className="text-2xl font-bold text-gray-900">
+                            <ThemedText className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                                 Your Progress
                             </ThemedText>
                             <TouchableOpacity
                                 onPress={onClose}
-                                className="w-9 h-9 rounded-full bg-gray-100 items-center justify-center"
+                                className="w-9 h-9 rounded-full bg-gray-100 dark:bg-dark-card items-center justify-center"
                                 activeOpacity={0.7}
                             >
-                                <Ionicons name="close" size={20} color="#6b7280" />
+                                <Ionicons name="close" size={20} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
                             </TouchableOpacity>
                         </View>
-                        <ThemedText className="text-sm text-gray-500">
+                        <ThemedText className="text-sm text-gray-500 dark:text-gray-400">
                             Keep attending events to unlock exclusive rewards
                         </ThemedText>
                     </View>
@@ -141,34 +143,34 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                             >
                                 <View className="flex-row items-center justify-between mb-4">
                                     <View className="flex-row items-center gap-3">
-                                        <View className="w-14 h-14 rounded-full bg-white items-center justify-center">
+                                        <View className="w-14 h-14 rounded-full bg-white dark:bg-dark-bg items-center justify-center">
                                             <Ionicons name={currentRankData.icon as any} size={28} color={currentRankData.color} />
                                         </View>
                                         <View>
-                                            <ThemedText className="text-2xl font-bold text-gray-900">
+                                            <ThemedText className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                                                 {currentRank}
                                             </ThemedText>
-                                            <ThemedText className="text-sm text-gray-600">
+                                            <ThemedText className="text-sm text-gray-600 dark:text-gray-300">
                                                 {currentRankData.tagline}
                                             </ThemedText>
                                         </View>
                                     </View>
-                                    <View className="bg-white px-3 py-1.5 rounded-full">
-                                        <ThemedText className="text-xs font-bold text-gray-700">
+                                    <View className="bg-white dark:bg-dark-bg px-3 py-1.5 rounded-full">
+                                        <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300">
                                             {currentTickets} tickets
                                         </ThemedText>
                                     </View>
                                 </View>
 
                                 {/* Active Benefits */}
-                                <View className="bg-white/80 rounded-xl p-3 gap-2">
-                                    <ThemedText className="text-xs font-bold text-gray-700 uppercase tracking-wide mb-1">
+                                <View className="bg-white/80 dark:bg-dark-bg/80 rounded-xl p-3 gap-2">
+                                    <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-1">
                                         Your Active Perks
                                     </ThemedText>
                                     {currentRankData.benefits.map((benefit, idx) => (
                                         <View key={idx} className="flex-row items-center gap-2">
                                             <Ionicons name="checkmark-circle" size={16} color="#22c55e" />
-                                            <ThemedText className="text-sm text-gray-700 flex-1">
+                                            <ThemedText className="text-sm text-gray-700 dark:text-gray-300 flex-1">
                                                 {benefit}
                                             </ThemedText>
                                         </View>
@@ -180,9 +182,9 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                         {/* Progress to Next Rank */}
                         {nextRankData && (
                             <View className="px-6 pb-6">
-                                <View className="bg-blue-50 rounded-2xl p-5 border-2 border-blue-100">
+                                <View className="bg-blue-50 dark:bg-blue-900/30 rounded-2xl p-5 border-2 border-blue-100">
                                     <View className="flex-row items-center justify-between mb-3">
-                                        <ThemedText className="text-base font-bold text-gray-900">
+                                        <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
                                             Next: {nextRankData.name}
                                         </ThemedText>
                                         <View className="bg-blue-500 px-3 py-1 rounded-full">
@@ -201,7 +203,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                             />
                                         </View>
                                         <View className="flex-row justify-between mt-2">
-                                            <ThemedText className="text-xs text-gray-600">
+                                            <ThemedText className="text-xs text-gray-600 dark:text-gray-300">
                                                 {currentTickets} tickets
                                             </ThemedText>
                                             <ThemedText className="text-xs font-semibold text-blue-600">
@@ -211,17 +213,17 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                     </View>
 
                                     {/* Next Rank Preview */}
-                                    <View className="bg-white rounded-xl p-3 border border-blue-200">
+                                    <View className="bg-white dark:bg-dark-bg rounded-xl p-3 border border-blue-200">
                                         <View className="flex-row items-center gap-2 mb-2">
                                             <Ionicons name="lock-closed" size={14} color="#3b82f6" />
-                                            <ThemedText className="text-xs font-bold text-gray-700 uppercase tracking-wide">
+                                            <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
                                                 Unlock These Perks
                                             </ThemedText>
                                         </View>
                                         {nextRankData.benefits.map((benefit, idx) => (
                                             <View key={idx} className="flex-row items-center gap-2 mt-1.5">
                                                 <Ionicons name="gift-outline" size={14} color="#3b82f6" />
-                                                <ThemedText className="text-sm text-gray-700 flex-1">
+                                                <ThemedText className="text-sm text-gray-700 dark:text-gray-300 flex-1">
                                                     {benefit}
                                                 </ThemedText>
                                             </View>
@@ -233,7 +235,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
 
                         {/* All Ranks Overview */}
                         <View className="px-6 pb-6">
-                            <ThemedText className="text-base font-bold text-gray-900 mb-4">
+                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">
                                 All Ranks
                             </ThemedText>
                             <View className="gap-3">
@@ -245,16 +247,16 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                         <View
                                             key={rank.name}
                                             className={`rounded-xl p-4 border ${isCurrent
-                                                    ? 'border-blue-500 bg-blue-50'
+                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
                                                     : isUnlocked
-                                                        ? 'border-gray-200 bg-white'
-                                                        : 'border-gray-100 bg-gray-50'
+                                                        ? 'border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg'
+                                                        : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-dark-card'
                                                 }`}
                                         >
                                             <View className="flex-row items-center justify-between">
                                                 <View className="flex-row items-center gap-3 flex-1">
                                                     <View
-                                                        className={`w-11 h-11 rounded-full items-center justify-center ${isUnlocked ? 'bg-white border-2' : 'bg-gray-200'
+                                                        className={`w-11 h-11 rounded-full items-center justify-center ${isUnlocked ? 'bg-white dark:bg-dark-bg border-2' : 'bg-gray-200 dark:bg-gray-700'
                                                             }`}
                                                         style={isUnlocked ? { borderColor: rank.color } : {}}
                                                     >
@@ -266,7 +268,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                                     </View>
                                                     <View className="flex-1">
                                                         <View className="flex-row items-center gap-2">
-                                                            <ThemedText className={`text-base font-bold ${isUnlocked ? 'text-gray-900' : 'text-gray-400'}`}>
+                                                            <ThemedText className={`text-base font-bold capitalize ${isUnlocked ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400'}`}>
                                                                 {rank.name}
                                                             </ThemedText>
                                                             {isCurrent && (
@@ -277,7 +279,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                                                 </View>
                                                             )}
                                                         </View>
-                                                        <ThemedText className={`text-xs mt-0.5 ${isUnlocked ? 'text-gray-500' : 'text-gray-400'}`}>
+                                                        <ThemedText className={`text-xs mt-0.5 ${isUnlocked ? 'text-gray-500 dark:text-gray-400' : 'text-gray-400'}`}>
                                                             {rank.minTickets === 0 ? '0' : rank.minTickets}
                                                             {rank.maxTickets === Infinity ? '+' : `-${rank.maxTickets}`} tickets
                                                         </ThemedText>
@@ -295,7 +297,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                     </ScrollView>
 
                     {/* CTA Button */}
-                    <View className="px-6 py-4 border-t border-gray-100 bg-white">
+                    <View className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-dark-bg">
                         <TouchableOpacity
                             onPress={handleBrowseEvents}
                             className="bg-blue-500 rounded-xl py-4 items-center"

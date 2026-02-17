@@ -37,7 +37,7 @@ const EventCardCompactSkeleton = () => (
 );
 
 const SectionSkeleton = ({ compact = false }: { compact?: boolean }) => (
-  <View className="bg-white p-5">
+  <View className="bg-white dark:bg-dark-bg p-5">
     <View className="flex-row justify-between items-center mb-4">
       <Skeleton width={140} height={18} borderRadius={4} />
       <Skeleton width={50} height={14} borderRadius={4} />

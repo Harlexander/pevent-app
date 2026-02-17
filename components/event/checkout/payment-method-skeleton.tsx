@@ -9,7 +9,7 @@ export const SavedCardsSkeleton = () => (
       <Skeleton width={100} height={14} borderRadius={4} />
     </View>
     {[1, 2].map((i) => (
-      <View key={i} className="bg-gray-100 rounded-2xl p-4 mb-3">
+      <View key={i} className="bg-gray-100 dark:bg-dark-card rounded-2xl p-4 mb-3">
         <View className="flex-row items-center">
           <Skeleton width={48} height={36} borderRadius={8} />
           <View className="ml-4 flex-1 gap-2">
@@ -30,7 +30,7 @@ export const PaymentMethodsSkeleton = () => (
       <Skeleton width={130} height={14} borderRadius={4} />
     </View>
     {[1, 2, 3, 4].map((i) => (
-      <View key={i} className="bg-white rounded-2xl p-3 mb-3">
+      <View key={i} className="bg-white dark:bg-dark-bg rounded-2xl p-3 mb-3">
         <View className="flex-row items-center">
           <Skeleton width={48} height={48} borderRadius={12} />
           <View className="ml-4 flex-1 gap-2">

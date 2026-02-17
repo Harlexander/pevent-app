@@ -11,14 +11,14 @@ const TicketSegmentControl = ({ activeTab, onTabChange }: TicketSegmentControlPr
     const tabs = ['Upcoming', 'Past'] as const
 
     return (
-        <View className='flex-row bg-white p-1.5 rounded-xl mb-6'>
+        <View className='flex-row bg-white dark:bg-dark-bg p-1.5 rounded-xl mb-6'>
             {tabs.map((tab) => (
                 <TouchableOpacity
                     key={tab}
                     onPress={() => onTabChange(tab)}
-                    className={`flex-1 py-3 items-center rounded-lg ${activeTab === tab ? 'bg-blue-500' : 'bg-white'}`}
+                    className={`flex-1 py-3 items-center rounded-lg ${activeTab === tab ? 'bg-blue-500' : 'bg-white dark:bg-dark-bg'}`}
                 >
-                    <ThemedText className={`font-medium ${activeTab === tab ? 'text-white' : 'text-gray-500'}`}>
+                    <ThemedText className={`font-medium ${activeTab === tab ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`}>
                         {tab}
                     </ThemedText>
                 </TouchableOpacity>

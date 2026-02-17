@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/themed-text'
 import UIModal from '@/components/UIModal'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState, useMemo } from 'react'
 import {
@@ -42,6 +43,7 @@ const Select = ({
     searchPlaceholder = 'Search...',
     className,
 }: SelectProps) => {
+    const { colorScheme } = useColorScheme()
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
 
@@ -78,7 +80,7 @@ const Select = ({
             <View className={`gap-2 ${className}`}>
                 {label && (
                     <ThemedText
-                        className={`text-base font-medium ${disabled ? 'opacity-50' : 'opacity-80'}`}
+                        className={`text-base font-medium text-black dark:text-white ${disabled ? 'opacity-50' : 'opacity-80'}`}
                     >
                         {label}
                     </ThemedText>
@@ -87,8 +89,8 @@ const Select = ({
                 <TouchableOpacity
                     onPress={openModal}
                     disabled={disabled}
-                    className={`border rounded-xl px-4 h-14 flex-row items-center justify-between ${error ? 'border-red-500' : 'border-gray-200'
-                        } ${disabled ? 'bg-gray-100' : 'bg-white'}`}
+                    className={`border rounded-xl px-4 h-14 flex-row items-center justify-between ${error ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'
+                        } ${disabled ? 'bg-gray-100 dark:bg-dark-card' : 'bg-white dark:bg-dark-bg'}`}
                 >
                     <View className="flex-row items-center gap-3 flex-1">
                         {icon && (
@@ -102,7 +104,7 @@ const Select = ({
                             className={`text-base flex-1 ${selectedOption
                                     ? disabled
                                         ? 'text-gray-500'
-                                        : 'text-black'
+                                        : 'text-black dark:text-white'
                                     : 'text-gray-400'
                                 }`}
                             numberOfLines={1}
@@ -113,7 +115,7 @@ const Select = ({
                     <Ionicons
                         name="chevron-down"
                         size={20}
-                        color={disabled ? '#9CA3AF' : '#6B7280'}
+                        color={disabled ? '#9CA3AF' : colorScheme === 'dark' ? '#9ca3af' : '#6B7280'}
                     />
                 </TouchableOpacity>
 
@@ -123,23 +125,23 @@ const Select = ({
             </View>
 
             <UIModal isVisible={isModalVisible} close={closeModal}>
-                <View className="bg-white rounded-t-3xl max-h-[80%]">
+                <View className="bg-white dark:bg-dark-bg rounded-t-3xl max-h-[80%]">
                     {/* Header */}
-                    <View className="px-5 pt-4 pb-3 border-b border-gray-100">
+                    <View className="px-5 pt-4 pb-3 border-b border-gray-100 dark:border-gray-700">
                         <View className="flex-row items-center justify-between mb-3">
-                            <ThemedText className="text-lg font-bold text-black">
+                            <ThemedText className="text-lg font-bold text-black dark:text-white">
                                 {label || 'Select an option'}
                             </ThemedText>
                             <TouchableOpacity
                                 onPress={closeModal}
                                 className="w-8 h-8 items-center justify-center"
                             >
-                                <Ionicons name="close" size={24} color="#6B7280" />
+                                <Ionicons name="close" size={24} color={colorScheme === 'dark' ? '#9ca3af' : '#6B7280'} />
                             </TouchableOpacity>
                         </View>
 
                         {/* Search Input */}
-                        <View className="flex-row items-center bg-gray-100 rounded-xl px-4 h-12">
+                        <View className="flex-row items-center bg-gray-100 dark:bg-dark-card rounded-xl px-4 h-12">
                             <Ionicons
                                 name="search"
                                 size={20}
@@ -151,7 +153,7 @@ const Select = ({
                                 placeholderTextColor="#9CA3AF"
                                 value={searchQuery}
                                 onChangeText={setSearchQuery}
-                                className="flex-1 text-base text-black"
+                                className="flex-1 text-base text-black dark:text-white"
                                 autoCapitalize="none"
                                 autoCorrect={false}
                             />
@@ -172,13 +174,13 @@ const Select = ({
                             return (
                                 <Pressable
                                     onPress={() => handleSelect(item.value)}
-                                    className={`px-5 py-4 flex-row items-center justify-between border-b border-gray-50 ${isSelected ? 'bg-blue-50' : 'bg-white'
+                                    className={`px-5 py-4 flex-row items-center justify-between border-b border-gray-50 dark:border-gray-700 ${isSelected ? 'bg-blue-50 dark:bg-blue-900/30' : 'bg-white dark:bg-dark-bg'
                                         }`}
                                 >
                                     <ThemedText
                                         className={`text-base flex-1 ${isSelected
                                                 ? 'text-blue-600 font-semibold'
-                                                : 'text-black'
+                                                : 'text-black dark:text-white'
                                             }`}
                                         numberOfLines={1}
                                     >

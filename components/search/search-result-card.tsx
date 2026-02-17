@@ -6,6 +6,7 @@ import { Image } from 'expo-image';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 interface SearchResultCardProps {
   event: Event;
@@ -30,6 +31,7 @@ const getMinPrice = (event: Event): number | null => {
 
 const SearchResultCard = ({ event, imageUrl }: SearchResultCardProps) => {
   const { month, day } = formatEventDate(event.date);
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const minPrice = getMinPrice(event);
 
@@ -37,76 +39,60 @@ const SearchResultCard = ({ event, imageUrl }: SearchResultCardProps) => {
     <TouchableOpacity
       onPress={() => router.push(`/${event.slug}`)}
       activeOpacity={0.7}
-      className="mb-3 bg-white rounded-2xl border border-gray-100"
+      className="border-b border-gray-200 dark:border-gray-700 py-3 overflow-hidden"
     >
       <View className="flex-row">
         {/* Image */}
-        <View className="w-28 h-28">
+        <View className="w-24 h-24 relative">
           <Image
             source={{ uri: imageUrl }}
             contentFit="cover"
-            style={{
-              width: '100%',
-              height: '100%',
-              borderTopLeftRadius: 12,
-              borderBottomLeftRadius: 12,
-            }}
+            style={{ width: '100%', height: '100%', borderRadius: 10 }}
           />
-          <View className="absolute top-2 left-2 bg-white/95 rounded-lg px-2 py-1 items-center min-w-[38px]">
-            <ThemedText className="text-sm font-extrabold text-primary leading-4">{day}</ThemedText>
-            <ThemedText className="text-[9px] font-semibold text-gray-500 uppercase tracking-wide">
+          <View className="absolute top-1.5 left-1.5 bg-white/90 dark:bg-dark-bg/90 rounded-md px-1.5 py-0.5 items-center">
+            <ThemedText className="text-xs font-bold text-gray-900 dark:text-white leading-tight">{day}</ThemedText>
+            <ThemedText className="text-[8px] font-semibold text-gray-500 dark:text-gray-400 uppercase">
               {month}
             </ThemedText>
           </View>
         </View>
 
         {/* Details */}
-        <View className="flex-1 px-3 py-2.5 justify-between">
-          <ThemedText numberOfLines={2} className="font-bold capitalize text-gray-900 text-[15px] leading-5">
+        <View className="flex-1 px-3 py-2 justify-center gap-2">
+          <ThemedText numberOfLines={2} className="capitalize text-gray-900 dark:text-white text-sm leading-tight">
             {event.name}
           </ThemedText>
 
-          <View className="flex-row gap-3">
+          <View className="gap-1 flex-row gap-2 items-center">
             {event.time && (
-              <View className="flex-row items-center gap-1.5">
-                <View className="w-4 h-4 bg-blue-50 rounded-full items-center justify-center">
-                  <Ionicons name="time-outline" size={10} color="#004cff" />
-                </View>
-                <ThemedText className="text-gray-600 text-xs">{event.time}</ThemedText>
+              <View className="flex-row items-center gap-1">
+                <Ionicons name="time-outline" size={12} color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'} />
+                <ThemedText className="text-gray-600 dark:text-gray-400 text-xs">{event.time}</ThemedText>
               </View>
             )}
-            <View className="flex-row items-center gap-1.5 flex-1">
-              <View className="w-4 h-4 bg-purple-50 rounded-full items-center justify-center">
-                <Ionicons name="location-outline" size={10} color="#8B5CF6" />
-              </View>
-              <ThemedText numberOfLines={1} className="text-gray-600 text-xs flex-1">
+            <View className="flex-row items-center gap-1">
+              <Ionicons name="location-outline" size={12} color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'} />
+              <ThemedText numberOfLines={1} className="text-gray-600 dark:text-gray-400 text-xs flex-1 capitalize">
                 {event.city || 'Location TBA'}
               </ThemedText>
             </View>
           </View>
 
-          <View className="flex-row items-center">
+          <View>
             {minPrice !== null ? (
               minPrice === 0 ? (
-                <ThemedText className="text-green-600 text-xs font-bold">Free</ThemedText>
+                <ThemedText className="text-green-600 dark:text-green-500 text-xs font-bold">Free</ThemedText>
               ) : (
-                <View className="flex-row items-center gap-0.5">
-                  <ThemedText className="text-gray-400 text-xs">From</ThemedText>
-                  <Currency className="text-primary text-xs font-bold">
+                <View className="flex-row items-center gap-1">
+                  <ThemedText className="text-gray-400 dark:text-gray-500 text-[10px]">From</ThemedText>
+                  <Currency className="text-blue-600 dark:text-blue-400 text-xs font-bold">
                     {minPrice.toLocaleString()}
                   </Currency>
                 </View>
               )
             ) : (
-              <ThemedText className="text-gray-400 text-xs">No tickets</ThemedText>
+              <ThemedText className="text-gray-400 dark:text-gray-500 text-xs">No tickets</ThemedText>
             )}
-          </View>
-        </View>
-
-        {/* Arrow */}
-        <View className="items-center justify-center pr-3">
-          <View className="w-6 h-6 bg-gray-50 rounded-full items-center justify-center">
-            <Ionicons name="chevron-forward" size={12} color="#9CA3AF" />
           </View>
         </View>
       </View>

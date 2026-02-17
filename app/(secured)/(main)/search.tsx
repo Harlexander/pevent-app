@@ -4,6 +4,7 @@ import FilterModal from '@/components/search/filter-modal';
 import SearchResultCard from '@/components/search/search-result-card';
 import SearchSkeleton from '@/components/search/search-skeleton';
 import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import { endpoints } from '@/constants/endpoints';
 import { useRecommendedEvents, useSearchEvents } from '@/hooks/query/useEvent';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,7 +16,7 @@ const SearchHeader = () => (
   <View className="flex-row items-center mb-4 mt-2">
     <BackButton />
     <View className="flex-1 items-center mr-10">
-      <ThemedText className="text-lg font-bold">Search</ThemedText>
+      <ThemedText className="text-xl dark:text-white font-bold">Search</ThemedText>
     </View>
   </View>
 );
@@ -49,15 +50,16 @@ const Search = () => {
   const isEmpty = !loading && events && events.length === 0;
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1">
-      <View className="px-5 flex-1">
+    <ThemedView className='flex-1'>
+      <SafeAreaView edges={['top']} className='flex-1'>
+        <View className="px-5 flex-1">
         <SearchHeader />
 
         <SearchBar onFilterPress={() => setFilterVisible(true)} value={searchQuery} onChangeText={setSearchQuery} />
 
         {/* Section Label */}
         {!hasQuery && !isLoadingRecommended && (
-          <ThemedText className="text-base font-semibold text-gray-800 mt-4 mb-3">Recommended for you</ThemedText>
+          <ThemedText className="text-base font-semibold text-gray-800 dark:text-gray-300 mt-4 mb-3">Recommended for you</ThemedText>
         )}
 
         {hasQuery && !isLoading && data?.data && data.data.length > 0 && (
@@ -90,7 +92,8 @@ const Search = () => {
       </View>
 
       <FilterModal visible={isFilterVisible} onClose={() => setFilterVisible(false)} />
-    </SafeAreaView>
+      </SafeAreaView>
+    </ThemedView>
   );
 };
 

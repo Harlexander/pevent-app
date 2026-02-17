@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
-
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
@@ -10,6 +9,8 @@ module.exports = {
       },
       colors: {
         primary: '#007bff',
+        'dark-bg': '#212121',
+        'dark-card': '#121212',
       },
       fontFamily: {
         'lato': ['Lato-Regular'],

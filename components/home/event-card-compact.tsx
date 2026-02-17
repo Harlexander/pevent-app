@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -33,6 +34,7 @@ const formatDate = (dateStr: string) => {
 }
 
 const EventCardCompact = ({ image, title, location, date, price, time }: EventCardCompactProps) => {
+    const { colorScheme } = useColorScheme()
     const { month, day } = formatDate(date)
 
     return (
@@ -50,7 +52,7 @@ const EventCardCompact = ({ image, title, location, date, price, time }: EventCa
                     },
                 }),
             }}
-            className='bg-gray-50 border border-gray-200'
+            className='bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-gray-700'
         >
             {/* Image Section */}
             <View style={{ width: '100%', height: 130, position: 'relative' }}>
@@ -80,32 +82,27 @@ const EventCardCompact = ({ image, title, location, date, price, time }: EventCa
             <View style={{ padding: 10, gap: 4 }}>
                 <ThemedText
                     numberOfLines={1}
-                    style={{
-                        fontSize: 13,
-                        fontWeight: '700',
-                        color: '#1F2937',
-                    }}
-                    className='capitalize'
+                    className='capitalize dark:text-white text-black text-sm'
                 >
                     {title}
                 </ThemedText>
 
                 <View className='flex-row gap-4'>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                        <Ionicons name="location-outline" size={11} color="#3d3d3dff" />
+                        <Ionicons name="location-outline" size={11} color={colorScheme === 'dark' ? '#d1d5db' : '#3d3d3dff'} />
                         <ThemedText
                             numberOfLines={1}
-                            className='text-sm text-gray-600'
+                            className='text-sm text-gray-600 dark:text-gray-400 capitalize'
                         >
                             {location.length > 15 ? location.slice(0, 15) + '...' : location}
                         </ThemedText>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                        <Ionicons name="time-outline" size={11} color="#3d3d3dff" />
+                        <Ionicons name="time-outline" size={11} color={colorScheme === 'dark' ? '#d1d5db' : '#3d3d3dff'} />
                         <ThemedText
                             numberOfLines={1}
-                            className='text-sm text-gray-600'
+                            className='text-sm text-gray-600 dark:text-gray-400'
                         >
                             {time}
                         </ThemedText>
@@ -114,10 +111,21 @@ const EventCardCompact = ({ image, title, location, date, price, time }: EventCa
 
                 <View
                 >
-                    <Currency
-                    >
-                        {price}
-                    </Currency>
+                    {
+                        price === "Unlisted" ? (
+                            <ThemedText
+                                numberOfLines={1}
+                                className='text-sm text-gray-600 dark:text-gray-400'
+                            >
+                                Unlisted
+                            </ThemedText>
+                        ) : (
+                            <Currency
+                            >
+                                {price}
+                            </Currency>
+                        )
+                    }
                 </View>
             </View>
         </View>

@@ -116,11 +116,11 @@ const Wallet = () => {
   const isLoading = walletLoading || txLoading || cardsLoading;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-dark-bg">
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 py-2 mb-4">
         <BackButton />
-        <ThemedText className="text-lg font-bold">Wallet</ThemedText>
+        <ThemedText className="text-lg font-bold text-black dark:text-white">Wallet</ThemedText>
         <View className="w-10" />
       </View>
 
@@ -171,17 +171,17 @@ const Wallet = () => {
         {isLoading && !refreshing ? (
           <TabsSkeleton />
         ) : (
-          <View className="flex-row bg-gray-100 p-1.5 rounded-xl mb-6">
+          <View className="flex-row bg-gray-100 dark:bg-dark-card p-1.5 rounded-xl mb-6">
             {(['Transactions', 'Cards'] as const).map((tab) => {
               const tabKey = tab === 'Cards' ? 'cards' : 'transactions';
               return (
                 <TouchableOpacity
                   key={tab}
                   onPress={() => setActiveTab(tabKey)}
-                  className={`flex-1 py-3 items-center rounded-lg ${activeTab === tabKey ? 'bg-blue-500' : 'bg-gray-100'}`}
+                  className={`flex-1 py-3 items-center rounded-lg ${activeTab === tabKey ? 'bg-blue-500' : 'bg-gray-100 dark:bg-dark-card'}`}
                 >
                   <ThemedText
-                    className={`font-medium ${activeTab === tabKey ? 'text-white' : 'text-gray-500'}`}
+                    className={`font-medium ${activeTab === tabKey ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`}
                   >
                     {tab}
                   </ThemedText>
@@ -210,7 +210,7 @@ const Wallet = () => {
             <TouchableOpacity
               onPress={handleAddCard}
               disabled={addCardActive}
-              className={`flex-row items-center justify-center gap-2 py-4 rounded-xl border border-dashed ${addCardActive ? 'border-gray-200' : 'border-blue-300'}`}
+              className={`flex-row items-center justify-center gap-2 py-4 rounded-xl border border-dashed ${addCardActive ? 'border-gray-200 dark:border-gray-700' : 'border-blue-300'}`}
             >
               {addCardActive ? (
                 <ActivityIndicator size="small" color="#3b82f6" />

@@ -21,7 +21,7 @@ export const NotificationListSkeleton = () => (
     {[1, 2, 3, 4, 5, 6].map((i) => (
       <React.Fragment key={i}>
         <NotificationItemSkeleton />
-        {i < 6 && <View className="h-px bg-gray-100 ml-[76]" />}
+        {i < 6 && <View className="h-px bg-gray-100 dark:bg-dark-card ml-[76]" />}
       </React.Fragment>
     ))}
   </View>

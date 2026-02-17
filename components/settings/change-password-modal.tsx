@@ -51,10 +51,10 @@ const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => 
 
     return (
         <UIModal isVisible={visible} close={handleClose}>
-            <View className="bg-white rounded-t-3xl p-6">
-                <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
+            <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6">
+                <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                <ThemedText className="text-xl font-bold text-center text-blue-900 mb-8">
+                <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-8">
                     Set New Password
                 </ThemedText>
 

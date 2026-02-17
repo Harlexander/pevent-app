@@ -6,6 +6,7 @@ import { Colors } from '@/constants/theme';
 import { HapticTab } from '@/components/haptic-tab';
 import { useUser } from '@/hooks/query/useAuth';
 import { useUserStore } from '@/store';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 // Import SVG icons
 import HomeIcon from '@/assets/icons/tabs/home.svg';
@@ -17,6 +18,8 @@ import ProfileIcon from '@/assets/icons/tabs/profile.svg';
 export default function MainLayout() {
   const { data } = useUser();
   const { setUser } = useUserStore()
+  const { colorScheme } = useColorScheme()
+  const isDark = colorScheme === 'dark'
 
   useEffect(() => {
     if (data) {
@@ -29,24 +32,31 @@ export default function MainLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.primary,
+        tabBarInactiveTintColor: isDark ? '#9ca3af' : '#687076',
         headerShown: false,
         lazy: false,
         popToTopOnBlur: true,
         tabBarButton: HapticTab,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
-            height: 110,              // increase height
-            paddingBottom: 30,       // adjust bottom spacing for icons/labels
+            height: 110,
+            paddingBottom: 30,
             paddingTop: 10,
+            backgroundColor: isDark ? '#212121' : '#fff',
+            borderTopColor: isDark ? '#374151' : '#e5e7eb',
           },
           default: {
-            height: 100,              // increase height
-            paddingBottom: 20,       // adjust bottom spacing for icons/labels
+            height: 100,
+            paddingBottom: 20,
             paddingTop: 10,
+            backgroundColor: isDark ? '#212121' : '#fff',
+            borderTopColor: isDark ? '#374151' : '#e5e7eb',
           },
         }),
+        tabBarLabelStyle: {
+          color: isDark ? '#9ca3af' : '#687076',
+        },
       }}>
       <Tabs.Screen
         name="home"

@@ -26,24 +26,42 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
 
     const isSoldOut = (ticket: Ticket) => ticket.volume === 0
 
+    const availableTickets = tickets.filter(t => !t.unlisted)
+
+    if (availableTickets.length === 0) {
+        return (
+            <View className='flex-1 items-center justify-center p-10'>
+                <View className='w-20 h-20 rounded-full bg-gray-100 dark:bg-dark-card items-center justify-center mb-4'>
+                    <Ionicons name="ticket-outline" size={40} color="#D1D5DB" />
+                </View>
+                <ThemedText className='text-gray-900 dark:text-white font-semibold text-base mb-2'>
+                    No Tickets Available
+                </ThemedText>
+                <ThemedText className='text-gray-500 dark:text-gray-400 text-sm text-center'>
+                    There are currently no tickets available for this event
+                </ThemedText>
+            </View>
+        )
+    }
+
     return (
         <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
             <View className='p-5 gap-4'>
-                {tickets.filter(t => !t.unlisted).map((ticket) => {
+                {availableTickets.map((ticket) => {
                     const soldOut = isSoldOut(ticket)
                     const current = quantities[ticket.id] || 0
 
                     return (
                         <View
                             key={ticket.id}
-                            className={`p-4 rounded-xl border ${current > 0 ? 'border-primary bg-blue-50/50' : 'border-gray-100 bg-white'} ${soldOut ? 'opacity-60' : ''}`}
+                            className={`p-4 rounded-xl border ${current > 0 ? 'border-primary bg-blue-50/50 dark:bg-blue-900/20' : 'border-gray-100 dark:border-gray-700 bg-white dark:bg-dark-bg'} ${soldOut ? 'opacity-60' : ''}`}
                         >
                             <View className='flex-row justify-between items-start'>
                                 <View className='flex-1 pr-4'>
                                     <View className='flex-row items-center gap-2 mb-1'>
-                                        <ThemedText className='font-bold text-base'>{ticket.name}</ThemedText>
+                                        <ThemedText className='font-bold text-base capitalize text-black dark:text-white'>{ticket.name}</ThemedText>
                                         {soldOut && (
-                                            <View className='bg-red-100 px-2 py-0.5 rounded'>
+                                            <View className='bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded'>
                                                 <ThemedText className='text-red-600 text-xs font-medium'>Sold Out</ThemedText>
                                             </View>
                                         )}
@@ -57,55 +75,55 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                         )}
                                         <Currency className='text-primary font-bold text-lg'>{ticket.price}</Currency>
                                         {ticket.price === 0 && (
-                                            <View className='bg-green-100 px-2 py-0.5 rounded ml-1'>
+                                            <View className='bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded ml-1'>
                                                 <ThemedText className='text-green-600 text-xs font-medium'>Free</ThemedText>
                                             </View>
                                         )}
                                     </View>
 
                                     {ticket.description && (
-                                        <ThemedText className='text-gray-500 text-sm mb-2'>{ticket.description}</ThemedText>
+                                        <ThemedText className='text-gray-500 dark:text-gray-400 text-sm mb-2'>{ticket.description}</ThemedText>
                                     )}
 
                                     <View className='flex-row items-center gap-3'>
                                         {ticket.numPersons > 1 && (
                                             <View className='flex-row items-center gap-1'>
                                                 <Feather name='users' size={12} color='#6b7280' />
-                                                <ThemedText className='text-gray-500 text-xs'>{ticket.numPersons} persons</ThemedText>
+                                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>{ticket.numPersons} persons</ThemedText>
                                             </View>
                                         )}
                                         {ticket.show_volume && ticket.volume > 0 && (
                                             <View className='flex-row items-center gap-1'>
                                                 <Ionicons name='ticket-outline' size={12} color='#6b7280' />
-                                                <ThemedText className='text-gray-500 text-xs'>{ticket.volume} left</ThemedText>
+                                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>{ticket.volume} left</ThemedText>
                                             </View>
                                         )}
                                         {ticket.maxPerUser && (
                                             <View className='flex-row items-center gap-1'>
                                                 <Ionicons name='person-outline' size={12} color='#6b7280' />
-                                                <ThemedText className='text-gray-500 text-xs'>Max {ticket.maxPerUser}</ThemedText>
+                                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>Max {ticket.maxPerUser}</ThemedText>
                                             </View>
                                         )}
                                     </View>
                                 </View>
 
                                 {!soldOut && (
-                                    <View className='flex-row items-center bg-gray-100 rounded-xl p-1'>
+                                    <View className='flex-row items-center bg-gray-100 dark:bg-dark-card rounded-xl p-1'>
                                         <TouchableOpacity
                                             onPress={() => onUpdateQuantity(ticket.id, -1)}
-                                            className={`w-9 h-9 items-center justify-center rounded-lg ${current > 0 ? 'bg-white' : 'bg-transparent'}`}
+                                            className={`w-9 h-9 items-center justify-center rounded-lg ${current > 0 ? 'bg-white dark:bg-dark-bg' : 'bg-transparent'}`}
                                             disabled={current === 0}
                                         >
                                             <Ionicons name="remove" size={18} color={current > 0 ? "#000" : "#ccc"} />
                                         </TouchableOpacity>
 
                                         <View className='w-10 items-center'>
-                                            <ThemedText className='font-bold text-base'>{current}</ThemedText>
+                                            <ThemedText className='font-bold text-base text-black dark:text-white'>{current}</ThemedText>
                                         </View>
 
                                         <TouchableOpacity
                                             onPress={() => onUpdateQuantity(ticket.id, 1)}
-                                            className={`w-9 h-9 items-center justify-center rounded-lg ${!isAtMax(ticket) ? 'bg-white' : 'bg-transparent'}`}
+                                            className={`w-9 h-9 items-center justify-center rounded-lg ${!isAtMax(ticket) ? 'bg-white dark:bg-dark-bg' : 'bg-transparent'}`}
                                             disabled={isAtMax(ticket)}
                                         >
                                             <Ionicons name="add" size={18} color={!isAtMax(ticket) ? "#000" : "#ccc"} />

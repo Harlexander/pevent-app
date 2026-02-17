@@ -45,21 +45,21 @@ const Security = () => {
     }
 
     return (
-        <ThemedView className="flex-1 bg-white">
+        <ThemedView className="flex-1 bg-white dark:bg-dark-bg">
             <SafeAreaView className="flex-1">
                 {/* Header */}
                 <View className="flex-row items-center justify-between px-5 py-2 mb-4">
                     <BackButton />
-                    <ThemedText className="text-lg font-bold">Security</ThemedText>
+                    <ThemedText className="text-lg font-bold text-black dark:text-white">Security</ThemedText>
                     <View className="w-10" />
                 </View>
 
                 <ScrollView>
                     <View className='gap-1'>
                         {/* 2FA */}
-                        <View className="flex-row justify-between items-center py-4 bg-white px-5">
+                        <View className="flex-row justify-between items-center py-4 bg-white dark:bg-dark-bg px-5">
                             <View className="flex-1 pr-4">
-                                <ThemedText className="text-base font-bold text-slate-800 mb-1">
+                                <ThemedText className="text-base font-bold text-slate-800 dark:text-gray-300 mb-1">
                                     Two-factor authentication
                                 </ThemedText>
                                 <ThemedText className="text-gray-400 text-xs leading-relaxed">
@@ -76,9 +76,9 @@ const Security = () => {
                         </View>
 
                         {/* Biometrics */}
-                        <View className="flex-row justify-between items-center py-6 bg-white px-5">
+                        <View className="flex-row justify-between items-center py-6 bg-white dark:bg-dark-bg px-5">
                             <View className="flex-1 pr-4">
-                                <ThemedText className="text-base font-bold text-slate-800 mb-1">
+                                <ThemedText className="text-base font-bold text-slate-800 dark:text-gray-300 mb-1">
                                     Enable biometrics
                                 </ThemedText>
                                 <ThemedText className="text-gray-400 text-xs leading-relaxed">
@@ -95,10 +95,10 @@ const Security = () => {
                         </View>
 
                         {/* Password */}
-                        <TouchableOpacity onPress={() => setIsPasswordModalVisible(true)} className="bg-white px-5">
+                        <TouchableOpacity onPress={() => setIsPasswordModalVisible(true)} className="bg-white dark:bg-dark-bg px-5">
                             <View className="flex-row justify-between items-center py-6">
                                 <View className="flex-1 pr-4">
-                                    <ThemedText className="text-base font-bold text-slate-800 mb-1">
+                                    <ThemedText className="text-base font-bold text-slate-800 dark:text-gray-300 mb-1">
                                         Password
                                     </ThemedText>
                                     <ThemedText className="text-gray-400 text-xs">
@@ -112,9 +112,9 @@ const Security = () => {
                         {/* Log out */}
                         <TouchableOpacity
                             onPress={handleLogout}
-                            className="flex-row items-center py-4 border-t border-gray-50 px-5"
+                            className="flex-row items-center py-4 border-t border-gray-50 dark:border-gray-700 px-5"
                         >
-                            <View className="w-10 h-10 rounded-full bg-red-50 items-center justify-center mr-4">
+                            <View className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/30 items-center justify-center mr-4">
                                 <Ionicons name="log-out-outline" size={20} color="#ef4444" />
                             </View>
                             <ThemedText className="text-base font-bold text-red-500">Log out</ThemedText>
@@ -125,7 +125,7 @@ const Security = () => {
                             onPress={() => setIsDeleteDialogVisible(true)}
                             className="flex-row items-center py-4 px-5"
                         >
-                            <View className="w-10 h-10 rounded-full bg-red-50 items-center justify-center mr-4">
+                            <View className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/30 items-center justify-center mr-4">
                                 <Ionicons name="trash-outline" size={20} color="#ef4444" />
                             </View>
                             <ThemedText className="text-base font-bold text-red-500">
@@ -154,29 +154,29 @@ const Security = () => {
                     onRequestClose={() => !isDeleting && setIsDeleteDialogVisible(false)}
                 >
                     <View className="flex-1 bg-black/50 items-center justify-center px-6">
-                        <View className="bg-white rounded-2xl w-full max-w-sm overflow-hidden">
+                        <View className="bg-white dark:bg-dark-bg rounded-2xl w-full max-w-sm overflow-hidden">
                             <View className="p-6 pb-4 items-center">
-                                <View className="w-14 h-14 rounded-full bg-red-50 items-center justify-center mb-4">
+                                <View className="w-14 h-14 rounded-full bg-red-50 dark:bg-red-900/30 items-center justify-center mb-4">
                                     <Ionicons name="warning-outline" size={28} color="#ef4444" />
                                 </View>
                                 <ThemedText className="text-xl font-bold text-red-500 text-center mb-2">
                                     Delete Account
                                 </ThemedText>
-                                <ThemedText className="text-gray-500 text-center text-sm leading-relaxed">
+                                <ThemedText className="text-gray-500 dark:text-gray-400 text-center text-sm leading-relaxed">
                                     Are you sure you want to delete your account? You can still log back in within 30
                                     days to recover it. After that, your account and all associated data will be
                                     permanently deleted.
                                 </ThemedText>
                             </View>
 
-                            <View className="flex-row border-t border-gray-100">
+                            <View className="flex-row border-t border-gray-100 dark:border-gray-700">
                                 <TouchableOpacity
                                     onPress={() => setIsDeleteDialogVisible(false)}
                                     disabled={isDeleting}
-                                    className="flex-1 py-4 items-center justify-center bg-gray-100"
+                                    className="flex-1 py-4 items-center justify-center bg-gray-100 dark:bg-dark-card"
                                     activeOpacity={0.7}
                                 >
-                                    <ThemedText className="text-gray-700 font-bold text-base">Cancel</ThemedText>
+                                    <ThemedText className="text-gray-700 dark:text-gray-300 font-bold text-base">Cancel</ThemedText>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity

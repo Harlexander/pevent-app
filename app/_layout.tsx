@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 
 import { useColorScheme } from '../hooks/use-color-scheme';
 import { useNotificationSetup } from '@/hooks/useNotificationSetup';
+import { useThemeStore } from '@/store/theme-store';
 
 import '../global.css';
 import { SessionProvider, useSession } from '@/Provider/session-provider';
@@ -39,7 +40,6 @@ export default function RootLayout() {
       <PaystackCustomProvider>
         <SessionProvider>
           <RootLayoutNav fontsLoaded={fontsLoaded} />
-          <StatusBar style="auto" />
         </SessionProvider>
       </PaystackCustomProvider>
     </QueryClientProvider>
@@ -52,8 +52,14 @@ function NotificationSetup() {
 }
 
 function RootLayoutNav({ fontsLoaded }: { fontsLoaded: boolean }) {
-  const colorScheme = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
+  const storedScheme = useThemeStore((state) => state.colorScheme);
   const { session, isLoading } = useSession();
+
+  // Sync NativeWind with persisted theme on mount
+  useEffect(() => {
+    setColorScheme(storedScheme);
+  }, [storedScheme, setColorScheme]);
 
   const appReady = fontsLoaded && !isLoading;
 
@@ -69,6 +75,7 @@ function RootLayoutNav({ fontsLoaded }: { fontsLoaded: boolean }) {
 
   return (
     <>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       {session && <NotificationSetup />}
       <Stack>
         <Stack.Protected guard={!!session}>
@@ -83,6 +90,3 @@ function RootLayoutNav({ fontsLoaded }: { fontsLoaded: boolean }) {
     </>
   );
 }
-
-
-

@@ -1,5 +1,6 @@
 import Input from '@/components/ui/input'
 import { ThemedText } from '@/components/themed-text'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Attendee } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState, useCallback, useMemo } from 'react'
@@ -22,6 +23,7 @@ interface AttendeesStepProps {
 }
 
 const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee, contactData }: AttendeesStepProps) => {
+    const { colorScheme } = useColorScheme()
     const [useSameAsContact, setUseSameAsContact] = useState<Record<number, boolean>>({})
 
     const handleToggleSameAsContact = useCallback((index: number, attendee: Attendee) => {
@@ -64,7 +66,7 @@ const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee
     return (
         <ScrollView className='flex-1' showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
             <View className='p-5 gap-6'>
-                <View className='flex-row items-center gap-2 bg-blue-50 p-3 rounded-xl'>
+                <View className='flex-row items-center gap-2 bg-blue-50 dark:bg-blue-900/30 p-3 rounded-xl'>
                     <Ionicons name="information-circle" size={20} color="#3b82f6" />
                     <ThemedText className='text-blue-600 text-sm flex-1'>
                         Each attendee will receive their ticket via email
@@ -74,36 +76,36 @@ const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee
                 {groupedAttendees.map((group) => (
                     <View key={group.ticketId} className='gap-4'>
                         {/* Ticket Type Header */}
-                        <View className='flex-row items-center gap-2 bg-gray-100 p-3 rounded-xl'>
-                            <Ionicons name="ticket-outline" size={18} color="#374151" />
-                            <ThemedText className='font-semibold text-gray-700'>{group.ticketName}</ThemedText>
-                            <View className='bg-gray-200 px-2 py-0.5 rounded-full ml-auto'>
-                                <ThemedText className='text-xs text-gray-600 font-medium'>
+                        <View className='flex-row items-center gap-2 bg-gray-100 dark:bg-dark-card p-3 rounded-xl'>
+                            <Ionicons name="ticket-outline" size={18} color={colorScheme === 'dark' ? '#d1d5db' : '#374151'} />
+                            <ThemedText className='font-semibold text-gray-700 dark:text-gray-300'>{group.ticketName}</ThemedText>
+                            <View className='bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded-full ml-auto'>
+                                <ThemedText className='text-xs text-gray-600 dark:text-gray-300 font-medium'>
                                     {group.attendees.length} {group.attendees.length === 1 ? 'ticket' : 'tickets'}
                                 </ThemedText>
                             </View>
                         </View>
 
                         {group.attendees.map(({ attendee, index }, groupIndex) => (
-                            <View key={index} className='gap-4 ml-2 pl-4 border-l-2 border-gray-200'>
+                            <View key={index} className='gap-4 ml-2 pl-4 border-l-2 border-gray-200 dark:border-gray-700'>
                                 <View className='flex-row items-center justify-between'>
                                     <View className='flex-row items-center gap-2'>
                                         <View className='w-7 h-7 rounded-full bg-primary items-center justify-center'>
                                             <ThemedText className='text-white font-bold text-sm'>{groupIndex + 1}</ThemedText>
                                         </View>
-                                        <ThemedText className='font-bold text-base'>Attendee {groupIndex + 1}</ThemedText>
+                                        <ThemedText className='font-bold text-base text-black dark:text-white'>Attendee {groupIndex + 1}</ThemedText>
                                     </View>
                                 </View>
 
                                 <TouchableOpacity
                                     onPress={() => handleToggleSameAsContact(index, attendee)}
-                                    className={`flex-row items-center gap-3 p-3 rounded-xl border ${isLocked(index) ? 'bg-primary/5 border-primary' : 'bg-gray-50 border-transparent'}`}
+                                    className={`flex-row items-center gap-3 p-3 rounded-xl border ${isLocked(index) ? 'bg-primary/5 border-primary' : 'bg-gray-50 dark:bg-dark-card border-transparent'}`}
                                     activeOpacity={0.7}
                                 >
-                                    <View className={`w-5 h-5 rounded border-2 items-center justify-center ${isLocked(index) ? 'bg-primary border-primary' : 'border-gray-300'}`}>
+                                    <View className={`w-5 h-5 rounded border-2 items-center justify-center ${isLocked(index) ? 'bg-primary border-primary' : 'border-gray-300 dark:border-gray-600'}`}>
                                         {isLocked(index) && <Ionicons name="checkmark" size={14} color="white" />}
                                     </View>
-                                    <ThemedText className={`text-sm flex-1 ${isLocked(index) ? 'text-primary font-medium' : 'text-gray-600'}`}>
+                                    <ThemedText className={`text-sm flex-1 capitalize ${isLocked(index) ? 'text-primary font-medium' : 'text-gray-600 dark:text-gray-300'}`}>
                                         Same as contact info ({contactData.firstName} {contactData.lastName})
                                     </ThemedText>
                                 </TouchableOpacity>
@@ -143,7 +145,7 @@ const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee
                                 />
 
                                 {groupIndex < group.attendees.length - 1 && (
-                                    <View className='h-px bg-gray-100 mt-2' />
+                                    <View className='h-px bg-gray-100 dark:bg-gray-700 mt-2' />
                                 )}
                             </View>
                         ))}

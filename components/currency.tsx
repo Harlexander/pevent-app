@@ -7,7 +7,7 @@ const Currency = ({ children, className }: { children: React.ReactNode, classNam
     : children
 
   return (
-    <ThemedText className={`${className}`}>₦{formattedValue}</ThemedText>
+    <ThemedText className={`dark:text-white text-black ${className}`}>₦{formattedValue}</ThemedText>
   )
 }
 

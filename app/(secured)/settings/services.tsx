@@ -5,7 +5,7 @@ import React from 'react'
 const PlaceholderPage = () => {
     return (
         <ThemedView className='flex-1 justify-center items-center'>
-            <ThemedText>Page Content Coming Soon</ThemedText>
+            <ThemedText className="text-black dark:text-white">Page Content Coming Soon</ThemedText>
         </ThemedView>
     )
 }

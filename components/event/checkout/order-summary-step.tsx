@@ -42,14 +42,14 @@ const OrderSummaryStep = ({
                     <ThemedText className='text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest'>
                         Your Tickets ({totalTickets})
                     </ThemedText>
-                    <View className='bg-gray-50 rounded-xl gap-3'>
+                    <View className='bg-gray-50 dark:bg-dark-card rounded-xl gap-3'>
                         {tickets.filter(t => quantities[t.id] > 0).map((ticket, index, arr) => (
                             <View
                                 key={ticket.id}
-                                className={`flex-row bg-white rounded-xl p-4 justify-between items-center `}
+                                className={`flex-row bg-white dark:bg-dark-bg rounded-xl p-4 justify-between items-center `}
                             >
                                 <View className='flex-1'>
-                                    <ThemedText className='font-semibold text-gray-800'>{ticket.name}</ThemedText>
+                                    <ThemedText className='font-semibold text-gray-800 dark:text-gray-300 capitalize'>{ticket.name}</ThemedText>
                                     <View className='flex-row items-center gap-1 mt-1'>
                                         <Feather name='user' size={12} color='#9ca3af' />
                                         <ThemedText className='text-gray-400 text-xs'>
@@ -58,7 +58,7 @@ const OrderSummaryStep = ({
                                     </View>
                                 </View>
                                 <View className='items-end'>
-                                    <Currency className='font-bold text-gray-900'>{ticket.price * quantities[ticket.id]}</Currency>
+                                    <Currency className='font-bold text-gray-900 dark:text-gray-100'>{ticket.price * quantities[ticket.id]}</Currency>
                                     <ThemedText className='text-gray-400 text-xs'>x{quantities[ticket.id]}</ThemedText>
                                 </View>
                             </View>
@@ -98,17 +98,17 @@ const OrderSummaryStep = ({
                 </View>
 
                 {/* Cost Breakdown */}
-                <View className='bg-white rounded-xl border border-gray-100 p-4 gap-3'>
+                <View className='bg-white dark:bg-dark-bg rounded-xl border border-gray-100 dark:border-gray-700 p-4 gap-3'>
                     <View className='flex-row justify-between items-center'>
-                        <ThemedText className='text-gray-500'>Subtotal</ThemedText>
-                        <Currency className='font-semibold text-gray-800'>{subTotal}</Currency>
+                        <ThemedText className='text-gray-500 dark:text-gray-400'>Subtotal</ThemedText>
+                        <Currency className='font-semibold text-gray-800 dark:text-gray-300'>{subTotal}</Currency>
                     </View>
 
                     {discount > 0 && (
                         <View className='flex-row justify-between items-center'>
                             <View className='flex-row items-center gap-1'>
-                                <ThemedText className='text-gray-500'>Discount</ThemedText>
-                                <View className='bg-green-100 px-2 py-0.5 rounded'>
+                                <ThemedText className='text-gray-500 dark:text-gray-400'>Discount</ThemedText>
+                                <View className='bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded'>
                                     <ThemedText className='text-green-600 text-xs font-medium'>APPLIED</ThemedText>
                                 </View>
                             </View>
@@ -117,16 +117,16 @@ const OrderSummaryStep = ({
                     )}
 
                     <View className='flex-row justify-between items-center'>
-                        <ThemedText className='text-gray-500'>Fees</ThemedText>
-                        <ThemedText className='font-semibold text-gray-800'>
+                        <ThemedText className='text-gray-500 dark:text-gray-400'>Fees</ThemedText>
+                        <ThemedText className='font-semibold text-gray-800 dark:text-gray-300'>
                             <Currency>{fees}</Currency>
                         </ThemedText>
                     </View>
 
-                    <View className='h-px bg-gray-100 my-1' />
+                    <View className='h-px bg-gray-100 dark:bg-gray-700 my-1' />
 
                     <View className='flex-row justify-between items-center'>
-                        <ThemedText className='text-lg font-bold'>Total</ThemedText>
+                        <ThemedText className='text-lg font-bold text-black dark:text-white'>Total</ThemedText>
                         <Currency className='text-xl font-bold text-primary'>{finalTotal}</Currency>
                     </View>
                 </View>

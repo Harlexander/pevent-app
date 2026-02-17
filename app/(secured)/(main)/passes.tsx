@@ -42,7 +42,7 @@ const Passes = () => {
         <ThemedView className='flex-1'>
             <SafeAreaView edges={['top']} className='flex-1 px-5'>
                 {/* Header */}
-                <ThemedText className='text-xl font-bold mt-2 mb-6'>My Ticket</ThemedText>
+                <ThemedText className='text-xl text-black dark:text-white font-bold mt-2 mb-6'>My Ticket</ThemedText>
 
                 {/* Tabs */}
                 <TicketSegmentControl activeTab={activeTab} onTabChange={setActiveTab} />
@@ -51,7 +51,7 @@ const Passes = () => {
                 {isLoading && (
                     <View className='flex-1 items-center justify-center'>
                         <ActivityIndicator size="large" color="#3b82f6" />
-                        <ThemedText className='text-gray-500 mt-4'>Loading tickets...</ThemedText>
+                        <ThemedText className='text-gray-500 dark:text-gray-400 mt-4'>Loading tickets...</ThemedText>
                     </View>
                 )}
 
@@ -66,10 +66,10 @@ const Passes = () => {
                 {!isLoading && !error && filteredTickets.length === 0 && (
                     <View className='flex-1 items-center pt-20'>
                         <TicketEmptyState width={235} height={188} />
-                        <ThemedText className='text-xl font-semibold mt-4'>
+                        <ThemedText className='text-xl font-semibold mt-4 text-black dark:text-white'>
                             {activeTab === 'Upcoming' ? 'No upcoming tickets' : 'No past tickets'}
                         </ThemedText>
-                        <ThemedText className='text-gray-500 text-center mt-1'>
+                        <ThemedText className='text-gray-500 dark:text-gray-400 text-center mt-1'>
                             {activeTab === 'Upcoming'
                                 ? "You don't have any upcoming events yet."
                                 : "You haven't attended any events yet."}

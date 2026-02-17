@@ -11,14 +11,14 @@ const TabSection = ({ activeTab, onTabChange }: TabSectionProps) => {
     const tabs = ['Description', 'Gallery']
 
     return (
-        <View className='flex-row border-b border-gray-100'>
+        <View className='flex-row border-b border-gray-100 dark:border-gray-700'>
             {tabs.map((tab) => (
                 <Pressable
                     key={tab}
                     onPress={() => onTabChange(tab)}
                     className={`flex-1 items-center pb-3 ${activeTab === tab ? 'border-b-2 border-primary' : ''}`}
                 >
-                    <ThemedText className={`${activeTab === tab ? 'text-blue-500 font-bold' : 'text-gray-400 font-medium'}`}>
+                    <ThemedText className={`${activeTab === tab ? 'text-blue-500 font-bold' : 'text-gray-400 dark:text-gray-500 font-medium'}`}>
                         {tab}
                     </ThemedText>
                 </Pressable>

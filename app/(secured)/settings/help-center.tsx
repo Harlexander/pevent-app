@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/themed-text'
 import { privacyPolicy, termsOfService } from '@/constants/legal'
 import type { LegalDocument } from '@/constants/legal'
 import { contact } from '@/constants/contact'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Linking, Modal, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -16,6 +17,7 @@ const documents: Record<DocType, LegalDocument> = {
 }
 
 const HelpCenter = () => {
+  const { colorScheme } = useColorScheme()
   const [activeDoc, setActiveDoc] = useState<DocType | null>(null)
 
   const menuItems = [
@@ -46,11 +48,11 @@ const HelpCenter = () => {
   const activeDocument = activeDoc ? documents[activeDoc] : null
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-dark-card">
       {/* Header */}
-      <View className="flex-row items-center justify-between px-5 py-2 mb-4 bg-white">
+      <View className="flex-row items-center justify-between px-5 py-2 mb-4 bg-white dark:bg-dark-bg">
         <BackButton />
-        <ThemedText className="text-lg font-bold">Help Center</ThemedText>
+        <ThemedText className="text-lg font-bold text-black dark:text-white">Help Center</ThemedText>
         <View className="w-10" />
       </View>
 
@@ -67,15 +69,15 @@ const HelpCenter = () => {
               key={item.label}
               onPress={handlePress}
               disabled={!handlePress}
-              className="flex-row items-center justify-between p-4 bg-white rounded-xl"
+              className="flex-row items-center justify-between p-4 bg-white dark:bg-dark-bg rounded-xl"
               activeOpacity={0.7}
             >
               <View className="flex-row items-center gap-3 flex-1">
-                <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center">
+                <View className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 items-center justify-center">
                   <Ionicons name={item.icon} size={20} color="#3b82f6" />
                 </View>
                 <View>
-                  <ThemedText className="text-base font-medium text-slate-900">{item.label}</ThemedText>
+                  <ThemedText className="text-base font-medium text-slate-900 dark:text-gray-100">{item.label}</ThemedText>
                   {'subtitle' in item && item.subtitle && (
                     <ThemedText className="text-xs text-gray-400 mt-0.5">{item.subtitle}</ThemedText>
                   )}
@@ -89,12 +91,12 @@ const HelpCenter = () => {
 
       {/* Document Viewer Modal */}
       <Modal visible={!!activeDoc} animationType="slide" presentationStyle="pageSheet">
-        <SafeAreaView className="flex-1 bg-white">
-          <View className="flex-row items-center justify-between px-5 py-3 border-b border-gray-100">
+        <SafeAreaView className="flex-1 bg-white dark:bg-dark-bg">
+          <View className="flex-row items-center justify-between px-5 py-3 border-b border-gray-100 dark:border-gray-700">
             <TouchableOpacity onPress={() => setActiveDoc(null)}>
-              <Ionicons name="close" size={24} color="#1f2937" />
+              <Ionicons name="close" size={24} color={colorScheme === 'dark' ? '#e5e7eb' : '#1f2937'} />
             </TouchableOpacity>
-            <ThemedText className="text-lg font-bold">{activeDocument?.title}</ThemedText>
+            <ThemedText className="text-lg font-bold text-black dark:text-white">{activeDocument?.title}</ThemedText>
             <View className="w-6" />
           </View>
 
@@ -107,10 +109,10 @@ const HelpCenter = () => {
             <View style={{ gap: 20 }}>
               {activeDocument?.sections.map((section, index) => (
                 <View key={index} style={{ gap: 6 }}>
-                  <ThemedText className="text-base font-bold text-slate-900">
+                  <ThemedText className="text-base font-bold text-slate-900 dark:text-gray-100">
                     {index + 1}. {section.title}
                   </ThemedText>
-                  <ThemedText className="text-sm text-gray-600 leading-relaxed">
+                  <ThemedText className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                     {section.subtext}
                   </ThemedText>
                 </View>

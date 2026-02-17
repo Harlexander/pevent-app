@@ -75,10 +75,10 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
 
     return (
         <UIModal isVisible={visible}>
-            <View className="bg-white rounded-t-3xl p-6">
-                <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
+            <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6">
+                <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                <ThemedText className="text-xl font-bold text-center text-blue-900 mb-2">
+                <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">
                     Set Your Location
                 </ThemedText>
 
@@ -102,9 +102,9 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
                 </TouchableOpacity>
 
                 <View className="flex-row items-center mb-6">
-                    <View className="flex-1 h-px bg-gray-200" />
+                    <View className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
                     <ThemedText className="text-gray-400 text-xs mx-3">or select manually</ThemedText>
-                    <View className="flex-1 h-px bg-gray-200" />
+                    <View className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
                 </View>
 
                 <View className="mb-4">

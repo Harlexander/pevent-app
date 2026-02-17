@@ -16,12 +16,12 @@ const TYPE_CONFIG: Record<
     NotificationType,
     { icon: keyof typeof Ionicons.glyphMap; color: string; bg: string }
 > = {
-    general: { icon: 'notifications', color: '#8b5cf6', bg: 'bg-purple-50' },
-    event: { icon: 'calendar', color: '#3b82f6', bg: 'bg-blue-50' },
-    ticket: { icon: 'ticket', color: '#10b981', bg: 'bg-green-50' },
-    payout: { icon: 'cash', color: '#22c55e', bg: 'bg-green-50' },
-    voting: { icon: 'heart', color: '#ec4899', bg: 'bg-pink-50' },
-    wallet: { icon: 'wallet', color: '#f59e0b', bg: 'bg-amber-50' },
+    general: { icon: 'notifications', color: '#3b82f6', bg: 'bg-blue-100' },
+    event: { icon: 'calendar', color: '#3b82f6', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+    ticket: { icon: 'ticket', color: '#3b82f6', bg: 'bg-green-50 dark:bg-green-900/20' },
+    payout: { icon: 'cash', color: '#3b82f6', bg: 'bg-green-50 dark:bg-green-900/20' },
+    voting: { icon: 'heart', color: '#3b82f6', bg: 'bg-blue-50' },
+    wallet: { icon: 'wallet', color: '#3b82f6', bg: 'bg-blue-50' },
 }
 
 const formatTimeAgo = (dateString: string) => {
@@ -46,7 +46,7 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.7}
-            className={`flex-row gap-3 px-5 py-4 ${!item.read ? 'bg-blue-50/40' : ''}`}
+            className={`flex-row gap-3 px-5 py-4 ${!item.read ? 'bg-blue-50/40 dark:bg-blue-900/30' : ''}`}
         >
             {item.image ? (
                 <Image
@@ -67,7 +67,7 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
                     <View className="flex-row items-center gap-2 flex-1">
                         {!item.read && <View className="w-2 h-2 rounded-full bg-primary" />}
                         <ThemedText
-                            className={`text-sm ${!item.read ? 'font-bold text-slate-900' : 'font-semibold text-slate-700'}`}
+                            className={`text-sm ${!item.read ? 'font-bold text-slate-900 dark:text-gray-100' : 'font-semibold text-slate-700 dark:text-gray-300'}`}
                             numberOfLines={1}
                         >
                             {item.title}
@@ -77,7 +77,7 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
                         {formatTimeAgo(item.createdAt)}
                     </ThemedText>
                 </View>
-                <ThemedText className="text-xs text-gray-500 leading-5" numberOfLines={2}>
+                <ThemedText className="text-xs text-gray-500 dark:text-gray-400 leading-5" numberOfLines={2}>
                     {item.content}
                 </ThemedText>
             </View>
@@ -123,7 +123,7 @@ const Notifications = () => {
 
     const renderEmpty = () => (
         <View className="flex-1 items-center justify-center px-5 py-20">
-            <View className="w-20 h-20 rounded-full bg-gray-100 items-center justify-center mb-4">
+            <View className="w-20 h-20 rounded-full bg-gray-100 dark:bg-dark-card items-center justify-center mb-4">
                 <Ionicons name="notifications-outline" size={40} color="#D1D5DB" />
             </View>
             <ThemedText className="text-gray-400 font-semibold mb-1">
@@ -136,12 +136,12 @@ const Notifications = () => {
     )
 
     return (
-        <ThemedView className="flex-1 bg-white">
+        <ThemedView className="flex-1 bg-white dark:bg-dark-bg">
             <SafeAreaView className="flex-1">
                 <View className="flex-row items-center justify-between px-5 py-2 mb-2">
                     <BackButton />
                     <View className="flex-row items-center gap-2">
-                        <ThemedText className="text-lg font-bold">Notifications</ThemedText>
+                        <ThemedText className="text-lg font-bold text-black dark:text-white">Notifications</ThemedText>
                         {unreadCount > 0 && (
                             <View className="bg-primary rounded-full px-2 py-0.5 min-w-[20] items-center">
                                 <ThemedText className="text-white text-xs font-bold">
@@ -151,7 +151,7 @@ const Notifications = () => {
                         )}
                     </View>
                     <TouchableOpacity onPress={handleMarkAllAsRead} disabled={unreadCount === 0}>
-                        <ThemedText className={`text-sm font-semibold ${unreadCount > 0 ? 'text-primary' : 'text-gray-300'}`}>
+                        <ThemedText className={`text-sm font-semibold ${unreadCount > 0 ? 'text-primary' : 'text-gray-300 dark:text-gray-600'}`}>
                             Read all
                         </ThemedText>
                     </TouchableOpacity>
@@ -170,7 +170,7 @@ const Notifications = () => {
                             />
                         )}
                         ItemSeparatorComponent={() => (
-                            <View className="h-px bg-gray-100 ml-[76]" />
+                            <View className="h-px bg-gray-100 dark:bg-gray-700 ml-[76]" />
                         )}
                         ListEmptyComponent={renderEmpty}
                         refreshControl={

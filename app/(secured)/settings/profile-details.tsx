@@ -112,12 +112,12 @@ const ProfileDetails = () => {
     }
 
     return (
-        <ThemedView className="flex-1 bg-white">
+        <ThemedView className="flex-1 bg-white dark:bg-dark-bg">
             <SafeAreaView className="flex-1">
                 {/* Header */}
                 <View className="flex-row items-center justify-between px-5 py-2 mb-4">
                     <BackButton />
-                    <ThemedText className="text-lg font-bold">Profile</ThemedText>
+                    <ThemedText className="text-lg font-bold text-black dark:text-white">Profile</ThemedText>
                     <View className="w-10" />
                 </View>
 
@@ -157,7 +157,7 @@ const ProfileDetails = () => {
 
                     {/* Personal Information */}
                     <View className="mb-6">
-                        <ThemedText className="text-lg font-bold text-slate-800">Personal</ThemedText>
+                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Personal</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Update your personal information
                         </ThemedText>
@@ -186,7 +186,7 @@ const ProfileDetails = () => {
 
                     {/* Contact Information */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800">Contact</ThemedText>
+                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Contact</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Update your contact information
                         </ThemedText>
@@ -218,7 +218,7 @@ const ProfileDetails = () => {
 
                     {/* Location */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800">Location</ThemedText>
+                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Location</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Where are you based?
                         </ThemedText>
@@ -248,7 +248,7 @@ const ProfileDetails = () => {
 
                     {/* Bio */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800">About</ThemedText>
+                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">About</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Tell us about yourself
                         </ThemedText>
@@ -266,7 +266,7 @@ const ProfileDetails = () => {
                 </ScrollView>
 
                 {/* Footer Button */}
-                <View className="absolute bottom-0 w-full p-5 bg-white border-t border-gray-100 safe-bottom">
+                <View className="absolute bottom-0 w-full p-5 bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-700 safe-bottom">
                     <TouchableOpacity
                         onPress={handleUpdate}
                         disabled={isPending}
@@ -284,36 +284,36 @@ const ProfileDetails = () => {
                     isVisible={isPhotoModalVisible}
                     close={() => setIsPhotoModalVisible(false)}
                 >
-                    <View className="bg-white rounded-t-3xl p-6 pb-10">
-                        <View className="w-10 h-1 bg-gray-200 rounded-full self-center mb-6" />
+                    <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
+                        <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                        <ThemedText className="text-xl font-bold text-center text-blue-900 mb-2">
+                        <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">
                             Photo
                         </ThemedText>
                         <ThemedText className="text-center text-gray-400 mb-8">
                             Select an option to edit your profile image
                         </ThemedText>
 
-                        <TouchableOpacity onPress={pickFromLibrary} className="flex-row items-center gap-4 py-4 border-b border-gray-100">
-                            <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
+                        <TouchableOpacity onPress={pickFromLibrary} className="flex-row items-center gap-4 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <View className="w-10 h-10 rounded-full bg-gray-50 dark:bg-dark-card items-center justify-center">
                                 <Ionicons name="image-outline" size={20} color="#64748b" />
                             </View>
-                            <ThemedText className="text-base font-medium text-slate-600">
+                            <ThemedText className="text-base font-medium text-slate-600 dark:text-gray-300">
                                 Upload from device
                             </ThemedText>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={takePhoto} className="flex-row items-center gap-4 py-4 border-b border-gray-100">
-                            <View className="w-10 h-10 rounded-full bg-gray-50 items-center justify-center">
+                        <TouchableOpacity onPress={takePhoto} className="flex-row items-center gap-4 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <View className="w-10 h-10 rounded-full bg-gray-50 dark:bg-dark-card items-center justify-center">
                                 <Ionicons name="camera-outline" size={20} color="#64748b" />
                             </View>
-                            <ThemedText className="text-base font-medium text-slate-600">
+                            <ThemedText className="text-base font-medium text-slate-600 dark:text-gray-300">
                                 Take a photo
                             </ThemedText>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={removePhoto} className="flex-row items-center gap-4 py-4">
-                            <View className="w-10 h-10 rounded-full bg-red-50 items-center justify-center">
+                            <View className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/30 items-center justify-center">
                                 <Ionicons name="trash-outline" size={20} color="#ef4444" />
                             </View>
                             <ThemedText className="text-base font-medium text-red-500">

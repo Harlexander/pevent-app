@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState, useMemo, useCallback } from 'react'
 import { TouchableOpacity, View, ActivityIndicator } from 'react-native'
@@ -43,6 +44,7 @@ const TicketsModal = ({
     onCancel,
 }: TicketsDialogProps) => {
     const { popup } = usePaystack()
+    const { colorScheme } = useColorScheme()
     const resetCheckoutStore = useCheckoutStore((state) => state.reset)
 
     const [step, setStep] = useState(0)
@@ -405,7 +407,7 @@ const TicketsModal = ({
             {Array.from({ length: getTotalSteps() }).map((_, i) => (
                 <View
                     key={i}
-                    className={`flex-1 h-1 rounded-full ${i <= step ? 'bg-primary' : 'bg-gray-200'}`}
+                    className={`flex-1 h-1 rounded-full ${i <= step ? 'bg-primary' : 'bg-gray-200 dark:bg-gray-700'}`}
                 />
             ))}
         </View>
@@ -413,23 +415,23 @@ const TicketsModal = ({
 
     return (
         <UIModal isVisible={visible} close={handleClose}>
-            <View className="bg-white rounded-t-3xl overflow-hidden h-[75%]">
+            <View className="bg-white dark:bg-dark-bg rounded-t-3xl overflow-hidden h-[75%]">
                 {/* Header */}
-                <View className="border-b border-gray-100">
+                <View className="border-b border-gray-100 dark:border-gray-700">
                     <View className="flex-row justify-between items-center p-4">
                         <TouchableOpacity
                             onPress={handleBack}
-                            className="w-10 h-10 items-center justify-center rounded-full bg-gray-50"
+                            className="w-10 h-10 items-center justify-center rounded-full bg-gray-50 dark:bg-dark-card"
                         >
                             <Ionicons
                                 name={step === 0 ? 'close' : 'arrow-back'}
                                 size={20}
-                                color="black"
+                                color={colorScheme === 'dark' ? '#e5e7eb' : 'black'}
                             />
                         </TouchableOpacity>
 
                         <View className="items-center">
-                            <ThemedText className="text-lg font-bold">{getStepTitle()}</ThemedText>
+                            <ThemedText className="text-lg font-bold text-black dark:text-white">{getStepTitle()}</ThemedText>
                             <ThemedText className="text-xs text-gray-400">
                                 Step {step + 1} of {getTotalSteps()}
                             </ThemedText>
@@ -444,10 +446,10 @@ const TicketsModal = ({
                 <View className="flex-1">{renderStep()}</View>
 
                 {/* Footer */}
-                <View className="p-4 border-t border-gray-100 pb-8 bg-white safe-bottom">
+                <View className="p-4 border-t border-gray-100 dark:border-gray-700 pb-8 bg-white dark:bg-dark-bg safe-bottom">
                     {step > 0 && (
                         <View className="flex-row justify-between items-center mb-3">
-                            <ThemedText className="text-gray-500">Total</ThemedText>
+                            <ThemedText className="text-gray-500 dark:text-gray-400">Total</ThemedText>
                             <Currency className="text-xl font-bold">
                                 {(sendToDifferentEmails ? step >= 3 : step >= 2)
                                     ? finalPrice
@@ -458,7 +460,7 @@ const TicketsModal = ({
 
                     <TouchableOpacity
                         onPress={handleNext}
-                        className={`w-full py-4 rounded-xl flex-row items-center justify-center gap-2 ${isNextDisabled() ? 'bg-gray-300' : 'bg-primary'}`}
+                        className={`w-full py-4 rounded-xl flex-row items-center justify-center gap-2 ${isNextDisabled() ? 'bg-gray-300 dark:bg-gray-600' : 'bg-primary'}`}
                         disabled={isNextDisabled()}
                     >
                         {isProcessing && <ActivityIndicator color="white" size="small" />}

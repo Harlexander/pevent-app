@@ -23,7 +23,7 @@ const Skeleton = ({ width, height, borderRadius = 8, style, className, ...rest }
 
   return (
     <Animated.View
-      className={`bg-gray-200 ${className}`}
+      className={`bg-gray-200 dark:bg-gray-700 ${className}`}
       style={[{ width, height, borderRadius, opacity }, style]}
       {...rest}
     />

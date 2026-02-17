@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 export const BalanceCardSkeleton = () => (
-  <View className="bg-gray-200 rounded-2xl p-6 mb-4">
+  <View className="bg-gray-200 dark:bg-gray-700 rounded-2xl p-6 mb-4">
     <Skeleton width={60} height={14} borderRadius={4} className="mb-2" />
     <Skeleton width={160} height={34} borderRadius={6} />
     <View className="self-end mt-4">
@@ -13,7 +13,7 @@ export const BalanceCardSkeleton = () => (
 );
 
 export const TabsSkeleton = () => (
-  <View className="flex-row bg-gray-100 p-1.5 rounded-xl mb-6">
+  <View className="flex-row bg-gray-100 dark:bg-dark-card p-1.5 rounded-xl mb-6">
     <Skeleton width="50%" height={44} borderRadius={8} />
     <Skeleton width="50%" height={44} borderRadius={8} className="ml-1" />
   </View>
@@ -37,7 +37,7 @@ export const TransactionListSkeleton = () => (
 export const CardListSkeleton = () => (
   <View className="gap-3">
     {[1, 2].map((i) => (
-      <View key={i} className="bg-gray-100 rounded-2xl p-4">
+      <View key={i} className="bg-gray-100 dark:bg-dark-card rounded-2xl p-4">
         <View className="flex-row items-center">
           <Skeleton width={48} height={36} borderRadius={8} />
           <View className="ml-4 flex-1 gap-2">

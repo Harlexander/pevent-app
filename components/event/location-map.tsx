@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Coordinates } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
@@ -27,6 +28,7 @@ function openMaps(lat: string, lng: string, label: string) {
 }
 
 const LocationMap = ({ location, coordinates }: LocationMapProps) => {
+  const { colorScheme } = useColorScheme()
   const hasCoordinates = coordinates?.lat && coordinates?.lng
 
   const handlePress = useCallback(() => {
@@ -37,7 +39,7 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
 
   return (
     <View className="mb-24">
-      <ThemedText className="text-black font-bold text-base mb-4">
+      <ThemedText className="text-black dark:text-gray-100 font-bold text-base mb-4">
         Location: <ThemedText className="font-normal opacity-70">{location}</ThemedText>
       </ThemedText>
       <TouchableOpacity
@@ -52,9 +54,9 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
           contentFit="cover"
         />
 
-        <View className="absolute bottom-0 w-full bg-white/80 backdrop-blur-sm h-12 flex-row items-center justify-center gap-2">
-          <Ionicons name="navigate-outline" size={16} color="#4b5563" />
-          <ThemedText className="text-gray-600 font-medium">
+        <View className="absolute bottom-0 w-full bg-white/80 dark:bg-dark-bg/80 backdrop-blur-sm h-12 flex-row items-center justify-center gap-2">
+          <Ionicons name="navigate-outline" size={16} color={colorScheme === 'dark' ? '#d1d5db' : '#4b5563'} />
+          <ThemedText className="text-gray-600 dark:text-gray-300 font-medium">
             {hasCoordinates ? 'Open in Maps' : 'View direction'}
           </ThemedText>
         </View>

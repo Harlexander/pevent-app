@@ -5,6 +5,7 @@ import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { useSignUp } from '@/hooks/query/useAuth';
 import { useSession } from '@/Provider/session-provider';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { FontAwesome } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
@@ -34,6 +35,7 @@ const registerSchema = z.object({
 type RegisterForm = z.infer<typeof registerSchema>;
 
 const Register = () => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const { signIn } = useSession();
   const signUpMutation = useSignUp();
@@ -70,7 +72,7 @@ const Register = () => {
   };
 
   return (
-    <ThemedView className="flex-1 h-screen bg-white">
+    <ThemedView className="flex-1 h-screen bg-white dark:bg-dark-bg">
       <SafeAreaView className="flex-1">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
           <ScrollView
@@ -81,9 +83,9 @@ const Register = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black">Hey,</ThemedText>
-                <ThemedText className="text-3xl font-bold text-black">Welcome to Pevent!</ThemedText>
-                <ThemedText className="text-base opacity-60 text-black">
+                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Hey,</ThemedText>
+                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Welcome to Pevent!</ThemedText>
+                <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">
                   Create an account to get started.
                 </ThemedText>
               </View>
@@ -162,25 +164,25 @@ const Register = () => {
 
               {/* Divider */}
               <View className="flex-row items-center gap-4 py-8">
-                <View className="flex-1 h-[1px] bg-gray-200" />
-                <ThemedText className="text-gray-500 text-sm">Or continue with</ThemedText>
-                <View className="flex-1 h-[1px] bg-gray-200" />
+                <View className="flex-1 h-[1px] bg-gray-200 dark:bg-gray-700" />
+                <ThemedText className="text-gray-500 dark:text-gray-400 text-sm">Or continue with</ThemedText>
+                <View className="flex-1 h-[1px] bg-gray-200 dark:bg-gray-700" />
               </View>
 
               {/* Social Login */}
               <View className="gap-4">
                 <TouchableOpacity
-                  className="flex-row items-center justify-center bg-gray-100 h-14 rounded-xl border border-gray-200 gap-3"
+                  className="flex-row items-center justify-center bg-gray-100 dark:bg-dark-card h-14 rounded-xl border border-gray-200 dark:border-gray-700 gap-3"
                   onPress={() => {}}
                 >
-                  <FontAwesome name="google" size={20} color="#000" />
-                  <ThemedText className="font-semibold text-black text-base">Login with Google</ThemedText>
+                  <FontAwesome name="google" size={20} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
+                  <ThemedText className="font-semibold text-black dark:text-gray-100 text-base">Login with Google</ThemedText>
                 </TouchableOpacity>
               </View>
 
               {/* Footer */}
               <View className="flex-row justify-center mt-8 gap-1 mb-4">
-                <ThemedText className="opacity-60 text-black">Already have an account?</ThemedText>
+                <ThemedText className="opacity-60 text-black dark:text-gray-100">Already have an account?</ThemedText>
                 <Link href="/(onboarding)/login" asChild>
                   <Pressable>
                     <ThemedText className="text-blue-500 font-semibold">Log in</ThemedText>
