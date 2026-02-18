@@ -33,7 +33,7 @@ const EventSlug = () => {
 
   return (
     <ThemedView className="flex-1">
-      <ScrollView contentContainerStyle={{ paddingBottom: 100, flex : 1}} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100, flexGrow: 1 }} showsVerticalScrollIndicator={false}>
         {/* Header */}
         {isLoading ? (
           <EventHeaderSkeleton />
@@ -41,7 +41,7 @@ const EventSlug = () => {
           <EventHeader images={event?.data?.images?.map((img: string) => endpoints.IMAGE_URL + img) || []} />
         )}
 
-        <View className="px-5 py-5 bg-white dark:bg-dark-bg flex-1 gap-5 h-full">
+        <View className="px-5 py-5 bg-white dark:bg-dark-bg flex-1 gap-5">
           {/* Title */}
           {isLoading ? (
             <EventTitleSkeleton />

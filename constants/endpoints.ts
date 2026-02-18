@@ -33,15 +33,23 @@ export const endpoints = {
         delete: "/cards/:cardId",
         charge: "/cards/charge"
     },
+    dva: {
+        get: "/user/dva",
+        create: "/user/dva",
+    },
     wallet: {
         get: '/wallet',
         transactions: "/wallet/transactions",
-        spend: "/wallet/spend"
+        spend: "/wallet/spend",
+        intent: "/wallet/intent",
     },
     fileUpload: "/file-upload",
     notification: {
         all: "/notifications",
         markAsRead: "/notifications/:id"
+    },
+    coupon: {
+        validate: "/event/coupon",
     },
     referral: {
         get: "/user/referral",

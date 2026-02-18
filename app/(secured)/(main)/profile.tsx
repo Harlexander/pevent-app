@@ -14,6 +14,8 @@ import { togglePushNotifications } from '@/actions/user'
 import { useMutation } from '@tanstack/react-query'
 import { useThemeStore } from '@/store/theme-store'
 import { useColorScheme } from '@/hooks/use-color-scheme'
+import { useDVA, useCreateDVA } from '@/hooks/query/useWallet'
+import * as Clipboard from 'expo-clipboard'
 import React, { useState } from 'react'
 import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native'
 import CustomSwitch from '@/components/ui/custom-switch'
@@ -89,6 +91,25 @@ const Profile = () => {
             Alert.alert('Error', 'Failed to update notification preferences. Please try again.')
         },
     })
+
+    const { data: dvaData, isError: dvaNotFound } = useDVA()
+    const { mutate: createDVA, isPending: dvaCreating } = useCreateDVA()
+    const dva = dvaData?.data
+
+    const handleCopyAccountNumber = async () => {
+        if (dva?.accountNumber) {
+            await Clipboard.setStringAsync(dva.accountNumber)
+            Alert.alert('Copied', 'Account number copied to clipboard')
+        }
+    }
+
+    const handleCreateDVA = () => {
+        createDVA(undefined, {
+            onSuccess: () => Alert.alert('Success', 'Virtual account created!'),
+            onError: (error) =>
+                Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create virtual account.'),
+        })
+    }
 
     const avatarSource = user?.image
         ? { uri: user.image.startsWith('http') ? user.image : endpoints.IMAGE_URL + user.image }
@@ -226,6 +247,36 @@ const Profile = () => {
                             label="Wallet"
                             onPress={() => router.push('/settings/wallet')}
                         />
+                        {dva ? (
+                            <>
+                                <TouchableOpacity
+                                    onPress={handleCopyAccountNumber}
+                                    className="flex-row items-center justify-between p-5 bg-white dark:bg-dark-bg"
+                                    activeOpacity={0.7}
+                                >
+                                    <View className="flex-row items-center gap-3">
+                                        <View className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 items-center justify-center">
+                                            <Ionicons name="business-outline" size={20} color="#3b82f6" />
+                                        </View>
+                                        <View>
+                                            <ThemedText className="text-base font-medium text-slate-900 dark:text-gray-100">
+                                                {dva.accountNumber}
+                                            </ThemedText>
+                                            <ThemedText className="text-xs text-gray-400">
+                                                {dva.bankName} — {dva.accountName}
+                                            </ThemedText>
+                                        </View>
+                                    </View>
+                                    <Ionicons name="copy-outline" size={18} color="#9ca3af" />
+                                </TouchableOpacity>
+                            </>
+                        ) : dvaNotFound ? (
+                            <MenuItem
+                                icon="business-outline"
+                                label={dvaCreating ? 'Setting Up...' : 'Set Up Virtual Account'}
+                                onPress={handleCreateDVA}
+                            />
+                        ) : null}
                     </MenuGroup>
 
                     <MenuGroup title="Preferences">

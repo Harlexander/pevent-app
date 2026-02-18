@@ -73,7 +73,7 @@ const ContactInfoStep = ({
                                 <Ionicons name="person" size={20} color={useDefaultInfo ? '#004cffff' : '#6b7280'} />
                             </View>
                             <View className='flex-1'>
-                                <ThemedText className={`font-medium ${useDefaultInfo ? 'text-primary' : ''}`}>
+                                <ThemedText className={`font-medium text-black dark:text-white ${useDefaultInfo ? 'text-primary' : ''}`}>
                                     Use my account info
                                 </ThemedText>
                                 <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>
@@ -158,9 +158,9 @@ const ContactInfoStep = ({
                 )}
 
                 {!sendToDifferentEmails && totalTickets > 1 && (
-                    <View className='flex-row items-center gap-2 bg-amber-50 p-3 rounded-xl'>
+                    <View className='flex-row items-center gap-2 bg-amber-50 dark:bg-amber-900/30 p-3 rounded-xl border border-amber-200 dark:border-amber-800'>
                         <Ionicons name="information-circle" size={18} color="#d97706" />
-                        <ThemedText className='text-amber-700 text-sm flex-1'>
+                        <ThemedText className='text-amber-700 dark:text-amber-200 text-sm flex-1'>
                             All {totalTickets} tickets will be sent to {data.email || 'your email'}
                         </ThemedText>
                     </View>

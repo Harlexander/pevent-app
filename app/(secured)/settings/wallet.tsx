@@ -6,7 +6,7 @@ import FundWalletModal from '@/components/wallet/fund-wallet-modal';
 import { AddCardCheckout, FundWalletCheckout } from '@/components/wallet/paystack-checkout';
 import TransactionItem from '@/components/wallet/transaction-item';
 import { useCards, useDeleteCard } from '@/hooks/query/useCard';
-import { useWallet, useWalletTransactions } from '@/hooks/query/useWallet';
+import { useWallet, useWalletTransactions, useDVA, useCreateDVA } from '@/hooks/query/useWallet';
 import {
   BalanceCardSkeleton,
   CardListSkeleton,
@@ -15,6 +15,7 @@ import {
 } from '@/components/wallet/wallet-skeleton';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Clipboard from 'expo-clipboard';
 import React, { useCallback, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -33,6 +34,9 @@ const Wallet = () => {
   const { data: transactions, isLoading: txLoading, refetch: refetchTx } = useWalletTransactions();
   const { data: cards, isLoading: cardsLoading, refetch: refetchCards } = useCards();
   const { mutate: removeCard } = useDeleteCard();
+  const { data: dvaData, isError: dvaNotFound, refetch: refetchDVA } = useDVA();
+  const { mutate: createDVA, isPending: dvaCreating } = useCreateDVA();
+  const dva = dvaData?.data;
 
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<'cards' | 'transactions'>('transactions');
@@ -51,7 +55,7 @@ const Wallet = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await Promise.all([refetchWallet(), refetchTx(), refetchCards()]);
+    await Promise.all([refetchWallet(), refetchTx(), refetchCards(), refetchDVA()]);
     setRefreshing(false);
   };
 
@@ -166,6 +170,69 @@ const Wallet = () => {
             </View>
           </LinearGradient>
         )}
+
+        {/* DVA Info */}
+        {dva ? (
+          <View className="bg-gray-50 dark:bg-dark-card rounded-2xl p-5 mb-4">
+            <View className="flex-row items-center justify-between mb-3">
+              <ThemedText className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                Virtual Account
+              </ThemedText>
+              <TouchableOpacity
+                onPress={async () => {
+                  await Clipboard.setStringAsync(dva.accountNumber);
+                  Alert.alert('Copied', 'Account number copied to clipboard');
+                }}
+                className="flex-row items-center gap-1"
+                hitSlop={8}
+              >
+                <Ionicons name="copy-outline" size={14} color="#3b82f6" />
+                <ThemedText className="text-xs text-blue-500 font-medium">Copy</ThemedText>
+              </TouchableOpacity>
+            </View>
+            <ThemedText className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+              {dva.accountNumber}
+            </ThemedText>
+            <ThemedText className="text-sm text-gray-500 dark:text-gray-400">
+              {dva.bankName} — {dva.accountName}
+            </ThemedText>
+          </View>
+        ) : dvaNotFound ? (
+          <TouchableOpacity
+            onPress={() =>
+              createDVA(undefined, {
+                onSuccess: () => Alert.alert('Success', 'Virtual account created!'),
+                onError: (error) =>
+                  Alert.alert(
+                    'Error',
+                    error instanceof Error ? error.message : 'Failed to create virtual account.',
+                  ),
+              })
+            }
+            disabled={dvaCreating}
+            className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-5 mb-4 flex-row items-center justify-between"
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center gap-3">
+              <View className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800/40 items-center justify-center">
+                <Ionicons name="business-outline" size={20} color="#3b82f6" />
+              </View>
+              <View>
+                <ThemedText className="text-sm font-bold text-blue-900 dark:text-blue-200">
+                  Create Virtual Account
+                </ThemedText>
+                <ThemedText className="text-xs text-blue-700/70 dark:text-blue-300/70">
+                  Get a dedicated account for wallet funding
+                </ThemedText>
+              </View>
+            </View>
+            {dvaCreating ? (
+              <ActivityIndicator size="small" color="#3b82f6" />
+            ) : (
+              <Ionicons name="chevron-forward" size={20} color="#3b82f6" />
+            )}
+          </TouchableOpacity>
+        ) : null}
 
         {/* Tabs */}
         {isLoading && !refreshing ? (

@@ -1,5 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getWallet, getWalletTransactions, walletSpend, WalletSpendParams } from '../../actions/wallet';
+import {
+  getWallet,
+  getWalletTransactions,
+  walletSpend,
+  WalletSpendParams,
+  createPaymentIntent,
+  CreatePaymentIntentParams,
+  getPaymentIntent,
+} from '../../actions/wallet';
+import { getDVA, createDVA } from '../../actions/dva';
 
 export const useWallet = () => {
   return useQuery({
@@ -23,5 +32,42 @@ export const useWalletSpend = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['wallet'] });
     },
+  });
+};
+
+export const useDVA = () => {
+  return useQuery({
+    queryKey: ['dva'],
+    queryFn: getDVA,
+    retry: (failureCount, error: any) => {
+      if (error?.response?.status === 404) return false;
+      return failureCount < 3;
+    },
+  });
+};
+
+export const useCreateDVA = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createDVA,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dva'] });
+    },
+  });
+};
+
+export const useCreatePaymentIntent = () => {
+  return useMutation({
+    mutationFn: (params: CreatePaymentIntentParams) => createPaymentIntent(params),
+  });
+};
+
+export const usePaymentIntent = (id: string | null, status?: string, fastPolling?: boolean) => {
+  return useQuery({
+    queryKey: ['payment-intent', id],
+    queryFn: () => getPaymentIntent(id!),
+    enabled: !!id && status !== 'fulfilled' && status !== 'expired',
+    refetchInterval: fastPolling ? 1500 : 5000,
   });
 };

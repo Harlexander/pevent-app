@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type PaymentChannel = 'card' | 'bank_transfer' | 'ussd' | 'wallet' | 'saved_card'
+export type PaymentChannel = 'card' | 'bank_transfer' | 'wallet' | 'saved_card'
 
 interface CheckoutState {
     paymentChannel: PaymentChannel

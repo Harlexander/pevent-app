@@ -20,12 +20,6 @@ const PAYMENT_METHODS: {
   description: string
 }[] = [
     {
-      id: 'wallet',
-      name: 'Pevent Wallet',
-      icon: 'wallet',
-      description: 'Instant & Secure',
-    },
-    {
       id: 'card',
       name: 'Card Payment',
       icon: 'card',
@@ -38,10 +32,10 @@ const PAYMENT_METHODS: {
       description: 'Direct bank payment',
     },
     {
-      id: 'ussd',
-      name: 'USSD',
-      icon: 'keypad',
-      description: 'Dial *737# to pay',
+      id: 'wallet',
+      name: 'Pevent Wallet',
+      icon: 'wallet',
+      description: 'Instant & Secure',
     },
   ]
 
@@ -61,21 +55,8 @@ const SavedCardItem = ({
       onPress={onPress}
       activeOpacity={0.7}
       className="overflow-hidden rounded-2xl mb-3"
-      style={{
-        shadowColor: isSelected ? '#004cff' : '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: isSelected ? 0.15 : 0.05,
-        shadowRadius: 8,
-        elevation: isSelected ? 4 : 2,
-      }}
     >
-      <LinearGradient
-        colors={isSelected ? ['#004cff', '#0066ff'] : ['#ffffff', '#f8f9fa']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="p-4"
-      >
-        <View className="flex-row items-center">
+        <View className="flex-row items-center p-4 bg-white dark:bg-dark-bg">
           <View
             className={`w-12 h-9 rounded-lg items-center justify-center ${isVisa ? 'bg-blue-600' : 'bg-red-500'}`}
             style={{
@@ -108,7 +89,6 @@ const SavedCardItem = ({
             {isSelected && <View className="w-3 h-3 rounded-full bg-white" />}
           </View>
         </View>
-      </LinearGradient>
     </TouchableOpacity>
   )
 }
@@ -153,35 +133,16 @@ const PaymentMethodStep = () => {
       {/* Saved Cards */}
       {cardsLoading ? (
         <>
-          <SavedCardsSkeleton />
           <PaymentMethodsSkeleton />
+          <SavedCardsSkeleton />
         </>
       ) : (
         <>
-          {savedCards.length > 0 && (
-            <View className="mb-6">
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="card" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
-                <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
-                  SAVED CARDS
-                </ThemedText>
-              </View>
-              {savedCards.map((card) => (
-                <SavedCardItem
-                  key={card.id}
-                  card={card}
-                  isSelected={paymentChannel === 'saved_card' && selectedCardId === card.id}
-                  onPress={() => handleSelectCard(card.id)}
-                />
-              ))}
-            </View>
-          )}
-
           {/* Payment Methods */}
           <View className="flex-row items-center mb-4">
             <Ionicons name="options" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
             <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
-              {savedCards.length > 0 ? 'OTHER METHODS' : 'PAYMENT METHODS'}
+              PAYMENT METHODS
             </ThemedText>
           </View>
 
@@ -224,13 +185,6 @@ const PaymentMethodStep = () => {
                         >
                           {method.name}
                         </ThemedText>
-                        {isWallet && walletBalance > 0 && (
-                          <View className={`ml-2 px-2 py-0.5 rounded-full ${isSelected ? 'bg-white/20' : 'bg-green-100 dark:bg-green-900/30'}`}>
-                            <ThemedText className={`text-[10px] font-bold ${isSelected ? 'text-white' : 'text-green-600'}`}>
-                              RECOMMENDED
-                            </ThemedText>
-                          </View>
-                        )}
                       </View>
                       <ThemedText className={`text-xs mt-1 ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
                         {method.description}
@@ -263,6 +217,26 @@ const PaymentMethodStep = () => {
               </TouchableOpacity>
             )
           })}
+
+          {/* Saved Cards */}
+          {savedCards.length > 0 && (
+            <View className="mt-3 mb-3">
+              <View className="flex-row items-center mb-4">
+                <Ionicons name="card" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
+                <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
+                  SAVED CARDS
+                </ThemedText>
+              </View>
+              {savedCards.map((card) => (
+                <SavedCardItem
+                  key={card.id}
+                  card={card}
+                  isSelected={paymentChannel === 'saved_card' && selectedCardId === card.id}
+                  onPress={() => handleSelectCard(card.id)}
+                />
+              ))}
+            </View>
+          )}
 
           {/* Security Badge */}
           <View className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex-row items-center">

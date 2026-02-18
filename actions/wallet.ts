@@ -1,7 +1,7 @@
 import { api } from '@/constants/axios';
 import { endpoints } from '@/constants/endpoints';
 import { Attendee } from '@/types/Ticket';
-import { Wallet, WalletTransaction } from '@/types/Wallet';
+import { PaymentIntent, Wallet, WalletTransaction } from '@/types/Wallet';
 import { ResponseType, ResponseWithMeta } from '@/types/response';
 import { AxiosError } from 'axios';
 
@@ -30,6 +30,30 @@ export interface WalletSpendParams {
   coupon?: string;
   customFields?: { fieldId: string; value: string }[];
 }
+
+export interface CreatePaymentIntentParams {
+  amount: number;
+  purpose: 'ticket' | 'wallet';
+  ttlMinutes?: number;
+  metadata?: Record<string, unknown>;
+}
+
+export const createPaymentIntent = async (params: CreatePaymentIntentParams) => {
+  try {
+    const response = await api.post<ResponseType<PaymentIntent>>(endpoints.wallet.intent, params);
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ message: string }>;
+    throw new Error(axiosError.response?.data?.message || 'Failed to create payment intent.');
+  }
+};
+
+export const getPaymentIntent = async (id: string) => {
+  const response = await api.get<ResponseType<PaymentIntent>>(`${endpoints.wallet.intent}`, {
+    params: { id },
+  });
+  return response.data;
+};
 
 export const walletSpend = async (params: WalletSpendParams) => {
   try {

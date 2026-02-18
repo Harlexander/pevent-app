@@ -2,15 +2,18 @@ import ContactInfoStep, { ContactData, ContactErrors } from '@/components/event/
 import PaymentMethodStep from '@/components/event/checkout/payment-method-step'
 import TicketSelectionStep from '@/components/event/checkout/ticket-selection-step'
 import OrderSummaryStep from '@/components/event/checkout/order-summary-step'
+import TransferInstructionsModal from '@/components/event/checkout/transfer-instructions-modal'
 import AttendeesStep, { AttendeeErrors } from '@/components/event/checkout/attendees-step'
 import { contactSchema, attendeesArraySchema } from '@/components/event/checkout/schemas'
+import { validateCoupon } from '@/actions/coupon'
 import Currency from '@/components/currency'
 import { ThemedText } from '@/components/themed-text'
 import { useEvent } from '@/hooks/query/useEvent'
 import { useChargeCard } from '@/hooks/query/useCard'
-import { useWalletSpend } from '@/hooks/query/useWallet'
+import { useWalletSpend, useCreatePaymentIntent } from '@/hooks/query/useWallet'
 import { useCheckoutStore } from '@/store/checkout-store'
 import { Ticket, Attendee } from '@/types'
+import { PaymentIntent } from '@/types/Wallet'
 import {
   FeeConfig,
   calculateTotalPrice,
@@ -40,6 +43,7 @@ const CheckoutScreen = () => {
   const selectedCardId = useCheckoutStore((state) => state.selectedCardId)
   const { mutateAsync: spendWallet } = useWalletSpend()
   const { mutateAsync: chargeCard } = useChargeCard()
+  const { mutateAsync: createIntent } = useCreatePaymentIntent()
 
   const { data: event } = useEvent(slug as string)
 
@@ -71,12 +75,19 @@ const CheckoutScreen = () => {
   const [attendees, setAttendees] = useState<Attendee[]>([])
   const [attendeesErrors, setAttendeesErrors] = useState<AttendeeErrors[]>([])
 
-  // Step 4: Order Summary
+  // Step 4: Order Summary — Coupon
   const [promoCode, setPromoCode] = useState('')
   const [appliedDiscount, setAppliedDiscount] = useState(0)
+  const [promoLoading, setPromoLoading] = useState(false)
+  const [promoError, setPromoError] = useState<string | undefined>()
+  const [promoApplied, setPromoApplied] = useState(false)
 
   // Payment success
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // Bank transfer
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [activeIntent, setActiveIntent] = useState<PaymentIntent | null>(null);
 
   const updateQuantity = useCallback(
     (id: string, delta: number) => {
@@ -94,6 +105,44 @@ const CheckoutScreen = () => {
     },
     [tickets],
   )
+
+  const handleApplyPromo = useCallback(async () => {
+    if (!promoCode.trim() || !event?.data?.id) return
+
+    setPromoLoading(true)
+    setPromoError(undefined)
+
+    try {
+      const result = await validateCoupon(promoCode.trim(), event.data.id)
+      const coupon = result.data
+
+      let discountAmount = 0
+      const currentTotal = calculateTotalPrice(tickets, quantities)
+
+      if (coupon.type === 'percentage' && coupon.percentage) {
+        discountAmount = Math.round((currentTotal * coupon.percentage) / 100)
+      } else if (coupon.type === 'fixed' && coupon.amount) {
+        discountAmount = coupon.amount
+      }
+
+      discountAmount = Math.min(discountAmount, currentTotal)
+
+      setAppliedDiscount(discountAmount)
+      setPromoApplied(true)
+    } catch (error: any) {
+      const message = error?.response?.data?.error || error?.response?.data?.message || 'Invalid coupon code'
+      setPromoError(message)
+    } finally {
+      setPromoLoading(false)
+    }
+  }, [promoCode, event?.data?.id, tickets, quantities])
+
+  const handleRemovePromo = useCallback(() => {
+    setPromoCode('')
+    setAppliedDiscount(0)
+    setPromoApplied(false)
+    setPromoError(undefined)
+  }, [])
 
   const totalPrice = useMemo(() => calculateTotalPrice(tickets, quantities), [tickets, quantities])
   const totalTickets = useMemo(() => calculateTotalTickets(quantities), [quantities])
@@ -310,15 +359,62 @@ const CheckoutScreen = () => {
     chargeCard,
   ])
 
+  const processBankTransferPayment = useCallback(async () => {
+    setIsProcessing(true)
+
+    const metadata = buildPurchaseMetadata({
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      finalPrice,
+      bearer: feeConfig.bearer,
+      sendToDifferentEmails,
+      attendees,
+      tickets,
+      quantities,
+      promoCode,
+    })
+
+    try {
+      const result = await createIntent({
+        amount: finalPrice,
+        purpose: 'ticket',
+        metadata: metadata as unknown as Record<string, unknown>,
+      })
+
+      setIsProcessing(false)
+      setActiveIntent(result.data)
+      setShowTransferModal(true)
+    } catch (error) {
+      setIsProcessing(false)
+      Alert.alert(
+        'Payment Failed',
+        error instanceof Error ? error.message : 'Failed to initiate bank transfer. Please try again.',
+      )
+    }
+  }, [
+    contact,
+    finalPrice,
+    feeConfig.bearer,
+    sendToDifferentEmails,
+    attendees,
+    tickets,
+    quantities,
+    promoCode,
+    createIntent,
+  ])
+
   const processPayment = useCallback(() => {
     if (paymentChannel === 'wallet') {
       processWalletPayment()
     } else if (paymentChannel === 'saved_card') {
       processSavedCardPayment()
+    } else if (paymentChannel === 'bank_transfer') {
+      processBankTransferPayment()
     } else {
       processPaystackPayment()
     }
-  }, [paymentChannel, processWalletPayment, processSavedCardPayment, processPaystackPayment])
+  }, [paymentChannel, processWalletPayment, processSavedCardPayment, processBankTransferPayment, processPaystackPayment])
 
   const handleNext = useCallback(() => {
     const maxStep = sendToDifferentEmails ? 4 : 3
@@ -420,10 +516,15 @@ const CheckoutScreen = () => {
         discount={appliedDiscount}
         fees={totalFees}
         promoCode={promoCode}
-        onPromoCodeChange={setPromoCode}
-        onApplyPromo={() => {
-          /* TODO: API call to validate promo */
+        onPromoCodeChange={(code) => {
+          setPromoCode(code)
+          if (promoError) setPromoError(undefined)
         }}
+        onApplyPromo={handleApplyPromo}
+        onRemovePromo={handleRemovePromo}
+        promoLoading={promoLoading}
+        promoError={promoError}
+        promoApplied={promoApplied}
         tickets={tickets}
       />
     )
@@ -666,6 +767,21 @@ const CheckoutScreen = () => {
           )}
         </TouchableOpacity>
       </View>
+
+      {/* Transfer Instructions Modal */}
+      <TransferInstructionsModal
+        visible={showTransferModal}
+        intent={activeIntent}
+        onClose={() => {
+          setShowTransferModal(false)
+          setActiveIntent(null)
+        }}
+        onSuccess={() => {
+          setShowTransferModal(false)
+          setActiveIntent(null)
+          setShowSuccess(true)
+        }}
+      />
 
       {/* Success Dialog */}
       <Modal visible={showSuccess} transparent animationType="fade">

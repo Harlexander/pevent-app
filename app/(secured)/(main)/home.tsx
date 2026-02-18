@@ -1,5 +1,6 @@
 import BannerCarousel from '@/components/home/banner-carousel';
 import CategoryList from '@/components/home/category-list';
+import DVABanner from '@/components/home/dva-banner';
 import EventSection from '@/components/home/event-section';
 import HomeHeader from '@/components/home/home-header';
 import HomeSkeleton from '@/components/home/home-skeleton';
@@ -39,6 +40,7 @@ const Home = () => {
                 ]}
               />
               <CategoryList activeCategory={activeCategory} onSelectCategory={setActiveCategory} />
+              <DVABanner />
             </>
           )}
         </SafeAreaView>
