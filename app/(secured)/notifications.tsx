@@ -17,11 +17,11 @@ const TYPE_CONFIG: Record<
     { icon: keyof typeof Ionicons.glyphMap; color: string; bg: string }
 > = {
     general: { icon: 'notifications', color: '#3b82f6', bg: 'bg-blue-100' },
-    event: { icon: 'calendar', color: '#3b82f6', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-    ticket: { icon: 'ticket', color: '#3b82f6', bg: 'bg-green-50 dark:bg-green-900/20' },
-    payout: { icon: 'cash', color: '#3b82f6', bg: 'bg-green-50 dark:bg-green-900/20' },
-    voting: { icon: 'heart', color: '#3b82f6', bg: 'bg-blue-50' },
-    wallet: { icon: 'wallet', color: '#3b82f6', bg: 'bg-blue-50' },
+    event: { icon: 'calendar', color: '#3b82f6', bg: 'bg-blue-100' },
+    ticket: { icon: 'ticket', color: '#3b82f6', bg: 'bg-blue-100' },
+    payout: { icon: 'cash', color: '#3b82f6', bg: 'bg-blue-100' },
+    voting: { icon: 'heart', color: '#3b82f6', bg: 'bg-blue-100' },
+    wallet: { icon: 'wallet', color: '#3b82f6', bg: 'bg-blue-100' },
 }
 
 const formatTimeAgo = (dateString: string) => {
@@ -77,7 +77,7 @@ const NotificationItem = ({ item, onPress }: { item: Notification; onPress: () =
                         {formatTimeAgo(item.createdAt)}
                     </ThemedText>
                 </View>
-                <ThemedText className="text-xs text-gray-500 dark:text-gray-400 leading-5" numberOfLines={2}>
+                <ThemedText className="text-xs text-gray-500 leading-5" numberOfLines={2}>
                     {item.content}
                 </ThemedText>
             </View>
@@ -141,7 +141,7 @@ const Notifications = () => {
                 <View className="flex-row items-center justify-between px-5 py-2 mb-2">
                     <BackButton />
                     <View className="flex-row items-center gap-2">
-                        <ThemedText className="text-lg font-bold text-black dark:text-white">Notifications</ThemedText>
+                        <ThemedText className="text-lg font-bold">Notifications</ThemedText>
                         {unreadCount > 0 && (
                             <View className="bg-primary rounded-full px-2 py-0.5 min-w-[20] items-center">
                                 <ThemedText className="text-white text-xs font-bold">
@@ -169,14 +169,10 @@ const Notifications = () => {
                                 onPress={() => handleNotificationPress(item)}
                             />
                         )}
-                        ItemSeparatorComponent={() => (
-                            <View className="h-px bg-gray-100 dark:bg-gray-700 ml-[76]" />
-                        )}
                         ListEmptyComponent={renderEmpty}
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                         }
-                        showsVerticalScrollIndicator={false}
                     />
                 )}
 
