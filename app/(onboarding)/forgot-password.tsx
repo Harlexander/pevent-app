@@ -6,10 +6,12 @@ import Input from '@/components/ui/input';
 import { useForgotPassword } from '@/hooks/query/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
@@ -22,6 +24,7 @@ type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>;
 const ForgotPassword = () => {
   const router = useRouter();
   const forgotPasswordMutation = useForgotPassword();
+  const toast = useToast();
 
   const {
     control,
@@ -35,11 +38,11 @@ const ForgotPassword = () => {
   const onSubmit = (data: ForgotPasswordForm) => {
     forgotPasswordMutation.mutate(data.email, {
       onSuccess: () => {
-        Alert.alert('Success', 'A password reset link has been sent to your email.');
+        toast.success('A password reset link has been sent to your email.');
         router.back();
       },
       onError: (error) => {
-        Alert.alert('Error', (error as AxiosError<{ message: string }>).response?.data.message);
+        toast.error(getErrorMessage(error));
       },
     });
   };

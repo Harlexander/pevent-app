@@ -2,9 +2,9 @@ import UIModal from '@/components/UIModal'
 import Input from '@/components/ui/input'
 import { ThemedText } from '@/components/themed-text'
 import { useChangePassword } from '@/hooks/query/useAuth'
+import { useToast } from '@/components/ui/toast'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
-import { AxiosError } from 'axios'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 
 interface ChangePasswordModalProps {
     visible: boolean
@@ -14,9 +14,8 @@ interface ChangePasswordModalProps {
 const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => {
     const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
-    const { mutate: changePassword, isPending, error } = useChangePassword()
-
-    console.log((error as AxiosError)?.response)
+    const { mutate: changePassword, isPending } = useChangePassword()
+    const toast = useToast()
 
     const handleClose = () => {
         setCurrentPassword('')
@@ -26,12 +25,12 @@ const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => 
 
     const handleSubmit = () => {
         if (!currentPassword || !newPassword) {
-            Alert.alert('Error', 'Please fill in all fields')
+            toast.error('Please fill in all fields')
             return
         }
 
         if (newPassword.length < 8) {
-            Alert.alert('Error', 'New password must be at least 8 characters')
+            toast.error('New password must be at least 8 characters')
             return
         }
 
@@ -39,11 +38,11 @@ const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => 
             { currentPassword, newPassword },
             {
                 onSuccess: () => {
-                    Alert.alert('Success', 'Password updated successfully')
+                    toast.success('Password updated successfully')
                     handleClose()
                 },
                 onError: () => {
-                    Alert.alert('Error', 'Failed to update password. Please check your current password.')
+                    toast.error('Failed to update password. Please check your current password.')
                 },
             },
         )

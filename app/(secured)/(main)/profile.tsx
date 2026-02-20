@@ -16,14 +16,17 @@ import { useThemeStore } from '@/store/theme-store'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import { useDVA, useCreateDVA } from '@/hooks/query/useWallet'
 import * as Clipboard from 'expo-clipboard'
+import { useToast } from '@/components/ui/toast'
+import { getErrorMessage } from '@/utils/error'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import CustomSwitch from '@/components/ui/custom-switch'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Profile = () => {
     const router = useRouter()
     const user = useUserStore((state) => state.user)
+    const toast = useToast()
     const { colorScheme, toggleTheme } = useThemeStore()
     const { setColorScheme } = useColorScheme()
 
@@ -42,8 +45,8 @@ const Profile = () => {
         uploadImage(
             { uri, type: 'profile' },
             {
-                onSuccess: () => Alert.alert('Success', 'Profile picture updated'),
-                onError: () => Alert.alert('Error', 'Failed to upload image'),
+                onSuccess: () => toast.success('Profile picture updated'),
+                onError: () => toast.error('Failed to upload image'),
             },
         )
     }
@@ -51,7 +54,7 @@ const Profile = () => {
     const pickFromLibrary = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== 'granted') {
-            Alert.alert('Permission needed', 'Please grant access to your photo library.')
+            toast.info('Please grant access to your photo library.')
             return
         }
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -68,7 +71,7 @@ const Profile = () => {
     const takePhoto = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync()
         if (status !== 'granted') {
-            Alert.alert('Permission needed', 'Please grant access to your camera.')
+            toast.info('Please grant access to your camera.')
             return
         }
         const result = await ImagePicker.launchCameraAsync({
@@ -88,7 +91,7 @@ const Profile = () => {
         },
         onError: (_error, isActive) => {
             setNotificationsEnabled(!isActive)
-            Alert.alert('Error', 'Failed to update notification preferences. Please try again.')
+            toast.error('Failed to update notification preferences. Please try again.')
         },
     })
 
@@ -99,15 +102,14 @@ const Profile = () => {
     const handleCopyAccountNumber = async () => {
         if (dva?.accountNumber) {
             await Clipboard.setStringAsync(dva.accountNumber)
-            Alert.alert('Copied', 'Account number copied to clipboard')
+            toast.info('Account number copied to clipboard', 2000)
         }
     }
 
     const handleCreateDVA = () => {
         createDVA(undefined, {
-            onSuccess: () => Alert.alert('Success', 'Virtual account created!'),
-            onError: (error) =>
-                Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create virtual account.'),
+            onSuccess: () => toast.success('Virtual account created!'),
+            onError: (error) => toast.error(getErrorMessage(error, 'Failed to create virtual account.')),
         })
     }
 

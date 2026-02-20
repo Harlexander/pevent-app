@@ -7,10 +7,12 @@ import { useEmailVerification } from '@/hooks/query/useAuth';
 import { useSession } from '@/Provider/session-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
@@ -23,6 +25,7 @@ type EmailVerificationForm = z.infer<typeof emailVerificationSchema>;
 const EmailVerification = () => {
   const router = useRouter();
   const verificationMutation = useEmailVerification();
+  const toast = useToast();
 
   const {
     control,
@@ -36,11 +39,11 @@ const EmailVerification = () => {
   const onSubmit = (data: EmailVerificationForm) => {
     verificationMutation.mutate(parseInt(data.otp, 10), {
       onSuccess: () => {
-        Alert.alert('Success', 'Your email has been verified.');
+        toast.success('Your email has been verified.');
         router.back();
       },
       onError: (error) => {
-        Alert.alert('Error', (error as AxiosError<{ message: string }>).response?.data.message);
+        toast.error(getErrorMessage(error));
       },
     });
   };

@@ -6,13 +6,16 @@ import { applyReferralCode, getReferral } from '@/actions/user';
 import { Ionicons } from '@expo/vector-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import React, { useState } from 'react';
 import Skeleton from '@/components/ui/skeleton';
-import { Alert, KeyboardAvoidingView, Platform, Share, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Share, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const InviteFriends = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [referralInput, setReferralInput] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -26,12 +29,12 @@ const InviteFriends = () => {
   const applyMutation = useMutation({
     mutationFn: (code: string) => applyReferralCode(code),
     onSuccess: (res) => {
-      Alert.alert('Success', res.message || 'Referral code applied successfully');
+      toast.success(res.message || 'Referral code applied successfully');
       setReferralInput('');
       queryClient.invalidateQueries({ queryKey: ['referral'] });
     },
     onError: (error: any) => {
-      Alert.alert('Error', error?.response?.data?.message || 'Invalid referral code. Please try again.');
+      toast.error(getErrorMessage(error, 'Invalid referral code. Please try again.'));
     },
   });
 
@@ -52,7 +55,7 @@ const InviteFriends = () => {
   const handleApply = () => {
     const code = referralInput.trim();
     if (!code) {
-      Alert.alert('Error', 'Please enter a referral code');
+      toast.error('Please enter a referral code');
       return;
     }
     applyMutation.mutate(code);

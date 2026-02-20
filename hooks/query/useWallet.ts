@@ -9,6 +9,7 @@ import {
   getPaymentIntent,
 } from '../../actions/wallet';
 import { getDVA, createDVA } from '../../actions/dva';
+import { AxiosError } from 'axios';
 
 export const useWallet = () => {
   return useQuery({
@@ -53,6 +54,9 @@ export const useCreateDVA = () => {
     mutationFn: createDVA,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dva'] });
+    },
+    onError: (error) => {
+      console.log((error as AxiosError).response?.data);
     },
   });
 };

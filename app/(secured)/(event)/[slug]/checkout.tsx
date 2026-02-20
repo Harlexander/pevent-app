@@ -23,6 +23,8 @@ import {
   buildSelectedTicketItems,
   initializeAttendees,
 } from '@/utils/checkout'
+import { useToast } from '@/components/ui/toast'
+import { getErrorMessage } from '@/utils/error'
 import { Ionicons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState, useMemo, useCallback, useRef } from 'react'
@@ -37,6 +39,7 @@ const CheckoutScreen = () => {
   const { colorScheme } = useColorScheme()
   const { slug } = useLocalSearchParams()
   const router = useRouter()
+  const toast = useToast()
   const { popup } = usePaystack()
   const resetCheckoutStore = useCheckoutStore((state) => state.reset)
   const paymentChannel = useCheckoutStore((state) => state.paymentChannel)
@@ -244,7 +247,7 @@ const CheckoutScreen = () => {
       setShowSuccess(true)
     } catch (error) {
       setIsProcessing(false)
-      Alert.alert('Payment Failed', error instanceof Error ? error.message : 'Wallet payment failed. Please try again.')
+      toast.error(getErrorMessage(error, 'Wallet payment failed. Please try again.'))
     }
   }, [
     contact,
@@ -341,10 +344,7 @@ const CheckoutScreen = () => {
       setShowSuccess(true)
     } catch (error) {
       setIsProcessing(false)
-      Alert.alert(
-        'Payment Failed',
-        error instanceof Error ? error.message : 'Card payment failed. Please try again.',
-      )
+      toast.error(getErrorMessage(error, 'Card payment failed. Please try again.'))
     }
   }, [
     selectedCardId,
@@ -387,10 +387,7 @@ const CheckoutScreen = () => {
       setShowTransferModal(true)
     } catch (error) {
       setIsProcessing(false)
-      Alert.alert(
-        'Payment Failed',
-        error instanceof Error ? error.message : 'Failed to initiate bank transfer. Please try again.',
-      )
+      toast.error(getErrorMessage(error, 'Failed to initiate bank transfer. Please try again.'))
     }
   }, [
     contact,

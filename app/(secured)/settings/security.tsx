@@ -7,13 +7,15 @@ import { useSession } from '@/Provider/session-provider'
 import { useDeleteAccount } from '@/hooks/query/useAuth'
 import { useUserStore } from '@/store/user-store'
 import { EvilIcons, Ionicons } from '@expo/vector-icons'
+import { useToast } from '@/components/ui/toast'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Security = () => {
     const { signOut } = useSession()
     const { clearUser } = useUserStore()
+    const toast = useToast()
     const [twoFactor, setTwoFactor] = useState(false)
     const [biometrics, setBiometrics] = useState(true)
     const [isPasswordModalVisible, setIsPasswordModalVisible] = useState(false)
@@ -39,7 +41,7 @@ const Security = () => {
                 signOut()
             },
             onError: () => {
-                Alert.alert('Error', 'Failed to delete account. Please try again.')
+                toast.error('Failed to delete account. Please try again.')
             },
         })
     }

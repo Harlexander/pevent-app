@@ -4,8 +4,9 @@ import { usePaymentIntent } from '@/hooks/query/useWallet';
 import { PaymentIntent } from '@/types/Wallet';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
+import { useToast } from '@/components/ui/toast';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Modal, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Modal, TouchableOpacity, View } from 'react-native';
 
 interface TransferInstructionsModalProps {
   visible: boolean;
@@ -21,6 +22,7 @@ const formatCountdown = (seconds: number) => {
 };
 
 const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: TransferInstructionsModalProps) => {
+  const toast = useToast();
   const [countdown, setCountdown] = useState(0);
   const [intentStatus, setIntentStatus] = useState<string>(intent?.status || 'pending');
   const [hasSentMoney, setHasSentMoney] = useState(false);
@@ -73,7 +75,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
 
   const handleCopy = async (text: string, label: string) => {
     await Clipboard.setStringAsync(text);
-    Alert.alert('Copied', `${label} copied to clipboard`);
+    toast.info(`${label} copied to clipboard`, 2000);
   };
 
   return (

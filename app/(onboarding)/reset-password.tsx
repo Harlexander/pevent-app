@@ -6,6 +6,8 @@ import Input from '@/components/ui/input';
 import { useResetPassword } from '@/hooks/query/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -29,6 +31,7 @@ const ResetPassword = () => {
   const router = useRouter();
   const { id, token } = useLocalSearchParams<{ id: string; token: string }>();
   const resetPasswordMutation = useResetPassword();
+  const toast = useToast();
 
   const {
     control,
@@ -54,7 +57,7 @@ const ResetPassword = () => {
           ]);
         },
         onError: (error) => {
-          Alert.alert('Error', (error as AxiosError<{ message: string }>).response?.data.message);
+          toast.error(getErrorMessage(error));
         },
       },
     );

@@ -9,12 +9,13 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { FontAwesome } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import { Link, useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -39,6 +40,7 @@ const Register = () => {
   const router = useRouter();
   const { signIn } = useSession();
   const signUpMutation = useSignUp();
+  const toast = useToast();
 
   const {
     control,
@@ -63,9 +65,7 @@ const Register = () => {
           signIn(response.data.accessToken);
         },
         onError: (error) => {
-          const data = (error as AxiosError<{ error: string }>).response?.data;
-          console.log(data?.error);
-          Alert.alert('Error', data?.error ?? 'Something went wrong');
+          toast.error(getErrorMessage(error));
         },
       },
     );

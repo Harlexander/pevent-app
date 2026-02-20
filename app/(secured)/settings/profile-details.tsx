@@ -8,8 +8,9 @@ import { useUserStore } from '@/store/user-store'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
+import { useToast } from '@/components/ui/toast'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Input from '@/components/ui/input'
 import Select from '@/components/ui/select'
@@ -19,6 +20,7 @@ const ProfileDetails = () => {
     const user = useUserStore((state) => state.user)
     const { mutate: updateUser, isPending } = useUpdateUser()
     const { mutate: uploadImage, isPending: isUploading } = useUploadImage()
+    const toast = useToast()
     const [isPhotoModalVisible, setIsPhotoModalVisible] = useState(false)
 
     const [firstName, setFirstName] = useState(user?.firstName || '')
@@ -47,10 +49,10 @@ const ProfileDetails = () => {
             { firstName, lastName, name, mobile, address, bio, state, country },
             {
                 onSuccess: () => {
-                    Alert.alert('Success', 'Profile updated successfully')
+                    toast.success('Profile updated successfully')
                 },
                 onError: () => {
-                    Alert.alert('Error', 'Failed to update profile')
+                    toast.error('Failed to update profile')
                 },
             },
         )
@@ -61,8 +63,8 @@ const ProfileDetails = () => {
         uploadImage(
             { uri, type: 'profile' },
             {
-                onSuccess: () => Alert.alert('Success', 'Profile picture updated'),
-                onError: () => Alert.alert('Error', 'Failed to upload image'),
+                onSuccess: () => toast.success('Profile picture updated'),
+                onError: () => toast.error('Failed to upload image'),
             },
         )
     }
@@ -70,7 +72,7 @@ const ProfileDetails = () => {
     const pickFromLibrary = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== 'granted') {
-            Alert.alert('Permission needed', 'Please grant access to your photo library.')
+            toast.info('Please grant access to your photo library.')
             return
         }
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -87,7 +89,7 @@ const ProfileDetails = () => {
     const takePhoto = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync()
         if (status !== 'granted') {
-            Alert.alert('Permission needed', 'Please grant access to your camera.')
+            toast.info('Please grant access to your camera.')
             return
         }
         const result = await ImagePicker.launchCameraAsync({
@@ -105,8 +107,8 @@ const ProfileDetails = () => {
         updateUser(
             { image: null },
             {
-                onSuccess: () => Alert.alert('Success', 'Profile picture removed'),
-                onError: () => Alert.alert('Error', 'Failed to remove photo'),
+                onSuccess: () => toast.success('Profile picture removed'),
+                onError: () => toast.error('Failed to remove photo'),
             },
         )
     }

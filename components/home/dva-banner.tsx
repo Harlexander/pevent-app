@@ -1,12 +1,15 @@
 import { ThemedText } from '@/components/themed-text';
 import { useCreateDVA, useDVA } from '@/hooks/query/useWallet';
 import { Ionicons } from '@expo/vector-icons';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 
 const DVABanner = () => {
   const { data: dva, isError } = useDVA();
   const { mutate: createDVA, isPending } = useCreateDVA();
+  const toast = useToast();
   const [dismissed, setDismissed] = useState(false);
 
   // Hide if DVA exists, user dismissed, or query hasn't errored (still loading)
@@ -15,9 +18,8 @@ const DVABanner = () => {
 
   const handleSetup = () => {
     createDVA(undefined, {
-      onSuccess: () => Alert.alert('Success', 'Your virtual account has been created!'),
-      onError: (error) =>
-        Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create virtual account.'),
+      onSuccess: () => toast.success('Your virtual account has been created!'),
+      onError: (error) => toast.error(getErrorMessage(error, 'Failed to create virtual account.')),
     });
   };
 

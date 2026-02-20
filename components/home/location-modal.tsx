@@ -4,8 +4,9 @@ import { ThemedText } from '@/components/themed-text'
 import { countries, states } from '@/constants/location'
 import { useUpdateUser } from '@/hooks/query/useAuth'
 import * as Location from 'expo-location'
+import { useToast } from '@/components/ui/toast'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 interface LocationModalProps {
@@ -18,6 +19,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
     const [country, setCountry] = useState('')
     const [isLocating, setIsLocating] = useState(false)
     const { mutate: updateUser, isPending } = useUpdateUser()
+    const toast = useToast()
 
     const stateOptions = country && states[country] ? states[country] : []
 
@@ -31,7 +33,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
         try {
             const { status } = await Location.requestForegroundPermissionsAsync()
             if (status !== 'granted') {
-                Alert.alert('Permission Denied', 'Location permission is required to auto-detect your location.')
+                toast.info('Location permission is required to auto-detect your location.')
                 return
             }
 
@@ -46,7 +48,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
                 setState(geocoded.region || '')
             }
         } catch {
-            Alert.alert('Error', 'Failed to get your location. Please select manually.')
+            toast.error('Failed to get your location. Please select manually.')
         } finally {
             setIsLocating(false)
         }
@@ -54,7 +56,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
 
     const handleSubmit = () => {
         if (!state || !country) {
-            Alert.alert('Error', 'Please provide both state and country.')
+            toast.error('Please provide both state and country.')
             return
         }
 
@@ -67,7 +69,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
                     onClose()
                 },
                 onError: () => {
-                    Alert.alert('Error', 'Failed to update location. Please try again.')
+                    toast.error('Failed to update location. Please try again.')
                 },
             },
         )

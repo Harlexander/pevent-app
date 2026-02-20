@@ -4,38 +4,36 @@ import { Coordinates } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import * as Linking from 'expo-linking'
+import { useToast } from '@/components/ui/toast'
 import React, { useCallback } from 'react'
-import { Alert, Platform, TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 
 interface LocationMapProps {
   location: string
   coordinates?: Coordinates | null
 }
 
-function openMaps(lat: string, lng: string, label: string) {
-  const latNum = parseFloat(lat)
-  const lngNum = parseFloat(lng)
-
-  const url = Platform.select({
-    ios: `maps:0,0?q=${label}@${latNum},${lngNum}`,
-    android: `geo:${latNum},${lngNum}?q=${latNum},${lngNum}(${label})`,
-    default: `https://www.google.com/maps/search/?api=1&query=${latNum},${lngNum}`,
-  })
-
-  Linking.openURL(url).catch(() => {
-    Alert.alert('Error', 'Could not open maps application')
-  })
-}
-
 const LocationMap = ({ location, coordinates }: LocationMapProps) => {
   const { colorScheme } = useColorScheme()
+  const toast = useToast()
   const hasCoordinates = coordinates?.lat && coordinates?.lng
 
   const handlePress = useCallback(() => {
     if (hasCoordinates) {
-      openMaps(coordinates.lat, coordinates.lng, location)
+      const latNum = parseFloat(coordinates.lat)
+      const lngNum = parseFloat(coordinates.lng)
+
+      const url = Platform.select({
+        ios: `maps:0,0?q=${location}@${latNum},${lngNum}`,
+        android: `geo:${latNum},${lngNum}?q=${latNum},${lngNum}(${location})`,
+        default: `https://www.google.com/maps/search/?api=1&query=${latNum},${lngNum}`,
+      })
+
+      Linking.openURL(url).catch(() => {
+        toast.error('Could not open maps application')
+      })
     }
-  }, [coordinates, location, hasCoordinates])
+  }, [coordinates, location, hasCoordinates, toast])
 
   return (
     <View className="mb-24">

@@ -12,6 +12,7 @@ import '../global.css';
 import { SessionProvider, useSession } from '@/Provider/session-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PaystackCustomProvider from '@/Provider/paystack-provider';
+import { ToastProvider } from '@/components/ui/toast';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,7 +40,9 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <PaystackCustomProvider>
         <SessionProvider>
-          <RootLayoutNav fontsLoaded={fontsLoaded} />
+          <ToastProvider>
+            <RootLayoutNav fontsLoaded={fontsLoaded} />
+          </ToastProvider>
         </SessionProvider>
       </PaystackCustomProvider>
     </QueryClientProvider>

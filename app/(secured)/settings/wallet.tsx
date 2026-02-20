@@ -16,6 +16,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Clipboard from 'expo-clipboard';
+import { useToast } from '@/components/ui/toast';
+import { getErrorMessage } from '@/utils/error';
 import React, { useCallback, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -30,6 +32,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const formatAmount = (amount: number) => new Intl.NumberFormat('en-NG').format(amount);
 
 const Wallet = () => {
+  const toast = useToast();
   const { data: wallet, isLoading: walletLoading, refetch: refetchWallet } = useWallet();
   const { data: transactions, isLoading: txLoading, refetch: refetchTx } = useWalletTransactions();
   const { data: cards, isLoading: cardsLoading, refetch: refetchCards } = useCards();
@@ -70,7 +73,7 @@ const Wallet = () => {
   const handleFundWallet = useCallback(() => {
     const amount = parseFloat(fundAmount);
     if (!amount || amount <= 0) {
-      Alert.alert('Invalid Amount', 'Please enter a valid amount.');
+      toast.error('Please enter a valid amount.');
       return;
     }
     fundAmountRef.current = fundAmount;
@@ -94,7 +97,7 @@ const Wallet = () => {
       if (success) {
         refetchWallet();
         refetchTx();
-        Alert.alert('Success', 'Wallet funded successfully!');
+        toast.success('Wallet funded successfully!');
       }
     },
     [refetchWallet, refetchTx],
@@ -111,7 +114,7 @@ const Wallet = () => {
       setAddCardActive(false);
       if (success) {
         refetchCards();
-        Alert.alert('Success', 'Card added successfully!');
+        toast.success('Card added successfully!');
       }
     },
     [refetchCards],
@@ -181,7 +184,7 @@ const Wallet = () => {
               <TouchableOpacity
                 onPress={async () => {
                   await Clipboard.setStringAsync(dva.accountNumber);
-                  Alert.alert('Copied', 'Account number copied to clipboard');
+                  toast.info('Account number copied to clipboard', 2000);
                 }}
                 className="flex-row items-center gap-1"
                 hitSlop={8}
@@ -201,12 +204,8 @@ const Wallet = () => {
           <TouchableOpacity
             onPress={() =>
               createDVA(undefined, {
-                onSuccess: () => Alert.alert('Success', 'Virtual account created!'),
-                onError: (error) =>
-                  Alert.alert(
-                    'Error',
-                    error instanceof Error ? error.message : 'Failed to create virtual account.',
-                  ),
+                onSuccess: () => toast.success('Virtual account created!'),
+                onError: (error) => toast.error(getErrorMessage(error, 'Failed to create virtual account.')),
               })
             }
             disabled={dvaCreating}

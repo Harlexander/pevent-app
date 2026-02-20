@@ -9,10 +9,12 @@ import { useColorScheme } from '@/hooks/use-color-scheme'
 import { FontAwesome } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Axios, AxiosError } from 'axios'
+import { useToast } from '@/components/ui/toast'
+import { getErrorMessage } from '@/utils/error'
 import { Link, useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { z } from 'zod'
 
@@ -28,6 +30,7 @@ const Login = () => {
     const router = useRouter()
     const { signIn } = useSession()
     const loginMutation = useSignIn()
+    const toast = useToast()
 
     const { control, handleSubmit, formState: { errors } } = useForm<LoginForm>({
         resolver: zodResolver(loginSchema),
@@ -43,7 +46,7 @@ const Login = () => {
                     signIn(data.data.accessToken)
                 },
                 onError: (error) => {
-                    Alert.alert("Error", (error as AxiosError<{ message: string }>).response?.data.message)
+                    toast.error(getErrorMessage(error))
                 }
             })
     }

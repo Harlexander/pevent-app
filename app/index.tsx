@@ -165,7 +165,7 @@ const Index = () => {
                             Sign up
                         </Button>
                         <Button onPress={() => navigateTo('/(onboarding)/login')} className='bg-gray-100 dark:bg-dark-card rounded-full'>
-                            <ThemedText type="defaultSemiBold" className='text-black dark:text-gray-100'>Log in</ThemedText>
+                            <ThemedText className='text-black dark:text-gray-100'>Log in</ThemedText>
                         </Button>
                     </ThemedView>
                 </ThemedView>

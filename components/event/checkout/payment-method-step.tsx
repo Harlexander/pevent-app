@@ -3,7 +3,7 @@ import { ThemedText } from '@/components/themed-text'
 import { Colors } from '@/constants/theme'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import { useCards } from '@/hooks/query/useCard'
-import { useWallet } from '@/hooks/query/useWallet'
+import { useWallet, useDVA } from '@/hooks/query/useWallet'
 import { PaymentChannel, useCheckoutStore } from '@/store/checkout-store'
 import { Card } from '@/types/Card'
 import { Ionicons } from '@expo/vector-icons'
@@ -101,6 +101,9 @@ const PaymentMethodStep = () => {
   const setSelectedCardId = useCheckoutStore((state) => state.setSelectedCardId)
   const { data: wallet, isLoading: walletLoading } = useWallet()
   const { data: cards, isLoading: cardsLoading } = useCards()
+  const { data: dva } = useDVA()
+
+  const hasDVA = !!dva?.data
 
   const walletBalance = wallet?.data?.balance ?? 0
   const savedCards = cards?.data ?? []
@@ -146,7 +149,7 @@ const PaymentMethodStep = () => {
             </ThemedText>
           </View>
 
-          {PAYMENT_METHODS.map((method, index) => {
+          {PAYMENT_METHODS.filter((method) => method.id !== 'bank_transfer' || hasDVA).map((method, index) => {
             const isWallet = method.id === 'wallet'
             const isSelected = paymentChannel === method.id
 
