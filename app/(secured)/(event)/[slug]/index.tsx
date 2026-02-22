@@ -38,7 +38,7 @@ const EventSlug = () => {
         {isLoading ? (
           <EventHeaderSkeleton />
         ) : (
-          <EventHeader images={event?.data?.images?.map((img: string) => endpoints.IMAGE_URL + img) || []} />
+          <EventHeader images={event?.data?.images?.map((img: string) => endpoints.IMAGE_URL + img) || []} event={event?.data} />
         )}
 
         <View className="px-5 py-5 bg-white dark:bg-dark-bg flex-1 gap-5">

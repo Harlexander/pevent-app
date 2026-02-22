@@ -306,6 +306,11 @@ const Profile = () => {
                             }
                         />
                         <MenuItem
+                            icon="heart-outline"
+                            label="Favorites"
+                            onPress={() => router.push('/settings/favorites')}
+                        />
+                        <MenuItem
                             icon="people-outline"
                             label="Invite friends"
                             onPress={() => router.push('/settings/invite')}

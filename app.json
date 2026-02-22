@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pevent",
     "slug": "pevent",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "scheme": "pevent",
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,6 +34,12 @@
         {
           "icon": "./assets/notification.png",
           "color": "#004cff"
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "$(PRODUCT_NAME) needs access to your calendar to add events."
         }
       ]
     ],

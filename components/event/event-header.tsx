@@ -1,18 +1,47 @@
-import BackButton from '@/components/back-button'
 import { ThemedText } from '@/components/themed-text'
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import { BlurView } from 'expo-blur'
+import { useFavoritesStore, FavoriteEvent } from '@/store/favorites-store'
+import { Event } from '@/types'
+import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Share, TouchableOpacity, View } from 'react-native'
 
 interface EventHeaderProps {
     images: string[];
+    event?: Event;
 }
 
-const EventHeader = ({ images }: EventHeaderProps) => {
+const EventHeader = ({ images, event }: EventHeaderProps) => {
     const router = useRouter()
+    const { isFavorite, toggleFavorite } = useFavoritesStore()
+
+    const isFav = event ? isFavorite(event.id) : false
+
+    const handleToggleFavorite = () => {
+        if (!event) return
+        const minPrice = event.tickets?.length
+            ? Math.min(...event.tickets.map((t) => t.price))
+            : 0
+        const favoriteData: FavoriteEvent = {
+            id: event.id,
+            name: event.name,
+            slug: event.slug,
+            date: event.date,
+            time: event.time,
+            city: event.city ?? null,
+            images: event.images,
+            price: minPrice,
+        }
+        toggleFavorite(favoriteData)
+    }
+
+    const handleShare = async () => {
+        if (!event) return
+        await Share.share({
+            message: `Check out ${event.name} on Pevent! https://pevent.ng/${event.slug}`,
+        })
+    }
 
     return (
         <View className='w-full h-[300px] relative top-0'>
@@ -30,11 +59,21 @@ const EventHeader = ({ images }: EventHeaderProps) => {
                     <Ionicons name="chevron-back" size={24} color="white" />
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
-                >
-                    <Ionicons name="heart-outline" size={24} color="white" />
-                </TouchableOpacity>
+                <View className='flex-row gap-2'>
+                    <TouchableOpacity
+                        onPress={handleShare}
+                        className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
+                    >
+                        <Ionicons name="share-outline" size={22} color="white" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={handleToggleFavorite}
+                        className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
+                    >
+                        <Ionicons name={isFav ? 'heart' : 'heart-outline'} size={24} color={isFav ? '#ef4444' : 'white'} />
+                    </TouchableOpacity>
+                </View>
             </View>
 
             {/* Gallery Thumbnails */}

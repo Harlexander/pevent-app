@@ -25,6 +25,7 @@ import {
 } from '@/utils/checkout'
 import { useToast } from '@/components/ui/toast'
 import { getErrorMessage } from '@/utils/error'
+import { addEventToCalendar } from '@/utils/calendar'
 import { Ionicons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState, useMemo, useCallback, useRef } from 'react'
@@ -799,6 +800,31 @@ const CheckoutScreen = () => {
 
             {/* Content */}
             <View className="p-6">
+
+              {/* Add to Calendar */}
+              <TouchableOpacity
+                onPress={async () => {
+                  if (!event?.data) return
+                  const result = await addEventToCalendar({
+                    title: event.data.name,
+                    date: event.data.date,
+                    time: event.data.time,
+                    location: [event.data.venue, event.data.city, event.data.state].filter(Boolean).join(', '),
+                  })
+                  if (result.success) {
+                    toast.success(result.message)
+                  } else {
+                    toast.error(result.message)
+                  }
+                }}
+                className="w-full py-4 rounded-2xl border-2 border-primary items-center mb-3"
+                activeOpacity={0.8}
+              >
+                <View className="flex-row items-center gap-2">
+                  <Ionicons name="calendar-outline" size={20} color="#004cff" />
+                  <ThemedText className="text-primary font-bold text-base">Add to Calendar</ThemedText>
+                </View>
+              </TouchableOpacity>
 
               {/* Action Buttons */}
               <TouchableOpacity

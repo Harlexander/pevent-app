@@ -5,10 +5,13 @@ import { ThemedView } from '@/components/themed-view'
 import { endpoints } from '@/constants/endpoints'
 import { useTicket } from '@/hooks/query/useTicket'
 import { useColorScheme } from '@/hooks/use-color-scheme'
+import { useToast } from '@/components/ui/toast'
+import { downloadReceipt } from '@/utils/receipt'
+import { addEventToCalendar } from '@/utils/calendar'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useLocalSearchParams } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
 import { ActivityIndicator, ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -16,6 +19,8 @@ const TicketDetail = () => {
     const { colorScheme } = useColorScheme()
     const { id } = useLocalSearchParams<{ id: string }>()
     const { data, isLoading, error } = useTicket(id)
+    const toast = useToast()
+    const [isDownloading, setIsDownloading] = useState(false)
 
     const ticket = data?.data
 
@@ -179,12 +184,53 @@ const TicketDetail = () => {
                     </View>
                 </ScrollView>
 
-                {/* Footer Button */}
+                {/* Footer Buttons */}
                 <View className='absolute bottom-0 w-full p-5 bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-700 safe-bottom'>
-                    <TouchableOpacity className='w-full bg-blue-500 py-4 rounded-2xl flex-row items-center justify-center gap-2 shadow-lg shadow-blue-500/30'>
-                        <Ionicons name="download-outline" size={20} color="white" />
-                        <ThemedText className='text-white font-bold text-base'>Download Ticket</ThemedText>
-                    </TouchableOpacity>
+                    <View className='flex-row gap-3'>
+                        <TouchableOpacity
+                            className='flex-1 py-4 rounded-2xl flex-row items-center justify-center gap-2 border-2 border-blue-500'
+                            activeOpacity={0.7}
+                            onPress={async () => {
+                                const result = await addEventToCalendar({
+                                    title: ticket.ticket.event.name,
+                                    date: ticket.ticket.event.date,
+                                    time: ticket.ticket.event.time,
+                                    location: [ticket.ticket.event.venue, ticket.ticket.event.city, ticket.ticket.event.state].filter(Boolean).join(', '),
+                                })
+                                if (result.success) {
+                                    toast.success(result.message)
+                                } else {
+                                    toast.error(result.message)
+                                }
+                            }}
+                        >
+                            <Ionicons name="calendar-outline" size={20} color="#3b82f6" />
+                            <ThemedText className='text-blue-500 font-bold text-sm'>Add to Calendar</ThemedText>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            className='flex-1 bg-blue-500 py-4 rounded-2xl flex-row items-center justify-center gap-2 shadow-lg shadow-blue-500/30'
+                            activeOpacity={0.7}
+                            disabled={isDownloading}
+                            onPress={async () => {
+                                setIsDownloading(true)
+                                try {
+                                    await downloadReceipt(ticket)
+                                } catch {
+                                    toast.error('Failed to generate receipt')
+                                } finally {
+                                    setIsDownloading(false)
+                                }
+                            }}
+                        >
+                            {isDownloading ? (
+                                <ActivityIndicator color="white" size="small" />
+                            ) : (
+                                <Ionicons name="download-outline" size={20} color="white" />
+                            )}
+                            <ThemedText className='text-white font-bold text-sm'>Download Receipt</ThemedText>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </SafeAreaView>
         </ThemedView>
