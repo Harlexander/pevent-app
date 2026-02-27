@@ -24,7 +24,7 @@ const EventDescription = ({ description }: EventDescriptionProps) => {
 
     return (
         <View className='mb-6'>
-            <ThemedText className='text-black dark:text-gray-100 font-bold text-base mb-2'>About this event:</ThemedText>
+            <ThemedText className='text-black dark:text-gray-100 font-jost-semibold text-base mb-2'>About this event:</ThemedText>
 
             {/* Hidden text to measure full line count */}
             {!measured && (

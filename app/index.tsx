@@ -3,10 +3,11 @@ import { ThemedView } from '@/components/themed-view'
 import Button from '@/components/ui/button'
 import UIModal from '@/components/UIModal'
 import { onboardingSteps } from '@/constants/onboarding'
+import { useGuestStore } from '@/store/guest-store'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React, { useRef, useState } from 'react'
-import { Dimensions, View, ViewToken } from 'react-native'
+import { Dimensions, TouchableOpacity, View, ViewToken } from 'react-native'
 import Animated, {
     useAnimatedScrollHandler,
     useAnimatedStyle,
@@ -23,6 +24,7 @@ const Index = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isModalVisible, setIsModalVisible] = useState(false)
     const router = useRouter()
+    const { enterGuestMode } = useGuestStore()
     const flatListRef = useRef<Animated.FlatList<any>>(null)
     const scrollX = useSharedValue(0)
 
@@ -96,7 +98,7 @@ const Index = () => {
                     />
                 </View>
                 <View className="gap-2 px-5">
-                    <ThemedText className="text-4xl font-semibold text-white">
+                    <ThemedText className="text-4xl font-jost-semibold text-white">
                         {item.title}
                     </ThemedText>
                     <ThemedText className="text-lg leading-7 opacity-80 text-white">
@@ -155,18 +157,29 @@ const Index = () => {
                         contentFit="contain"
                     />
                     <ThemedView className='items-center gap-2 mb-4'>
-                        <ThemedText className='text-3xl font-bold text-black dark:text-gray-100'>Get Started</ThemedText>
+                        <ThemedText className='text-3xl font-jost-semibold text-black dark:text-gray-100'>Get Started</ThemedText>
                         <ThemedText className='text-center text-base opacity-70 px-4 text-black dark:text-gray-100'>
                             Your business network is a reflection of your career. Grow it today!
                         </ThemedText>
                     </ThemedView>
                     <ThemedView className='w-full gap-3'>
-                        <Button onPress={() => navigateTo('/(onboarding)/register')} className='rounded-full'>
+                        <Button onPress={() => navigateTo('/(onboarding)/register')} rounded='full'>
                             Sign up
                         </Button>
-                        <Button onPress={() => navigateTo('/(onboarding)/login')} className='bg-gray-100 dark:bg-dark-card rounded-full'>
-                            <ThemedText className='text-black dark:text-gray-100'>Log in</ThemedText>
+                        <Button variant={'outline'} onPress={() => navigateTo('/(onboarding)/login')} rounded='full'>
+                            Log in
                         </Button>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setIsModalVisible(false)
+                                enterGuestMode()
+                            }}
+                            className="items-center py-3"
+                        >
+                            <ThemedText className="text-gray-500 dark:text-gray-400 text-base font-medium">
+                                Continue as Guest
+                            </ThemedText>
+                        </TouchableOpacity>
                     </ThemedView>
                 </ThemedView>
             </UIModal>

@@ -133,7 +133,7 @@ const Profile = () => {
 
     const MenuGroup = ({ title, children }: { title: string; children: React.ReactNode }) => (
         <View className="">
-            <ThemedText className="text-gray-400 p-5 text-xs font-bold uppercase tracking-widest">
+            <ThemedText className="text-gray-400 p-5 text-xs font-semibold uppercase tracking-widest">
                 {title}
             </ThemedText>
             <View style={{ gap: 1 }}>{children}</View>
@@ -198,7 +198,7 @@ const Profile = () => {
                             <Ionicons name="camera" size={14} color="#3b82f6" />
                         </View>
                     </TouchableOpacity>
-                    <ThemedText className="font-extrabold text-white capitalize text-2xl text-center" numberOfLines={1}>
+                    <ThemedText className="font-jost-bold text-white capitalize text-2xl text-center" numberOfLines={1}>
                         {user?.firstName} {user?.lastName}
                     </ThemedText>
                     {displayName && (
@@ -336,7 +336,7 @@ const Profile = () => {
                 <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
                     <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                    <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">
+                    <ThemedText className="text-xl font-jost-semibold text-center text-blue-900 dark:text-blue-200 mb-2">
                         Photo
                     </ThemedText>
                     <ThemedText className="text-center text-gray-400 mb-8">

@@ -37,7 +37,7 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
 
   return (
     <View className="mb-24">
-      <ThemedText className="text-black dark:text-gray-100 font-bold text-base mb-4">
+      <ThemedText className="text-black dark:text-gray-100 font-jost-semibold text-base mb-4">
         Location: <ThemedText className="font-normal opacity-70">{location}</ThemedText>
       </ThemedText>
       <TouchableOpacity

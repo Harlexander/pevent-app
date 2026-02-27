@@ -47,7 +47,7 @@ const TransactionItem = ({ transaction }: { transaction: WalletTransaction }) =>
           <ThemedText className="text-gray-400 text-xs">{formatDate(transaction.createdAt)}</ThemedText>
         </View>
       </View>
-      <ThemedText className={`font-bold text-sm ${isFunding ? 'text-green-500' : 'text-red-500'}`}>
+      <ThemedText className={`font-semibold text-sm ${isFunding ? 'text-green-500' : 'text-red-500'}`}>
         {isFunding ? '+' : '-'}₦{formatAmount(transaction.amount)}
       </ThemedText>
     </View>

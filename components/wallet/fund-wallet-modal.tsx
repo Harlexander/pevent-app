@@ -28,15 +28,15 @@ const FundWalletModal = ({
         <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
           <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-          <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">Fund Wallet</ThemedText>
+          <ThemedText className="text-xl font-jost-semibold text-center text-blue-900 dark:text-blue-200 mb-2">Fund Wallet</ThemedText>
           <ThemedText className="text-center text-gray-400 mb-6">
             Enter the amount you want to add to your wallet
           </ThemedText>
 
           <View className="flex-row items-center bg-gray-50 dark:bg-dark-card rounded-xl px-4 py-3 mb-4">
-            <ThemedText className="text-2xl font-bold text-gray-400 mr-2">₦</ThemedText>
+            <ThemedText className="text-2xl font-semibold text-gray-400 mr-2">₦</ThemedText>
             <TextInput
-              className="flex-1 text-2xl font-bold text-slate-900 dark:text-gray-100"
+              className="flex-1 text-2xl font-semibold text-slate-900 dark:text-gray-100"
               placeholder="0.00"
               placeholderTextColor="#d1d5db"
               keyboardType="numeric"
@@ -65,7 +65,7 @@ const FundWalletModal = ({
             disabled={isDisabled}
             className={`w-full py-4 rounded-xl items-center ${isDisabled ? 'bg-gray-300 dark:bg-gray-600' : 'bg-blue-500'}`}
           >
-            <ThemedText className="text-white font-bold text-base">Continue to Payment</ThemedText>
+            <ThemedText className="text-white font-semibold text-base">Continue to Payment</ThemedText>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

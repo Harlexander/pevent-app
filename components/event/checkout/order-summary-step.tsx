@@ -47,7 +47,7 @@ const OrderSummaryStep = ({
       <View className="p-5">
         {/* Ticket List */}
         <View className="mb-5">
-          <ThemedText className="text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest">
+          <ThemedText className="text-xs font-semibold text-gray-400 uppercase mb-3 tracking-widest">
             Your Tickets ({totalTickets})
           </ThemedText>
           <View className="bg-gray-50 dark:bg-dark-card rounded-xl gap-3">
@@ -70,7 +70,7 @@ const OrderSummaryStep = ({
                     </View>
                   </View>
                   <View className="items-end">
-                    <Currency className="font-bold text-gray-900 dark:text-gray-100">
+                    <Currency className="font-semibold text-gray-900 dark:text-gray-100">
                       {ticket.price * quantities[ticket.id]}
                     </Currency>
                     <ThemedText className="text-gray-400 text-xs">x{quantities[ticket.id]}</ThemedText>
@@ -115,14 +115,13 @@ const OrderSummaryStep = ({
                     <TouchableOpacity
                       onPress={onApplyPromo}
                       disabled={promoLoading || !promoCode.trim()}
-                      className={`rounded-xl px-5 justify-center ${
-                        promoLoading || !promoCode.trim() ? 'bg-gray-300 dark:bg-gray-600' : 'bg-primary'
-                      }`}
+                      className={`rounded-xl px-5 justify-center ${promoLoading || !promoCode.trim() ? 'bg-gray-300 dark:bg-gray-600' : 'bg-primary'
+                        }`}
                     >
                       {promoLoading ? (
                         <ActivityIndicator color="white" size="small" />
                       ) : (
-                        <ThemedText className="font-bold text-white text-sm">Apply</ThemedText>
+                        <ThemedText className="font-semibold text-white text-sm">Apply</ThemedText>
                       )}
                     </TouchableOpacity>
                   </View>
@@ -164,8 +163,8 @@ const OrderSummaryStep = ({
           <View className="h-px bg-gray-100 dark:bg-gray-700 my-1" />
 
           <View className="flex-row justify-between items-center">
-            <ThemedText className="text-lg font-bold text-black dark:text-white">Total</ThemedText>
-            <Currency className="text-xl font-bold text-primary">{finalTotal}</Currency>
+            <ThemedText className="text-lg font-semibold text-black dark:text-white">Total</ThemedText>
+            <Currency className="text-xl font-semibold text-primary">{finalTotal}</Currency>
           </View>
         </View>
       </View>

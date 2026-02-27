@@ -18,7 +18,7 @@ const TabSection = ({ activeTab, onTabChange }: TabSectionProps) => {
                     onPress={() => onTabChange(tab)}
                     className={`flex-1 items-center pb-3 ${activeTab === tab ? 'border-b-2 border-primary' : ''}`}
                 >
-                    <ThemedText className={`${activeTab === tab ? 'text-blue-500 font-bold' : 'text-gray-400 dark:text-gray-500 font-medium'}`}>
+                    <ThemedText className={`${activeTab === tab ? 'text-blue-500 font-semibold' : 'text-gray-400 dark:text-gray-500 font-medium'}`}>
                         {tab}
                     </ThemedText>
                 </Pressable>

@@ -3,10 +3,11 @@ import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import Button from '@/components/ui/button'
 import Input from '@/components/ui/input'
-import { useSignIn } from '@/hooks/query/useAuth'
+import { useSignIn, useGoogleSignIn } from '@/hooks/query/useAuth'
 import { useSession } from '@/Provider/session-provider'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import { FontAwesome } from '@expo/vector-icons'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Axios, AxiosError } from 'axios'
 import { useToast } from '@/components/ui/toast'
@@ -30,6 +31,7 @@ const Login = () => {
     const router = useRouter()
     const { signIn } = useSession()
     const loginMutation = useSignIn()
+    const googleSignInMutation = useGoogleSignIn()
     const toast = useToast()
 
     const { control, handleSubmit, formState: { errors } } = useForm<LoginForm>({
@@ -40,10 +42,32 @@ const Login = () => {
         }
     })
 
+    const handleGoogleSignIn = async () => {
+        try {
+            await GoogleSignin.hasPlayServices()
+            const response = await GoogleSignin.signIn()
+            const idToken = response.data?.idToken
+            if (!idToken) {
+                toast.error('Failed to get Google ID token')
+                return
+            }
+            googleSignInMutation.mutate(idToken, {
+                onSuccess: (data) => {
+                    signIn(data.data.accessToken, data.data.refreshToken)
+                },
+                onError: (error) => {
+                    toast.error(getErrorMessage(error))
+                },
+            })
+        } catch (error) {
+            toast.error(getErrorMessage(error))
+        }
+    }
+
     const onSubmit = async (data: LoginForm) => {
             const result = loginMutation.mutate(data, {
                 onSuccess: (data) => {
-                    signIn(data.data.accessToken)
+                    signIn(data.data.accessToken, data.data.refreshToken)
                 },
                 onError: (error) => {
                     toast.error(getErrorMessage(error))
@@ -66,8 +90,8 @@ const Login = () => {
 
                         <View className='mt-8'>
                             <View className='gap-2 mb-8'>
-                                <ThemedText className='text-3xl font-semibold text-black dark:text-gray-100'>Hey,</ThemedText>
-                                <ThemedText className='text-3xl font-semibold text-black dark:text-gray-100'>Welcome back!</ThemedText>
+                                <ThemedText className='text-3xl font-jost-semibold text-black dark:text-gray-100'>Hey,</ThemedText>
+                                <ThemedText className='text-3xl font-jost-semibold text-black dark:text-gray-100'>Welcome back!</ThemedText>
                                 <ThemedText className='text-base opacity-60 text-black dark:text-gray-100'>
                                     Please enter your details to sign in.
                                 </ThemedText>
@@ -140,10 +164,17 @@ const Login = () => {
                             <View className='gap-4'>
                                 <TouchableOpacity
                                     className='flex-row items-center justify-center bg-gray-100 dark:bg-dark-card h-14 rounded-xl border border-gray-200 dark:border-gray-700 gap-3'
-                                    onPress={() => { }}
+                                    onPress={handleGoogleSignIn}
+                                    disabled={googleSignInMutation.isPending}
                                 >
-                                    <FontAwesome name="google" size={20} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
-                                    <ThemedText className='font-semibold text-black dark:text-gray-100 text-base'>Login with Google</ThemedText>
+                                    {googleSignInMutation.isPending ? (
+                                        <ActivityIndicator color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
+                                    ) : (
+                                        <>
+                                            <FontAwesome name="google" size={20} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
+                                            <ThemedText className='font-semibold text-black dark:text-gray-100 text-base'>Login with Google</ThemedText>
+                                        </>
+                                    )}
                                 </TouchableOpacity>
                             </View>
 

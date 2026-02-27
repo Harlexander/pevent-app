@@ -33,7 +33,7 @@ const EventCard = ({ event }: { event: FavoriteEvent }) => {
           </TouchableOpacity>
         </View>
         <View className="p-3 gap-1">
-          <ThemedText className="text-sm font-bold text-slate-900 dark:text-gray-100 capitalize" numberOfLines={1}>
+          <ThemedText className="text-sm font-semibold text-slate-900 dark:text-gray-100 capitalize" numberOfLines={1}>
             {event.name}
           </ThemedText>
           <ThemedText className="text-xs text-gray-400" numberOfLines={1}>
@@ -52,7 +52,7 @@ const Favorites = () => {
     <SafeAreaView className="flex-1 bg-white dark:bg-dark-bg">
       <View className="flex-row items-center px-5 py-3">
         <BackButton />
-        <ThemedText className="text-lg font-bold ml-3 text-black dark:text-white">Favorites</ThemedText>
+        <ThemedText className="text-lg font-jost-semibold ml-3 text-black dark:text-white">Favorites</ThemedText>
       </View>
 
       {favorites.length === 0 ? (
@@ -60,7 +60,7 @@ const Favorites = () => {
           <View className="w-20 h-20 rounded-full bg-gray-100 dark:bg-dark-card items-center justify-center mb-4">
             <Ionicons name="heart-outline" size={40} color="#9ca3af" />
           </View>
-          <ThemedText className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2">No favorites yet</ThemedText>
+          <ThemedText className="text-lg font-jost-semibold text-slate-900 dark:text-gray-100 mb-2">No favorites yet</ThemedText>
           <ThemedText className="text-sm text-gray-400 text-center">
             Tap the heart icon on events you love to save them here
           </ThemedText>

@@ -39,7 +39,7 @@ const OrganizerInfo = ({ name, role, image, organiserId }: OrganizerInfoProps) =
                 )}
             </View>
             <View className='flex-1'>
-                <ThemedText className='text-black dark:text-gray-100 font-bold text-lg capitalize'>{name}</ThemedText>
+                <ThemedText className='text-black dark:text-gray-100 font-jost-semibold text-lg capitalize'>{name}</ThemedText>
                 <ThemedText className='text-gray-400 text-sm capitalize'>{role}</ThemedText>
             </View>
             {organiserId && (

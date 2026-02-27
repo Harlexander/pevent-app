@@ -88,6 +88,7 @@ const CheckoutScreen = () => {
 
   // Payment success
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isAddingToCalendar, setIsAddingToCalendar] = useState(false);
 
   // Bank transfer
   const [showTransferModal, setShowTransferModal] = useState(false);
@@ -710,7 +711,7 @@ const CheckoutScreen = () => {
               <View className="w-8 h-8 rounded-full bg-primary/10 items-center justify-center">
                 <Ionicons name={getStepIcon() as any} size={16} color={Colors.primary} />
               </View>
-              <ThemedText className="text-lg font-bold text-gray-900 dark:text-gray-100">{getStepTitle()}</ThemedText>
+              <ThemedText className="text-lg font-jost-semibold text-gray-900 dark:text-gray-100">{getStepTitle()}</ThemedText>
             </View>
             <ThemedText className="text-xs text-gray-400">
               Step {step + 1} of {getTotalSteps()}
@@ -736,7 +737,7 @@ const CheckoutScreen = () => {
         {step > 0 && (
           <View className="flex-row justify-between items-center mb-4">
             <ThemedText className="text-gray-500 dark:text-gray-400 font-medium">Total Amount</ThemedText>
-            <Currency className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <Currency className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
               {(sendToDifferentEmails ? step >= 3 : step >= 2) ? finalPrice : totalPrice}
             </Currency>
           </View>
@@ -756,11 +757,11 @@ const CheckoutScreen = () => {
           }}
         >
           {isProcessing && <ActivityIndicator color="white" size="small" />}
-          <ThemedText className="text-white font-bold text-base">{getButtonText()}</ThemedText>
+          <ThemedText className="text-white font-semibold text-base">{getButtonText()}</ThemedText>
           {step === 0 && totalPrice > 0 && (
             <>
-              <ThemedText className="text-white/60 font-bold">•</ThemedText>
-              <Currency className="text-white font-bold text-base">{totalPrice}</Currency>
+              <ThemedText className="text-white/60 font-semibold">•</ThemedText>
+              <Currency className="text-white font-semibold text-base">{totalPrice}</Currency>
             </>
           )}
         </TouchableOpacity>
@@ -792,7 +793,7 @@ const CheckoutScreen = () => {
               >
                 <SuccessIcon style={{ width: '100%', height: '100%' }} />
               </View>
-              <ThemedText className="text-black dark:text-white text-2xl font-bold mb-2">Payment Successful!</ThemedText>
+              <ThemedText className="text-black dark:text-white text-2xl font-jost-semibold mb-2">Payment Successful!</ThemedText>
               <ThemedText className="text-black/90 dark:text-white/90 text-center text-sm">
                 Your tickets have been purchased
               </ThemedText>
@@ -803,26 +804,38 @@ const CheckoutScreen = () => {
 
               {/* Add to Calendar */}
               <TouchableOpacity
+                disabled={isAddingToCalendar}
                 onPress={async () => {
                   if (!event?.data) return
-                  const result = await addEventToCalendar({
-                    title: event.data.name,
-                    date: event.data.date,
-                    time: event.data.time,
-                    location: [event.data.venue, event.data.city, event.data.state].filter(Boolean).join(', '),
-                  })
-                  if (result.success) {
-                    toast.success(result.message)
-                  } else {
-                    toast.error(result.message)
+                  setIsAddingToCalendar(true)
+                  try {
+                    const result = await addEventToCalendar({
+                      title: event.data.name,
+                      date: event.data.date,
+                      time: event.data.time,
+                      location: [event.data.venue, event.data.city, event.data.state].filter(Boolean).join(', '),
+                    })
+                    if (result.success) {
+                      toast.success(result.message)
+                    } else if (result.message) {
+                      toast.error(result.message)
+                    }
+                  } finally {
+                    setIsAddingToCalendar(false)
                   }
                 }}
                 className="w-full py-4 rounded-2xl border-2 border-primary items-center mb-3"
                 activeOpacity={0.8}
               >
                 <View className="flex-row items-center gap-2">
-                  <Ionicons name="calendar-outline" size={20} color="#004cff" />
-                  <ThemedText className="text-primary font-bold text-base">Add to Calendar</ThemedText>
+                  {isAddingToCalendar ? (
+                    <ActivityIndicator size="small" color="#004cff" />
+                  ) : (
+                    <Ionicons name="calendar-outline" size={20} color="#004cff" />
+                  )}
+                  <ThemedText className="text-primary font-semibold text-base">
+                    {isAddingToCalendar ? 'Adding...' : 'Add to Calendar'}
+                  </ThemedText>
                 </View>
               </TouchableOpacity>
 
@@ -844,7 +857,7 @@ const CheckoutScreen = () => {
               >
                 <View className="flex-row items-center gap-2">
                   <Ionicons name="ticket-outline" size={20} color="#ffffff" />
-                  <ThemedText className="text-white font-bold text-base">View My Tickets</ThemedText>
+                  <ThemedText className="text-white font-semibold text-base">View My Tickets</ThemedText>
                 </View>
               </TouchableOpacity>
 
@@ -859,7 +872,7 @@ const CheckoutScreen = () => {
               >
                 <View className="flex-row items-center gap-2">
                   <Ionicons name="home-outline" size={20} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
-                  <ThemedText className="font-bold text-base text-gray-600 dark:text-gray-300">Back to Home</ThemedText>
+                  <ThemedText className="font-semibold text-base text-gray-600 dark:text-gray-300">Back to Home</ThemedText>
                 </View>
               </TouchableOpacity>
             </View>

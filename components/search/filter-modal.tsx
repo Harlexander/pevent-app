@@ -22,7 +22,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
             <View className='bg-white dark:bg-dark-bg rounded-t-3xl h-[85%]'>
                 {/* Header */}
                 <View className='flex-row justify-between items-center p-5'>
-                    <ThemedText className='text-2xl font-bold text-slate-800 dark:text-gray-300'>Filter</ThemedText>
+                    <ThemedText className='text-2xl font-jost-semibold text-slate-800 dark:text-gray-300'>Filter</ThemedText>
                     <TouchableOpacity onPress={() => {
                         setSelectedCategory('All')
                         setLocation('')
@@ -35,7 +35,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
                 <View className='px-5 flex-1'>
                     {/* Event Type */}
                     <View className='mb-8'>
-                        <ThemedText className='text-xl font-bold text-slate-800 dark:text-gray-300 mb-4'>Event Type</ThemedText>
+                        <ThemedText className='text-xl font-jost-semibold text-slate-800 dark:text-gray-300 mb-4'>Event Type</ThemedText>
                         <View className='flex-row flex-wrap gap-2'>
                             {categories.map((cat) => (
                                 <Pressable
@@ -53,7 +53,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
 
                     {/* Location */}
                     <View className='mb-6'>
-                        <ThemedText className='text-xl font-bold text-slate-800 dark:text-gray-300 mb-4'>Location</ThemedText>
+                        <ThemedText className='text-xl font-jost-semibold text-slate-800 dark:text-gray-300 mb-4'>Location</ThemedText>
                         <View className='flex-row items-center bg-gray-50 dark:bg-dark-card rounded-2xl px-4 h-14 border border-gray-100 dark:border-gray-700'>
                             <Ionicons name="location" size={20} color="#3b82f6" />
                             <TextInput
@@ -68,7 +68,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
 
                     {/* Price Range */}
                     <View className='mb-6'>
-                        <ThemedText className='text-xl font-bold text-slate-800 dark:text-gray-300 mb-4'>Price Range</ThemedText>
+                        <ThemedText className='text-xl font-jost-semibold text-slate-800 dark:text-gray-300 mb-4'>Price Range</ThemedText>
                         <View className='flex-row gap-4'>
                             <View className='flex-1'>
                                 <ThemedText className='text-gray-500 dark:text-gray-400 mb-2 font-medium'>Min Price</ThemedText>
@@ -76,7 +76,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
                                     <TextInput
                                         placeholder="0"
                                         keyboardType="numeric"
-                                        className='text-base text-slate-800 dark:text-gray-300 font-bold'
+                                        className='text-base text-slate-800 dark:text-gray-300 font-semibold'
                                     />
                                 </View>
                             </View>
@@ -86,7 +86,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
                                     <TextInput
                                         placeholder="10000"
                                         keyboardType="numeric"
-                                        className='text-base text-slate-800 dark:text-gray-300 font-bold'
+                                        className='text-base text-slate-800 dark:text-gray-300 font-semibold'
                                     />
                                 </View>
                             </View>
@@ -100,7 +100,7 @@ const FilterModal = ({ visible, onClose }: FilterModalProps) => {
                         onPress={onClose}
                         className='bg-blue-500 w-full py-4 rounded-xl items-center justify-center shadow-lg shadow-blue-500/30'
                     >
-                        <ThemedText className='text-white font-bold text-lg'>Apply Filter</ThemedText>
+                        <ThemedText className='text-white font-semibold text-lg'>Apply Filter</ThemedText>
                     </TouchableOpacity>
                 </View>
             </View>

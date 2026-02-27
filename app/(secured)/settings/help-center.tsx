@@ -52,7 +52,7 @@ const HelpCenter = () => {
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 py-2 mb-4 bg-white dark:bg-dark-bg">
         <BackButton />
-        <ThemedText className="text-lg font-bold text-black dark:text-white">Help Center</ThemedText>
+        <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">Help Center</ThemedText>
         <View className="w-10" />
       </View>
 
@@ -96,7 +96,7 @@ const HelpCenter = () => {
             <TouchableOpacity onPress={() => setActiveDoc(null)}>
               <Ionicons name="close" size={24} color={colorScheme === 'dark' ? '#e5e7eb' : '#1f2937'} />
             </TouchableOpacity>
-            <ThemedText className="text-lg font-bold text-black dark:text-white">{activeDocument?.title}</ThemedText>
+            <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">{activeDocument?.title}</ThemedText>
             <View className="w-6" />
           </View>
 
@@ -109,7 +109,7 @@ const HelpCenter = () => {
             <View style={{ gap: 20 }}>
               {activeDocument?.sections.map((section, index) => (
                 <View key={index} style={{ gap: 6 }}>
-                  <ThemedText className="text-base font-bold text-slate-900 dark:text-gray-100">
+                  <ThemedText className="text-base font-semibold text-slate-900 dark:text-gray-100">
                     {index + 1}. {section.title}
                   </ThemedText>
                   <ThemedText className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">

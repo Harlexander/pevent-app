@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { signIn, signUp } from "../../actions/auth"
+import { signIn, signUp, googleSignIn } from "../../actions/auth"
 import {
     getUser,
     updateUser,
@@ -19,6 +19,16 @@ export const useSignIn = () => {
     const { setUser } = useUserStore()
     return useMutation({
         mutationFn: async (data: { email: string, password: string }) => await signIn(data.email, data.password),
+        onSuccess: (data) => {
+            setUser(data.data.user)
+        }
+    })
+}
+
+export const useGoogleSignIn = () => {
+    const { setUser } = useUserStore()
+    return useMutation({
+        mutationFn: async (idToken: string) => await googleSignIn(idToken),
         onSuccess: (data) => {
             setUser(data.data.user)
         }

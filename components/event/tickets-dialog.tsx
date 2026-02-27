@@ -431,7 +431,7 @@ const TicketsModal = ({
                         </TouchableOpacity>
 
                         <View className="items-center">
-                            <ThemedText className="text-lg font-bold text-black dark:text-white">{getStepTitle()}</ThemedText>
+                            <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">{getStepTitle()}</ThemedText>
                             <ThemedText className="text-xs text-gray-400">
                                 Step {step + 1} of {getTotalSteps()}
                             </ThemedText>
@@ -450,7 +450,7 @@ const TicketsModal = ({
                     {step > 0 && (
                         <View className="flex-row justify-between items-center mb-3">
                             <ThemedText className="text-gray-500 dark:text-gray-400">Total</ThemedText>
-                            <Currency className="text-xl font-bold">
+                            <Currency className="text-xl font-semibold">
                                 {(sendToDifferentEmails ? step >= 3 : step >= 2)
                                     ? finalPrice
                                     : totalPrice}
@@ -464,13 +464,13 @@ const TicketsModal = ({
                         disabled={isNextDisabled()}
                     >
                         {isProcessing && <ActivityIndicator color="white" size="small" />}
-                        <ThemedText className="text-white font-bold text-base">
+                        <ThemedText className="text-white font-semibold text-base">
                             {getButtonText()}
                         </ThemedText>
                         {step === 0 && totalPrice > 0 && (
                             <>
-                                <ThemedText className="text-white/60 font-bold">•</ThemedText>
-                                <Currency className="text-white font-bold text-base">
+                                <ThemedText className="text-white/60 font-semibold">•</ThemedText>
+                                <Currency className="text-white font-semibold text-base">
                                     {totalPrice}
                                 </Currency>
                             </>

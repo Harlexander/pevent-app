@@ -31,7 +31,7 @@ const DVABanner = () => {
             <Ionicons name="wallet-outline" size={20} color="#3b82f6" />
           </View>
           <View className="flex-1">
-            <ThemedText className="text-sm font-bold text-blue-900 dark:text-blue-200">
+            <ThemedText className="text-sm font-semibold text-blue-900 dark:text-blue-200">
               Set Up Virtual Account
             </ThemedText>
             <ThemedText className="text-xs text-blue-700/70 dark:text-blue-300/70 mt-0.5">
@@ -55,7 +55,7 @@ const DVABanner = () => {
         ) : (
           <Ionicons name="add-circle-outline" size={18} color="white" />
         )}
-        <ThemedText className="text-white font-bold text-sm">
+        <ThemedText className="text-white font-semibold text-sm">
           {isPending ? 'Setting Up...' : 'Set Up Now'}
         </ThemedText>
       </TouchableOpacity>

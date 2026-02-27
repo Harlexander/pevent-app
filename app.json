@@ -41,7 +41,8 @@
         {
           "calendarPermission": "$(PRODUCT_NAME) needs access to your calendar to add events."
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -70,7 +71,23 @@
         "android.permission.ACCESS_FINE_LOCATION"
       ],
       "package": "com.peventapp.app",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.pevent.co",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "extra": {
       "router": {},

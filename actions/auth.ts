@@ -11,3 +11,8 @@ export const signUp = async (data: { email: string; password: string; firstName:
     const response = await api.post<SignUpResponse>(endpoints.AUTH.register, data)
     return response.data
 }
+
+export const googleSignIn = async (idToken: string) => {
+    const response = await api.post<SignInResponse>(endpoints.AUTH.google, { idToken })
+    return response.data
+}

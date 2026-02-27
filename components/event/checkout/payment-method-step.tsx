@@ -56,39 +56,39 @@ const SavedCardItem = ({
       activeOpacity={0.7}
       className="overflow-hidden rounded-2xl mb-3"
     >
-        <View className="flex-row items-center p-4 bg-white dark:bg-dark-bg">
-          <View
-            className={`w-12 h-9 rounded-lg items-center justify-center ${isVisa ? 'bg-blue-600' : 'bg-red-500'}`}
-            style={{
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-            }}
-          >
-            {isVisa ? (
-              <ThemedText className="text-white text-[10px] font-bold">VISA</ThemedText>
-            ) : (
-              <View className="flex-row -space-x-1.5">
-                <View className="w-3 h-3 rounded-full bg-red-500" />
-                <View className="w-3 h-3 rounded-full bg-yellow-400" />
-              </View>
-            )}
-          </View>
-          <View className="ml-4 flex-1">
-            <ThemedText className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
-              •••• •••• •••• {card.last4}
-            </ThemedText>
-            <ThemedText className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
-              {card.bank} • Expires {card.expMonth}/{card.expYear}
-            </ThemedText>
-          </View>
-          <View
-            className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300 dark:border-gray-600'}`}
-          >
-            {isSelected && <View className="w-3 h-3 rounded-full bg-white" />}
-          </View>
+      <View className="flex-row items-center p-4 bg-white dark:bg-dark-bg">
+        <View
+          className={`w-12 h-9 rounded-lg items-center justify-center ${isVisa ? 'bg-blue-600' : 'bg-red-500'}`}
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+          }}
+        >
+          {isVisa ? (
+            <ThemedText className="text-white text-[10px] font-semibold">VISA</ThemedText>
+          ) : (
+            <View className="flex-row -space-x-1.5">
+              <View className="w-3 h-3 rounded-full bg-red-500" />
+              <View className="w-3 h-3 rounded-full bg-yellow-400" />
+            </View>
+          )}
         </View>
+        <View className="ml-4 flex-1">
+          <ThemedText className={`text-base font-semibold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
+            •••• •••• •••• {card.last4}
+          </ThemedText>
+          <ThemedText className={`text-xs mt-0.5 ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
+            {card.bank} • Expires {card.expMonth}/{card.expYear}
+          </ThemedText>
+        </View>
+        <View
+          className={`w-6 h-6 rounded-full border-2 items-center justify-center ${isSelected ? 'border-white' : 'border-gray-300 dark:border-gray-600'}`}
+        >
+          {isSelected && <View className="w-3 h-3 rounded-full bg-white" />}
+        </View>
+      </View>
     </TouchableOpacity>
   )
 }
@@ -128,7 +128,7 @@ const PaymentMethodStep = () => {
     >
       {/* Header */}
       <View className="mb-6">
-        <ThemedText className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
+        <ThemedText className="text-lg font-jost-semibold text-gray-900 dark:text-gray-100 mb-2">
           Choose Payment Method
         </ThemedText>
       </View>
@@ -144,7 +144,7 @@ const PaymentMethodStep = () => {
           {/* Payment Methods */}
           <View className="flex-row items-center mb-4">
             <Ionicons name="options" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
-            <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
+            <ThemedText className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-2">
               PAYMENT METHODS
             </ThemedText>
           </View>
@@ -184,7 +184,7 @@ const PaymentMethodStep = () => {
                     <View className="ml-4 flex-1">
                       <View className="flex-row items-center">
                         <ThemedText
-                          className={`text-base font-bold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}
+                          className={`text-base font-semibold ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}
                         >
                           {method.name}
                         </ThemedText>
@@ -201,7 +201,7 @@ const PaymentMethodStep = () => {
                               <ThemedText className={`text-xs ${isSelected ? 'text-white/70' : 'text-gray-400'}`}>
                                 Balance:
                               </ThemedText>
-                              <Currency className={`text-sm font-bold ml-1 ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
+                              <Currency className={`text-sm font-semibold ml-1 ${isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
                                 {walletBalance.toLocaleString()}
                               </Currency>
                             </>
@@ -226,7 +226,7 @@ const PaymentMethodStep = () => {
             <View className="mt-3 mb-3">
               <View className="flex-row items-center mb-4">
                 <Ionicons name="card" size={18} color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'} />
-                <ThemedText className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-2">
+                <ThemedText className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-2">
                   SAVED CARDS
                 </ThemedText>
               </View>

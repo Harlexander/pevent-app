@@ -75,7 +75,7 @@ const ResetPassword = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Reset Password</ThemedText>
+                <ThemedText className="text-3xl font-jost-semibold text-black dark:text-gray-100">Reset Password</ThemedText>
                 <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">Enter your new password below.</ThemedText>
               </View>
 

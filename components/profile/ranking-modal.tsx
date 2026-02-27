@@ -113,7 +113,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                     {/* Header */}
                     <View className="px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-700">
                         <View className="flex-row items-center justify-between mb-1">
-                            <ThemedText className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                            <ThemedText className="text-2xl font-jost-semibold text-gray-900 dark:text-gray-100">
                                 Your Progress
                             </ThemedText>
                             <TouchableOpacity
@@ -147,7 +147,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                             <Ionicons name={currentRankData.icon as any} size={28} color={currentRankData.color} />
                                         </View>
                                         <View>
-                                            <ThemedText className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                                            <ThemedText className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
                                                 {currentRank}
                                             </ThemedText>
                                             <ThemedText className="text-sm text-gray-600 dark:text-gray-300">
@@ -156,7 +156,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                         </View>
                                     </View>
                                     <View className="bg-white dark:bg-dark-bg px-3 py-1.5 rounded-full">
-                                        <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                        <ThemedText className="text-xs font-semibold text-gray-700 dark:text-gray-300">
                                             {currentTickets} tickets
                                         </ThemedText>
                                     </View>
@@ -164,7 +164,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
 
                                 {/* Active Benefits */}
                                 <View className="bg-white/80 dark:bg-dark-bg/80 rounded-xl p-3 gap-2">
-                                    <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-1">
+                                    <ThemedText className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-1">
                                         Your Active Perks
                                     </ThemedText>
                                     {currentRankData.benefits.map((benefit, idx) => (
@@ -184,11 +184,11 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                             <View className="px-6 pb-6">
                                 <View className="bg-blue-50 dark:bg-blue-900/30 rounded-2xl p-5 border-2 border-blue-100">
                                     <View className="flex-row items-center justify-between mb-3">
-                                        <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
+                                        <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100">
                                             Next: {nextRankData.name}
                                         </ThemedText>
                                         <View className="bg-blue-500 px-3 py-1 rounded-full">
-                                            <ThemedText className="text-xs font-bold text-white">
+                                            <ThemedText className="text-xs font-semibold text-white">
                                                 {ticketsToNextRank} more tickets
                                             </ThemedText>
                                         </View>
@@ -216,7 +216,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                     <View className="bg-white dark:bg-dark-bg rounded-xl p-3 border border-blue-200">
                                         <View className="flex-row items-center gap-2 mb-2">
                                             <Ionicons name="lock-closed" size={14} color="#3b82f6" />
-                                            <ThemedText className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                            <ThemedText className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
                                                 Unlock These Perks
                                             </ThemedText>
                                         </View>
@@ -235,7 +235,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
 
                         {/* All Ranks Overview */}
                         <View className="px-6 pb-6">
-                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">
                                 All Ranks
                             </ThemedText>
                             <View className="gap-3">
@@ -247,10 +247,10 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                         <View
                                             key={rank.name}
                                             className={`rounded-xl p-4 border ${isCurrent
-                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
-                                                    : isUnlocked
-                                                        ? 'border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg'
-                                                        : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-dark-card'
+                                                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                                                : isUnlocked
+                                                    ? 'border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg'
+                                                    : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-dark-card'
                                                 }`}
                                         >
                                             <View className="flex-row items-center justify-between">
@@ -268,12 +268,12 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                                     </View>
                                                     <View className="flex-1">
                                                         <View className="flex-row items-center gap-2">
-                                                            <ThemedText className={`text-base font-bold capitalize ${isUnlocked ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400'}`}>
+                                                            <ThemedText className={`text-base font-semibold capitalize ${isUnlocked ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400'}`}>
                                                                 {rank.name}
                                                             </ThemedText>
                                                             {isCurrent && (
                                                                 <View className="bg-blue-500 px-2 py-0.5 rounded">
-                                                                    <ThemedText className="text-xs font-bold text-white">
+                                                                    <ThemedText className="text-xs font-semibold text-white">
                                                                         You
                                                                     </ThemedText>
                                                                 </View>
@@ -305,7 +305,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                         >
                             <View className="flex-row items-center gap-2">
                                 <Ionicons name="ticket" size={20} color="white" />
-                                <ThemedText className="text-white text-base font-bold">
+                                <ThemedText className="text-white text-base font-semibold">
                                     {nextRankData ? `Get ${ticketsToNextRank} More Tickets` : 'Browse Events'}
                                 </ThemedText>
                             </View>

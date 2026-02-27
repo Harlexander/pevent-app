@@ -16,7 +16,7 @@ const SearchHeader = () => (
   <View className="flex-row items-center mb-4 mt-2">
     <BackButton />
     <View className="flex-1 items-center mr-10">
-      <ThemedText className="text-xl dark:text-white font-bold">Search</ThemedText>
+      <ThemedText className="text-xl dark:text-white font-jost-semibold">Search</ThemedText>
     </View>
   </View>
 );
@@ -53,45 +53,45 @@ const Search = () => {
     <ThemedView className='flex-1'>
       <SafeAreaView edges={['top']} className='flex-1'>
         <View className="px-5 flex-1">
-        <SearchHeader />
+          <SearchHeader />
 
-        <SearchBar onFilterPress={() => setFilterVisible(true)} value={searchQuery} onChangeText={setSearchQuery} />
+          <SearchBar onFilterPress={() => setFilterVisible(true)} value={searchQuery} onChangeText={setSearchQuery} />
 
-        {/* Section Label */}
-        {!hasQuery && !isLoadingRecommended && (
-          <ThemedText className="text-base font-semibold text-gray-800 dark:text-gray-300 mt-4 mb-3">Recommended for you</ThemedText>
-        )}
+          {/* Section Label */}
+          {!hasQuery && !isLoadingRecommended && (
+            <ThemedText className="text-base font-semibold text-gray-800 dark:text-gray-300 mt-4 mb-3">Recommended for you</ThemedText>
+          )}
 
-        {hasQuery && !isLoading && data?.data && data.data.length > 0 && (
-          <ThemedText className="text-sm text-gray-400 mt-2 mb-3">
-            {data.data.length} result{data.data.length !== 1 ? 's' : ''} found
-          </ThemedText>
-        )}
+          {hasQuery && !isLoading && data?.data && data.data.length > 0 && (
+            <ThemedText className="text-sm text-gray-400 mt-2 mb-3">
+              {data.data.length} result{data.data.length !== 1 ? 's' : ''} found
+            </ThemedText>
+          )}
 
-        {/* Loading Skeleton */}
-        {loading && <SearchSkeleton />}
+          {/* Loading Skeleton */}
+          {loading && <SearchSkeleton />}
 
-        {/* Empty State */}
-        {isEmpty && <EmptyState hasQuery={hasQuery} />}
+          {/* Empty State */}
+          {isEmpty && <EmptyState hasQuery={hasQuery} />}
 
-        {/* Error */}
-        {error && <ErrorState />}
+          {/* Error */}
+          {error && <ErrorState />}
 
-        {/* Results */}
-        {!loading && events && events.length > 0 && (
-          <FlatList
-            data={events}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <SearchResultCard event={item} imageUrl={endpoints.IMAGE_URL + item.images[0]} />
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 20 }}
-          />
-        )}
-      </View>
+          {/* Results */}
+          {!loading && events && events.length > 0 && (
+            <FlatList
+              data={events}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <SearchResultCard event={item} imageUrl={endpoints.IMAGE_URL + item.images[0]} />
+              )}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            />
+          )}
+        </View>
 
-      <FilterModal visible={isFilterVisible} onClose={() => setFilterVisible(false)} />
+        <FilterModal visible={isFilterVisible} onClose={() => setFilterVisible(false)} />
       </SafeAreaView>
     </ThemedView>
   );

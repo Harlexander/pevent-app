@@ -82,7 +82,7 @@ const EventCardCompact = ({ image, title, location, date, price, time }: EventCa
             <View style={{ padding: 10, gap: 4 }}>
                 <ThemedText
                     numberOfLines={1}
-                    className='capitalize dark:text-white text-black text-sm'
+                    className='capitalize dark:text-white text-black text-sm font-jost-semibold'
                 >
                     {title}
                 </ThemedText>

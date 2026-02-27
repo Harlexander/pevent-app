@@ -4,7 +4,7 @@ import { Event } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
 import { Share, TouchableOpacity, View } from 'react-native'
 
 interface EventHeaderProps {
@@ -16,6 +16,8 @@ const EventHeader = ({ images, event }: EventHeaderProps) => {
     const router = useRouter()
     const { isFavorite, toggleFavorite } = useFavoritesStore()
 
+    const displayImages = images?.slice(0, 3) || []
+    const [activeIndex, setActiveIndex] = useState(0)
     const isFav = event ? isFavorite(event.id) : false
 
     const handleToggleFavorite = () => {
@@ -46,7 +48,7 @@ const EventHeader = ({ images, event }: EventHeaderProps) => {
     return (
         <View className='w-full h-[300px] relative top-0'>
             <Image
-                source={images?.[0]}
+                source={displayImages[activeIndex]}
                 style={{ width: '100%', height: '100%' }}
                 contentFit="cover"
             />
@@ -77,15 +79,21 @@ const EventHeader = ({ images, event }: EventHeaderProps) => {
             </View>
 
             {/* Gallery Thumbnails */}
-            <View className='absolute bottom-5 left-5 flex-row gap-2'>
-                {
-                    images?.map((img: string, index: number) => (
-                        <View key={index} className='w-16 h-16 rounded-xl overflow-hidden border-2 border-white'>
-                            <Image source={img} style={{ width: '100%', height: '100%' }} />
-                        </View>
-                    ))
-                }
-            </View>
+            {displayImages.length > 1 && (
+                <View className='absolute bottom-5 left-5 flex-row gap-2'>
+                    {displayImages.map((img: string, index: number) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => setActiveIndex(index)}
+                            activeOpacity={0.8}
+                        >
+                            <View className={`w-16 h-16 rounded-xl overflow-hidden border-2 ${index === activeIndex ? 'border-blue-500' : 'border-white/60'}`}>
+                                <Image source={img} style={{ width: '100%', height: '100%' }} contentFit="cover" />
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
         </View>
     )
 }

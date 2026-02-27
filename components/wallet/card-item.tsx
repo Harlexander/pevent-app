@@ -14,7 +14,7 @@ const CardItem = ({ card, onDelete }: { card: Card; onDelete: (id: string) => vo
           className={`w-12 h-8 rounded items-center justify-center ${isVisa ? 'bg-blue-600' : 'bg-red-500'}`}
         >
           {isVisa ? (
-            <ThemedText className="text-white text-[10px] font-bold">VISA</ThemedText>
+            <ThemedText className="text-white text-[10px] font-semibold">VISA</ThemedText>
           ) : (
             <View className="flex-row -space-x-2">
               <View className="w-3 h-3 rounded-full bg-red-500" />
@@ -23,7 +23,7 @@ const CardItem = ({ card, onDelete }: { card: Card; onDelete: (id: string) => vo
           )}
         </View>
         <View>
-          <ThemedText className="text-slate-900 dark:text-gray-100 font-bold">**** **** **** {card.last4}</ThemedText>
+          <ThemedText className="text-slate-900 dark:text-gray-100 font-semibold">**** **** **** {card.last4}</ThemedText>
           <ThemedText className="text-gray-400 text-xs">
             {card.bank} - Expires {card.expMonth}/{card.expYear}
           </ThemedText>

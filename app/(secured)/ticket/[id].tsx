@@ -21,6 +21,7 @@ const TicketDetail = () => {
     const { data, isLoading, error } = useTicket(id)
     const toast = useToast()
     const [isDownloading, setIsDownloading] = useState(false)
+    const [isAddingToCalendar, setIsAddingToCalendar] = useState(false)
 
     const ticket = data?.data
 
@@ -36,7 +37,7 @@ const TicketDetail = () => {
                 <SafeAreaView className='flex-1'>
                     <View className='flex-row items-center justify-between px-5 py-2'>
                         <BackButton />
-                        <ThemedText className='text-lg text-black dark:text-white font-bold'>Detail Ticket</ThemedText>
+                        <ThemedText className='text-lg text-black dark:text-white font-jost-semibold'>Detail Ticket</ThemedText>
                         <View className='w-6' />
                     </View>
                     <View className='flex-1 items-center justify-center'>
@@ -54,7 +55,7 @@ const TicketDetail = () => {
                 <SafeAreaView className='flex-1'>
                     <View className='flex-row items-center justify-between px-5 py-2'>
                         <BackButton />
-                        <ThemedText className='text-lg text-black dark:text-white font-bold'>Detail Ticket</ThemedText>
+                        <ThemedText className='text-lg text-black dark:text-white font-jost-semibold'>Detail Ticket</ThemedText>
                         <View className='w-6' />
                     </View>
                     <View className='flex-1 items-center justify-center'>
@@ -71,7 +72,7 @@ const TicketDetail = () => {
                 {/* Header */}
                 <View className='flex-row items-center justify-between px-5 py-2'>
                     <BackButton />
-                    <ThemedText className='text-lg text-black dark:text-white font-bold'>Detail Ticket</ThemedText>
+                    <ThemedText className='text-lg text-black dark:text-white font-jost-semibold'>Detail Ticket</ThemedText>
                     <Ionicons name="information-circle-outline" size={24} color={colorScheme === 'dark' ? '#e5e7eb' : 'black'} />
                 </View>
 
@@ -87,7 +88,7 @@ const TicketDetail = () => {
 
                     {/* Title */}
                     <View className='mb-8'>
-                        <ThemedText className='text-xl font-bold text-slate-900 dark:text-gray-100 mb-1 capitalize'>{ticket.ticket.event.name}</ThemedText>
+                        <ThemedText className='text-xl font-jost-semibold text-slate-900 dark:text-gray-100 mb-1 capitalize'>{ticket.ticket.event.name}</ThemedText>
                         <ThemedText className='text-gray-400'>Ticket ID: #{ticket.id.slice(0, 12)}</ThemedText>
                     </View>
 
@@ -96,47 +97,47 @@ const TicketDetail = () => {
                         <View className='flex-row'>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>Ticket Type</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.ticket.name}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.ticket.name}</ThemedText>
                             </View>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>Date</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base'>{formatDate(ticket.ticket.event.date)}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base'>{formatDate(ticket.ticket.event.date)}</ThemedText>
                             </View>
                         </View>
 
                         <View className='flex-row'>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>First Name</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.firstName}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.firstName}</ThemedText>
                             </View>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>Last Name</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.lastName}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.lastName}</ThemedText>
                             </View>
                         </View>
 
                         <View>
                             <ThemedText className='text-gray-400 text-sm mb-1'>Email</ThemedText>
-                            <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base'>{ticket.email}</ThemedText>
+                            <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base'>{ticket.email}</ThemedText>
                         </View>
 
                         {ticket.ticket.event.venue && (
                             <View>
                                 <ThemedText className='text-gray-400 text-sm mb-1'>Venue</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.ticket.event.venue}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base capitalize'>{ticket.ticket.event.venue}</ThemedText>
                             </View>
                         )}
 
                         <View className='flex-row'>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>Location</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base capitalize'>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base capitalize'>
                                     {ticket.ticket.event.city || 'TBA'}, {ticket.ticket.event.state || ''}
                                 </ThemedText>
                             </View>
                             <View className='flex-1 gap-1'>
                                 <ThemedText className='text-gray-400 text-sm'>Time</ThemedText>
-                                <ThemedText className='font-bold text-slate-800 dark:text-gray-300 text-base'>{ticket.ticket.event.time || 'TBA'}</ThemedText>
+                                <ThemedText className='font-semibold text-slate-800 dark:text-gray-300 text-base'>{ticket.ticket.event.time || 'TBA'}</ThemedText>
                             </View>
                         </View>
 
@@ -173,14 +174,14 @@ const TicketDetail = () => {
 
                         <View className='flex-row justify-between'>
                             <ThemedText className='text-gray-400 font-medium'>Total</ThemedText>
-                            <Currency className='text-slate-900 dark:text-gray-100 font-bold'>{ticket.ticket.price.toFixed(2)}</Currency>
+                            <Currency className='text-slate-900 dark:text-gray-100 font-semibold'>{ticket.ticket.price.toFixed(2)}</Currency>
                         </View>
                     </View>
 
                     {/* Purchase Date */}
                     <View className='flex-row justify-between items-center mb-4'>
                         <ThemedText className='text-gray-400 font-medium'>Purchase Date</ThemedText>
-                        <ThemedText className='font-bold text-slate-900 dark:text-gray-100'>{formatDate(ticket.createdAt.toString())}</ThemedText>
+                        <ThemedText className='font-semibold text-slate-900 dark:text-gray-100'>{formatDate(ticket.createdAt.toString())}</ThemedText>
                     </View>
                 </ScrollView>
 
@@ -190,22 +191,34 @@ const TicketDetail = () => {
                         <TouchableOpacity
                             className='flex-1 py-4 rounded-2xl flex-row items-center justify-center gap-2 border-2 border-blue-500'
                             activeOpacity={0.7}
+                            disabled={isAddingToCalendar}
                             onPress={async () => {
-                                const result = await addEventToCalendar({
-                                    title: ticket.ticket.event.name,
-                                    date: ticket.ticket.event.date,
-                                    time: ticket.ticket.event.time,
-                                    location: [ticket.ticket.event.venue, ticket.ticket.event.city, ticket.ticket.event.state].filter(Boolean).join(', '),
-                                })
-                                if (result.success) {
-                                    toast.success(result.message)
-                                } else {
-                                    toast.error(result.message)
+                                setIsAddingToCalendar(true)
+                                try {
+                                    const result = await addEventToCalendar({
+                                        title: ticket.ticket.event.name,
+                                        date: ticket.ticket.event.date,
+                                        time: ticket.ticket.event.time,
+                                        location: [ticket.ticket.event.venue, ticket.ticket.event.city, ticket.ticket.event.state].filter(Boolean).join(', '),
+                                    })
+                                    if (result.success) {
+                                        toast.success(result.message)
+                                    } else if (result.message) {
+                                        toast.error(result.message)
+                                    }
+                                } finally {
+                                    setIsAddingToCalendar(false)
                                 }
                             }}
                         >
-                            <Ionicons name="calendar-outline" size={20} color="#3b82f6" />
-                            <ThemedText className='text-blue-500 font-bold text-sm'>Add to Calendar</ThemedText>
+                            {isAddingToCalendar ? (
+                                <ActivityIndicator size="small" color="#3b82f6" />
+                            ) : (
+                                <Ionicons name="calendar-outline" size={20} color="#3b82f6" />
+                            )}
+                            <ThemedText className='text-blue-500 font-semibold text-sm'>
+                                {isAddingToCalendar ? 'Adding...' : 'Add to Calendar'}
+                            </ThemedText>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -228,7 +241,7 @@ const TicketDetail = () => {
                             ) : (
                                 <Ionicons name="download-outline" size={20} color="white" />
                             )}
-                            <ThemedText className='text-white font-bold text-sm'>Download Receipt</ThemedText>
+                            <ThemedText className='text-white font-semibold text-sm'>Download Receipt</ThemedText>
                         </TouchableOpacity>
                     </View>
                 </View>

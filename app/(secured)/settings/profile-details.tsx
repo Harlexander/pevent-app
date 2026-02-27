@@ -119,7 +119,7 @@ const ProfileDetails = () => {
                 {/* Header */}
                 <View className="flex-row items-center justify-between px-5 py-2 mb-4">
                     <BackButton />
-                    <ThemedText className="text-lg font-bold text-black dark:text-white">Profile</ThemedText>
+                    <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">Profile</ThemedText>
                     <View className="w-10" />
                 </View>
 
@@ -159,7 +159,7 @@ const ProfileDetails = () => {
 
                     {/* Personal Information */}
                     <View className="mb-6">
-                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Personal</ThemedText>
+                        <ThemedText className="text-lg font-jost-semibold text-slate-800 dark:text-gray-300">Personal</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Update your personal information
                         </ThemedText>
@@ -188,7 +188,7 @@ const ProfileDetails = () => {
 
                     {/* Contact Information */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Contact</ThemedText>
+                        <ThemedText className="text-lg font-jost-semibold text-slate-800 dark:text-gray-300">Contact</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Update your contact information
                         </ThemedText>
@@ -220,7 +220,7 @@ const ProfileDetails = () => {
 
                     {/* Location */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">Location</ThemedText>
+                        <ThemedText className="text-lg font-jost-semibold text-slate-800 dark:text-gray-300">Location</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Where are you based?
                         </ThemedText>
@@ -250,7 +250,7 @@ const ProfileDetails = () => {
 
                     {/* Bio */}
                     <View className="mb-4">
-                        <ThemedText className="text-lg font-bold text-slate-800 dark:text-gray-300">About</ThemedText>
+                        <ThemedText className="text-lg font-jost-semibold text-slate-800 dark:text-gray-300">About</ThemedText>
                         <ThemedText className="text-gray-400 text-sm mb-4">
                             Tell us about yourself
                         </ThemedText>
@@ -275,7 +275,7 @@ const ProfileDetails = () => {
                         className={`w-full py-4 rounded-xl items-center justify-center flex-row gap-2 ${isPending ? 'bg-blue-300' : 'bg-blue-500 shadow-lg shadow-blue-500/30'}`}
                     >
                         {isPending && <ActivityIndicator color="white" size="small" />}
-                        <ThemedText className="text-white font-bold text-base">
+                        <ThemedText className="text-white font-semibold text-base">
                             {isPending ? 'Updating...' : 'Update profile'}
                         </ThemedText>
                     </TouchableOpacity>
@@ -289,7 +289,7 @@ const ProfileDetails = () => {
                     <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6 pb-10">
                         <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                        <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-2">
+                        <ThemedText className="text-xl font-jost-semibold text-center text-blue-900 dark:text-blue-200 mb-2">
                             Photo
                         </ThemedText>
                         <ThemedText className="text-center text-gray-400 mb-8">

@@ -49,7 +49,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <View className="flex-1">
                                 <ThemedText
                                     numberOfLines={1}
-                                    className="text-base font-bold text-gray-900 dark:text-gray-100 capitalize mb-0.5"
+                                    className="text-base font-semibold text-gray-900 dark:text-gray-100 capitalize mb-0.5"
                                 >
                                     {event.name}
                                 </ThemedText>
@@ -81,7 +81,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 Admits
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100 flex-row items-center gap-2">
+                            <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100 flex-row items-center gap-2">
                                 <Feather name={'users'} size={16} color={Colors.primary} /> {ticket.ticket.numPersons}
                             </ThemedText>
                         </View>
@@ -91,7 +91,7 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 ID
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
+                            <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100">
                                 #{ticketNumber}
                             </ThemedText>
                         </View>
@@ -101,8 +101,8 @@ const TicketCard = ({ ticket, imageUrl, onPress }: TicketCardProps) => {
                             <ThemedText className="text-[10px] text-gray-400 mb-1">
                                 Date
                             </ThemedText>
-                            <ThemedText className="text-base font-bold text-gray-900 dark:text-gray-100">
-                                {formattedDate} 
+                            <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                                {formattedDate}
                             </ThemedText>
                         </View>
                     </View>

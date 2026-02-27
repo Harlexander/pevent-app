@@ -3,7 +3,10 @@ export const endpoints = {
     IMAGE_URL: process.env.EXPO_PUBLIC_ENVIROMENT === "production" ? process.env.EXPO_PUBLIC_PRODUCTION_IMAGE_URL : process.env.EXPO_PUBLIC_DEVELOPMENT_IMAGE_URL,
     AUTH: {
         login: "/auth/login",
-        register: "/auth/create"
+        register: "/auth/create",
+        refresh: "/auth/refresh",
+        logout: "/auth/logout",
+        google: "/auth/google",
     },
     user: {
         get: "/user",

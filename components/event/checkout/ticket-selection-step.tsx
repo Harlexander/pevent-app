@@ -59,7 +59,7 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                             <View className='flex-row justify-between items-start'>
                                 <View className='flex-1 pr-4'>
                                     <View className='flex-row items-center gap-2 mb-1'>
-                                        <ThemedText className='font-bold text-base capitalize text-black dark:text-white'>{ticket.name}</ThemedText>
+                                        <ThemedText className='font-semibold text-base capitalize text-black dark:text-white'>{ticket.name}</ThemedText>
                                         {soldOut && (
                                             <View className='bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded'>
                                                 <ThemedText className='text-red-600 text-xs font-medium'>Sold Out</ThemedText>
@@ -73,7 +73,7 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                                 <Currency>{ticket.originalPrice}</Currency>
                                             </ThemedText>
                                         )}
-                                        <Currency className='text-primary font-bold text-lg'>{ticket.price}</Currency>
+                                        <Currency className='text-primary font-semibold text-lg'>{ticket.price}</Currency>
                                         {ticket.price === 0 && (
                                             <View className='bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded ml-1'>
                                                 <ThemedText className='text-green-600 text-xs font-medium'>Free</ThemedText>
@@ -118,7 +118,7 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                         </TouchableOpacity>
 
                                         <View className='w-10 items-center'>
-                                            <ThemedText className='font-bold text-base text-black dark:text-white'>{current}</ThemedText>
+                                            <ThemedText className='font-semibold text-base text-black dark:text-white'>{current}</ThemedText>
                                         </View>
 
                                         <TouchableOpacity

@@ -5,6 +5,7 @@ import EventSection from '@/components/home/event-section';
 import HomeHeader from '@/components/home/home-header';
 import HomeSkeleton from '@/components/home/home-skeleton';
 import LocationModal from '@/components/home/location-modal';
+import RecentlyViewed from '@/components/home/recently-viewed';
 import { ThemedView } from '@/components/themed-view';
 import { useAppEvents } from '@/hooks/query/useEvent';
 import { useUserStore } from '@/store/user-store';
@@ -58,6 +59,7 @@ const Home = () => {
               variant="compact"
               onPressSeeAll={() => router.push('/events/trending')}
             />
+            <RecentlyViewed />
             <EventSection
               title="Latest Events"
               events={data.data.latest}

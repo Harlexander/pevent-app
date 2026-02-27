@@ -50,7 +50,7 @@ const SearchResultCard = ({ event, imageUrl }: SearchResultCardProps) => {
             style={{ width: '100%', height: '100%', borderRadius: 10 }}
           />
           <View className="absolute top-1.5 left-1.5 bg-white/90 dark:bg-dark-bg/90 rounded-md px-1.5 py-0.5 items-center">
-            <ThemedText className="text-xs font-bold text-gray-900 dark:text-white leading-tight">{day}</ThemedText>
+            <ThemedText className="text-xs font-semibold text-gray-900 dark:text-white leading-tight">{day}</ThemedText>
             <ThemedText className="text-[8px] font-semibold text-gray-500 dark:text-gray-400 uppercase">
               {month}
             </ThemedText>
@@ -81,11 +81,11 @@ const SearchResultCard = ({ event, imageUrl }: SearchResultCardProps) => {
           <View>
             {minPrice !== null ? (
               minPrice === 0 ? (
-                <ThemedText className="text-green-600 dark:text-green-500 text-xs font-bold">Free</ThemedText>
+                <ThemedText className="text-green-600 dark:text-green-500 text-xs font-semibold">Free</ThemedText>
               ) : (
                 <View className="flex-row items-center gap-1">
                   <ThemedText className="text-gray-400 dark:text-gray-500 text-[10px]">From</ThemedText>
-                  <Currency className="text-blue-600 dark:text-blue-400 text-xs font-bold">
+                  <Currency className="text-blue-600 dark:text-blue-400 text-xs font-semibold">
                     {minPrice.toLocaleString()}
                   </Currency>
                 </View>

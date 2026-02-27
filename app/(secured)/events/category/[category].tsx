@@ -85,7 +85,7 @@ const CategoryEvents = () => {
               <Ionicons name={config.icon} size={20} color={config.color} />
             </View>
             <View className="flex-1">
-              <ThemedText className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              <ThemedText className="text-xl font-jost-semibold text-gray-900 dark:text-gray-100">
                 {category} Events
               </ThemedText>
               <ThemedText className="text-xs text-gray-400 mt-0.5">{config.description}</ThemedText>

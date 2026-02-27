@@ -67,7 +67,7 @@ const InviteFriends = () => {
         {/* Header */}
         <View className="flex-row items-center px-5 py-3">
           <BackButton />
-          <ThemedText className="text-lg font-bold ml-3 text-black dark:text-white">Invite Friends</ThemedText>
+          <ThemedText className="text-lg font-jost-semibold ml-3 text-black dark:text-white">Invite Friends</ThemedText>
         </View>
 
         <View className="flex-1 px-5 pt-4" style={{ gap: 28 }}>
@@ -115,7 +115,7 @@ const InviteFriends = () => {
         {/* Header */}
         <View className="flex-row items-center px-5 py-3">
           <BackButton />
-          <ThemedText className="text-lg font-bold ml-3 text-black dark:text-white">Invite Friends</ThemedText>
+          <ThemedText className="text-lg font-jost-semibold ml-3 text-black dark:text-white">Invite Friends</ThemedText>
         </View>
 
         <View className="flex-1 px-5 pt-4" style={{ gap: 28 }}>
@@ -124,7 +124,7 @@ const InviteFriends = () => {
             <View className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 items-center justify-center">
               <Ionicons name="gift-outline" size={40} color="#004cff" />
             </View>
-            <ThemedText className="text-2xl font-bold text-center text-slate-900 dark:text-gray-100">
+            <ThemedText className="text-2xl font-jost-semibold text-center text-slate-900 dark:text-gray-100">
               Share the love
             </ThemedText>
             <ThemedText className="text-sm text-gray-500 dark:text-gray-400 text-center leading-5 px-4">
@@ -134,12 +134,12 @@ const InviteFriends = () => {
 
           {/* Your referral code */}
           <View style={{ gap: 12 }}>
-            <ThemedText className="text-xs font-bold uppercase tracking-widest text-gray-400">
+            <ThemedText className="text-xs font-semibold uppercase tracking-widest text-gray-400">
               Your referral code
             </ThemedText>
             <View className="flex-row items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               <View className="flex-1 px-4 py-4">
-                <ThemedText className="text-lg font-bold tracking-wider text-slate-900 dark:text-gray-100">
+                <ThemedText className="text-lg font-semibold tracking-wider text-slate-900 dark:text-gray-100">
                   {referral?.referralCode || '—'}
                 </ThemedText>
               </View>
@@ -155,14 +155,14 @@ const InviteFriends = () => {
             {/* Stats row */}
             <View className="flex-row" style={{ gap: 12 }}>
               <View className="flex-1 bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 items-center" style={{ gap: 4 }}>
-                <ThemedText className="text-2xl font-bold text-blue-600">
+                <ThemedText className="text-2xl font-semibold text-blue-600">
                   {referral?.referralCount ?? 0}
                 </ThemedText>
                 <ThemedText className="text-xs text-gray-500 dark:text-gray-400">Friends invited</ThemedText>
               </View>
               {referral?.referredBy && (
                 <View className="flex-1 bg-green-50 dark:bg-green-900/30 rounded-xl p-4 items-center" style={{ gap: 4 }}>
-                  <ThemedText className="text-sm font-bold text-green-600">
+                  <ThemedText className="text-sm font-semibold text-green-600">
                     {referral.referredBy}
                   </ThemedText>
                   <ThemedText className="text-xs text-gray-500 dark:text-gray-400">Referred by</ThemedText>
@@ -187,7 +187,7 @@ const InviteFriends = () => {
           {/* Apply a referral code */}
           {!referral?.referredBy && (
             <View style={{ gap: 12 }}>
-              <ThemedText className="text-xs font-bold uppercase tracking-widest text-gray-400">
+              <ThemedText className="text-xs font-semibold uppercase tracking-widest text-gray-400">
                 Have a referral code?
               </ThemedText>
               <Input

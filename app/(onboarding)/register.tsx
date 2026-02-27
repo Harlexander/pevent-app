@@ -3,10 +3,11 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
-import { useSignUp } from '@/hooks/query/useAuth';
+import { useSignUp, useGoogleSignIn } from '@/hooks/query/useAuth';
 import { useSession } from '@/Provider/session-provider';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { FontAwesome } from '@expo/vector-icons';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useToast } from '@/components/ui/toast';
@@ -40,6 +41,7 @@ const Register = () => {
   const router = useRouter();
   const { signIn } = useSession();
   const signUpMutation = useSignUp();
+  const googleSignInMutation = useGoogleSignIn();
   const toast = useToast();
 
   const {
@@ -56,13 +58,35 @@ const Register = () => {
     },
   });
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      const idToken = response.data?.idToken;
+      if (!idToken) {
+        toast.error('Failed to get Google ID token');
+        return;
+      }
+      googleSignInMutation.mutate(idToken, {
+        onSuccess: (data) => {
+          signIn(data.data.accessToken, data.data.refreshToken);
+        },
+        onError: (error) => {
+          toast.error(getErrorMessage(error));
+        },
+      });
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
+  };
+
   const onSubmit = (data: RegisterForm) => {
     console.log(data)
     signUpMutation.mutate(
       data,
       {
         onSuccess: (response) => {
-          signIn(response.data.accessToken);
+          signIn(response.data.accessToken, response.data.refreshToken);
         },
         onError: (error) => {
           toast.error(getErrorMessage(error));
@@ -83,8 +107,8 @@ const Register = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Hey,</ThemedText>
-                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Welcome to Pevent!</ThemedText>
+                <ThemedText className="text-3xl font-jost-semibold text-black dark:text-gray-100">Hey,</ThemedText>
+                <ThemedText className="text-3xl font-jost-semibold text-black dark:text-gray-100">Welcome to Pevent!</ThemedText>
                 <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">
                   Create an account to get started.
                 </ThemedText>
@@ -173,10 +197,19 @@ const Register = () => {
               <View className="gap-4">
                 <TouchableOpacity
                   className="flex-row items-center justify-center bg-gray-100 dark:bg-dark-card h-14 rounded-xl border border-gray-200 dark:border-gray-700 gap-3"
-                  onPress={() => {}}
+                  onPress={handleGoogleSignIn}
+                  disabled={googleSignInMutation.isPending}
                 >
-                  <FontAwesome name="google" size={20} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
-                  <ThemedText className="font-semibold text-black dark:text-gray-100 text-base">Login with Google</ThemedText>
+                  {googleSignInMutation.isPending ? (
+                    <ActivityIndicator color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
+                  ) : (
+                    <>
+                      <FontAwesome name="google" size={20} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
+                      <ThemedText className="font-semibold text-black dark:text-gray-100 text-base">
+                        Sign up with Google
+                      </ThemedText>
+                    </>
+                  )}
                 </TouchableOpacity>
               </View>
 

@@ -1,5 +1,5 @@
 import * as Calendar from 'expo-calendar'
-import { Platform } from 'react-native'
+import { Alert, Linking, Platform } from 'react-native'
 import { parse, addHours } from 'date-fns'
 
 interface CalendarEventData {
@@ -18,24 +18,46 @@ async function getDefaultCalendarId(): Promise<string | null> {
     if (defaultCalendar) return defaultCalendar.id
   }
 
-  const writable = calendars.find(
-    (c) => c.allowsModifications && c.source?.name !== 'Birthdays',
-  )
+  const writable = calendars.find((c) => c.allowsModifications && c.source?.name !== 'Birthdays')
   return writable?.id ?? null
+}
+
+function promptOpenSettings() {
+  Alert.alert(
+    'Calendar Access Required',
+    'Please enable calendar access in your device settings to add events.',
+    [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Open Settings', onPress: () => Linking.openSettings() },
+    ],
+  )
+}
+
+async function ensureCalendarPermission(): Promise<boolean> {
+  const { status: existingStatus } = await Calendar.getCalendarPermissionsAsync()
+
+  if (existingStatus === 'granted') return true
+
+  const { status } = await Calendar.requestCalendarPermissionsAsync()
+
+  if (status === 'granted') return true
+
+  promptOpenSettings()
+  return false
 }
 
 export async function addEventToCalendar(
   data: CalendarEventData,
 ): Promise<{ success: boolean; message: string }> {
   try {
-    const { status } = await Calendar.requestCalendarPermissionsAsync()
-    if (status !== 'granted') {
-      return { success: false, message: 'Calendar permission denied' }
+    const hasPermission = await ensureCalendarPermission()
+    if (!hasPermission) {
+      return { success: false, message: '' }
     }
 
     const calendarId = await getDefaultCalendarId()
     if (!calendarId) {
-      return { success: false, message: 'No writable calendar found' }
+      return { success: false, message: 'No writable calendar found on this device' }
     }
 
     let startDate: Date
@@ -56,9 +78,13 @@ export async function addEventToCalendar(
       startDate = new Date(data.date)
     }
 
+    if (isNaN(startDate.getTime())) {
+      return { success: false, message: 'Could not parse event date' }
+    }
+
     const endDate = addHours(startDate, 2)
 
-    await Calendar.createEventAsync(calendarId, {
+    const eventId = await Calendar.createEventAsync(calendarId, {
       title: data.title,
       startDate,
       endDate,
@@ -67,7 +93,11 @@ export async function addEventToCalendar(
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })
 
-    return { success: true, message: 'Event added to calendar' }
+    if (!eventId) {
+      return { success: false, message: 'Failed to create calendar event' }
+    }
+
+    return { success: true, message: 'Event added to your calendar!' }
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to add event to calendar' }
   }

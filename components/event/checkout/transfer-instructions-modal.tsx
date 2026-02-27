@@ -86,7 +86,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
           <View className="items-center pt-4 pb-2">
             <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full mb-4" />
             <View className="flex-row items-center gap-2">
-              <ThemedText className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              <ThemedText className="text-xl font-jost-semibold text-gray-900 dark:text-gray-100">
                 Bank Transfer
               </ThemedText>
             </View>
@@ -97,7 +97,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
             {isExpired ? (
               <View className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 mb-5 items-center">
                 <Ionicons name="time-outline" size={24} color="#ef4444" />
-                <ThemedText className="text-red-600 dark:text-red-400 font-bold mt-2">
+                <ThemedText className="text-red-600 dark:text-red-400 font-semibold mt-2">
                   Transfer Expired
                 </ThemedText>
                 <ThemedText className="text-red-500/70 text-sm text-center mt-1">
@@ -109,7 +109,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
                 {/* Countdown */}
                 <View className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3 mb-5 flex-row items-center justify-center gap-2">
                   <Ionicons name="timer-outline" size={18} color="#f59e0b" />
-                  <ThemedText className="text-amber-700 dark:text-amber-300 font-bold">
+                  <ThemedText className="text-amber-700 dark:text-amber-300 font-semibold">
                     Expires in {formatCountdown(countdown)}
                   </ThemedText>
                 </View>
@@ -119,7 +119,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
                   <ThemedText className="text-xs text-gray-400 uppercase tracking-widest mb-1">
                     Transfer Exactly
                   </ThemedText>
-                  <Currency className="text-3xl font-bold text-blue-900 dark:text-blue-200">
+                  <Currency className="text-3xl font-semibold text-blue-900 dark:text-blue-200">
                     {intent.amount.toLocaleString('en-US')}
                   </Currency>
                 </View>
@@ -130,7 +130,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
                   <View className="flex-row items-center justify-between">
                     <View>
                       <ThemedText className="text-xs text-gray-400 mb-0.5">Account Number</ThemedText>
-                      <ThemedText className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                      <ThemedText className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                         {intent.dva.accountNumber}
                       </ThemedText>
                     </View>
@@ -165,7 +165,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
                 {hasSentMoney && isPending && (
                   <View className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-5 mb-5 items-center">
                     <ActivityIndicator size="large" color="#3b82f6" />
-                    <ThemedText className="text-base font-bold text-blue-900 dark:text-blue-200 mt-3">
+                    <ThemedText className="text-base font-semibold text-blue-900 dark:text-blue-200 mt-3">
                       Confirming Transfer
                     </ThemedText>
                     <ThemedText className="text-sm text-blue-700/70 dark:text-blue-300/70 text-center mt-1">
@@ -183,7 +183,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
                 className="w-full py-4 rounded-2xl bg-primary items-center mb-3"
                 activeOpacity={0.8}
               >
-                <ThemedText className="font-bold text-base text-white">I have sent the money</ThemedText>
+                <ThemedText className="font-semibold text-base text-white">I have sent the money</ThemedText>
               </TouchableOpacity>
             )}
 
@@ -193,7 +193,7 @@ const TransferInstructionsModal = ({ visible, intent, onClose, onSuccess }: Tran
               className="w-full py-4 rounded-2xl bg-gray-100 dark:bg-dark-card items-center"
               activeOpacity={0.8}
             >
-              <ThemedText className="font-bold text-base text-gray-600 dark:text-gray-300">
+              <ThemedText className="font-semibold text-base text-gray-600 dark:text-gray-300">
                 {isExpired ? 'Close' : 'Cancel'}
               </ThemedText>
             </TouchableOpacity>

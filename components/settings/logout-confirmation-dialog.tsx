@@ -24,7 +24,7 @@ const LogoutConfirmationDialog = ({
                 <View className="bg-white dark:bg-dark-bg rounded-2xl w-full max-w-sm overflow-hidden">
                     {/* Header */}
                     <View className="p-6 pb-4">
-                        <ThemedText className="text-xl font-bold text-blue-500 text-center mb-2">
+                        <ThemedText className="text-xl font-jost-semibold text-blue-500 text-center mb-2">
                             Logout
                         </ThemedText>
                         <ThemedText className="text-gray-500 dark:text-gray-400 text-center text-sm">
@@ -39,7 +39,7 @@ const LogoutConfirmationDialog = ({
                             className="flex-1 py-4 items-center justify-center bg-blue-500"
                             activeOpacity={0.7}
                         >
-                            <ThemedText className="text-white font-bold text-base">
+                            <ThemedText className="text-white font-semibold text-base">
                                 Cancel
                             </ThemedText>
                         </TouchableOpacity>

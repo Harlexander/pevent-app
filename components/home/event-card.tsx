@@ -30,7 +30,7 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                 <View className="overflow-hidden rounded-xl">
                     <View className="flex-row justify-between items-end p-3 rounded-xl z-20">
                         <View className="flex-1">
-                            <ThemedText className="text-white mb-2 capitalize line-clamp-1">
+                            <ThemedText className="text-white mb-2 capitalize line-clamp-1 font-jost-semibold">
                                 {title}
                             </ThemedText>
 
@@ -57,7 +57,7 @@ const EventCard = ({ image, title, location, date, price, fullWidth = false }: E
                                     <ThemedText className="text-white text-xs opacity-70 mb-1">
                                         Start from
                                     </ThemedText>
-                                    <Currency className="text-white text-lg font-bold">{price}</Currency>
+                                    <Currency className="text-white text-lg font-semibold">{price}</Currency>
                                 </View>
                             )
                         }

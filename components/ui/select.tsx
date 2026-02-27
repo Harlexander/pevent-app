@@ -102,10 +102,10 @@ const Select = ({
                         )}
                         <ThemedText
                             className={`text-base flex-1 ${selectedOption
-                                    ? disabled
-                                        ? 'text-gray-500'
-                                        : 'text-black dark:text-white'
-                                    : 'text-gray-400'
+                                ? disabled
+                                    ? 'text-gray-500'
+                                    : 'text-black dark:text-white'
+                                : 'text-gray-400'
                                 }`}
                             numberOfLines={1}
                         >
@@ -129,7 +129,7 @@ const Select = ({
                     {/* Header */}
                     <View className="px-5 pt-4 pb-3 border-b border-gray-100 dark:border-gray-700">
                         <View className="flex-row items-center justify-between mb-3">
-                            <ThemedText className="text-lg font-bold text-black dark:text-white">
+                            <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">
                                 {label || 'Select an option'}
                             </ThemedText>
                             <TouchableOpacity
@@ -179,8 +179,8 @@ const Select = ({
                                 >
                                     <ThemedText
                                         className={`text-base flex-1 ${isSelected
-                                                ? 'text-blue-600 font-semibold'
-                                                : 'text-black dark:text-white'
+                                            ? 'text-blue-600 font-semibold'
+                                            : 'text-black dark:text-white'
                                             }`}
                                         numberOfLines={1}
                                     >

@@ -17,7 +17,7 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
                 <View className='flex-row items-center gap-1 mb-1'>
                     <ThemedText className='text-gray-400 text-xs'>Time</ThemedText>
                 </View>
-                <ThemedText className='text-blue-500 font-bold capitalize'>{time}</ThemedText>
+                <ThemedText className='text-blue-500 font-semibold capitalize'>{time}</ThemedText>
             </View>
 
             {/* Date */}
@@ -25,7 +25,7 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
                 <View className='flex-row items-center gap-1 mb-1'>
                     <ThemedText className='text-gray-400 text-xs'>Date</ThemedText>
                 </View>
-                <ThemedText className='text-blue-500 font-bold capitalize'>{date}</ThemedText>
+                <ThemedText className='text-blue-500 font-semibold capitalize'>{date}</ThemedText>
             </View>
 
             {/* Location */}
@@ -33,7 +33,7 @@ const EventInfoCard = ({ date, time, location }: EventInfoCardProps) => {
                 <View className='flex-row items-center gap-1 mb-1'>
                     <ThemedText className='text-gray-400 text-xs'>Location</ThemedText>
                 </View>
-                <ThemedText className='text-blue-500 font-bold capitalize'>{location}</ThemedText>
+                <ThemedText className='text-blue-500 font-semibold capitalize'>{location}</ThemedText>
             </View>
         </View>
     )

@@ -9,7 +9,15 @@ const BackButton = () => {
     const router = useRouter()
 
     return (
-        <Pressable onPress={() => router.back()}>
+        <Pressable
+            onPress={() => {
+                if (router.canGoBack()) {
+                    router.back()
+                } else {
+                    router.replace('/')
+                }
+            }}
+        >
             <Entypo name="chevron-thin-left" size={18} color={colorScheme === 'dark' ? '#e5e7eb' : 'black'} />
         </Pressable>
     )

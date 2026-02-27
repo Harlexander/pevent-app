@@ -53,7 +53,7 @@ const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => 
             <View className="bg-white dark:bg-dark-bg rounded-t-3xl p-6">
                 <View className="w-10 h-1 bg-gray-200 dark:bg-gray-700 rounded-full self-center mb-6" />
 
-                <ThemedText className="text-xl font-bold text-center text-blue-900 dark:text-blue-200 mb-8">
+                <ThemedText className="text-xl font-jost-semibold text-center text-blue-900 dark:text-blue-200 mb-8">
                     Set New Password
                 </ThemedText>
 
@@ -85,7 +85,7 @@ const ChangePasswordModal = ({ visible, onClose }: ChangePasswordModalProps) => 
                     className={`w-full py-4 rounded-xl items-center justify-center flex-row gap-2 mt-4 mb-4 ${isPending ? 'bg-blue-300' : 'bg-blue-500 shadow-lg shadow-blue-500/30'}`}
                 >
                     {isPending && <ActivityIndicator color="white" size="small" />}
-                    <ThemedText className="text-white font-bold text-base">
+                    <ThemedText className="text-white font-semibold text-base">
                         {isPending ? 'Updating...' : 'Set password'}
                     </ThemedText>
                 </TouchableOpacity>

@@ -127,7 +127,7 @@ const Wallet = () => {
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 py-2 mb-4">
         <BackButton />
-        <ThemedText className="text-lg font-bold text-black dark:text-white">Wallet</ThemedText>
+        <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">Wallet</ThemedText>
         <View className="w-10" />
       </View>
 
@@ -152,7 +152,7 @@ const Wallet = () => {
 
               <View>
                 <ThemedText className="text-white font-medium mb-1">Balance</ThemedText>
-                <Currency className="text-white text-3xl font-bold">
+                <Currency className="text-white text-3xl font-semibold">
                   {formatAmount(wallet?.data?.balance ?? 0)}
                 </Currency>
               </View>
@@ -178,7 +178,7 @@ const Wallet = () => {
         {dva ? (
           <View className="bg-gray-50 dark:bg-dark-card rounded-2xl p-5 mb-4">
             <View className="flex-row items-center justify-between mb-3">
-              <ThemedText className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+              <ThemedText className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                 Virtual Account
               </ThemedText>
               <TouchableOpacity
@@ -193,7 +193,7 @@ const Wallet = () => {
                 <ThemedText className="text-xs text-blue-500 font-medium">Copy</ThemedText>
               </TouchableOpacity>
             </View>
-            <ThemedText className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+            <ThemedText className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
               {dva.accountNumber}
             </ThemedText>
             <ThemedText className="text-sm text-gray-500 dark:text-gray-400">
@@ -217,7 +217,7 @@ const Wallet = () => {
                 <Ionicons name="business-outline" size={20} color="#3b82f6" />
               </View>
               <View>
-                <ThemedText className="text-sm font-bold text-blue-900 dark:text-blue-200">
+                <ThemedText className="text-sm font-semibold text-blue-900 dark:text-blue-200">
                   Create Virtual Account
                 </ThemedText>
                 <ThemedText className="text-xs text-blue-700/70 dark:text-blue-300/70">

@@ -28,7 +28,7 @@ const VotingCard = ({ image, title, time, date, price }: VotingCardProps) => {
 
             <View className='flex-1 ml-3 justify-betwee gap-3'>
                 <View>
-                    <ThemedText className='text-blue-800 dark:text-blue-200 font-bold text-base mb-2'>{title}</ThemedText>
+                    <ThemedText className='text-blue-800 dark:text-blue-200 font-semibold text-base mb-2'>{title}</ThemedText>
 
                     <View className='flex-row items-center gap-1 mb-1'>
                         <Ionicons name="time-outline" size={12} color={colorScheme === 'dark' ? '#9ca3af' : 'gray'} />
@@ -42,7 +42,7 @@ const VotingCard = ({ image, title, time, date, price }: VotingCardProps) => {
                 </View>
 
                 <View className='flex-row items-end gap-1'>
-                    <ThemedText className='text-black dark:text-white font-bold text-base'>{price}</ThemedText>
+                    <ThemedText className='text-black dark:text-white font-semibold text-base'>{price}</ThemedText>
                     <ThemedText className='text-gray-400 text-xs mb-[2px]'>/vote</ThemedText>
                 </View>
             </View>

@@ -38,3 +38,12 @@ export const Fonts = {
   lightItalic: 'Lato-LightItalic',
   thinItalic: 'Lato-ThinItalic',
 };
+
+export const HeadingFonts = {
+  regular: 'Jost-Regular',
+  medium: 'Jost-Medium',
+  semiBold: 'Jost-SemiBold',
+  bold: 'Jost-Bold',
+  extraBold: 'Jost-ExtraBold',
+  black: 'Jost-Black',
+};

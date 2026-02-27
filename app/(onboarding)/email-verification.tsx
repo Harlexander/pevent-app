@@ -60,7 +60,7 @@ const EmailVerification = () => {
 
             <View className="mt-8">
               <View className="gap-2 mb-8">
-                <ThemedText className="text-3xl font-bold text-black dark:text-gray-100">Verify Your Email</ThemedText>
+                <ThemedText className="text-3xl font-jost-semibold text-black dark:text-gray-100">Verify Your Email</ThemedText>
                 <ThemedText className="text-base opacity-60 text-black dark:text-gray-100">
                   Enter the verification code sent to your email address.
                 </ThemedText>

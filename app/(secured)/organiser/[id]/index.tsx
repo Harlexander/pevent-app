@@ -61,7 +61,7 @@ const OrganiserProfile = () => {
             <Pressable onPress={() => router.back()} className="mr-3 active:opacity-70">
               <Ionicons name="arrow-back" size={24} color={colorScheme === 'dark' ? '#e5e7eb' : '#000'} />
             </Pressable>
-            <ThemedText className="text-xl font-bold text-black dark:text-white">Organiser Profile</ThemedText>
+            <ThemedText className="text-xl font-jost-semibold text-black dark:text-white">Organiser Profile</ThemedText>
           </View>
         )}
 
@@ -92,7 +92,7 @@ const OrganiserProfile = () => {
                 </View>
 
                 {/* Name */}
-                <ThemedText className="text-2xl font-bold text-black dark:text-white text-center mb-2 capitalize">
+                <ThemedText className="text-2xl font-jost-semibold text-black dark:text-white text-center mb-2 capitalize">
                   {displayName}
                 </ThemedText>
 
@@ -109,14 +109,14 @@ const OrganiserProfile = () => {
                 <View className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 mb-6">
                   <View className="flex-row justify-around">
                     <View className="items-center">
-                      <ThemedText className="text-3xl font-bold text-blue-600">{events?.length || 0}</ThemedText>
+                      <ThemedText className="text-3xl font-semibold text-blue-600">{events?.length || 0}</ThemedText>
                       <ThemedText className="text-gray-600 dark:text-gray-300 text-sm mt-1">
                         {events?.length === 1 ? 'Event' : 'Events'}
                       </ThemedText>
                     </View>
                     <View className="w-px bg-gray-300 dark:bg-gray-600" />
                     <View className="items-center">
-                      <ThemedText className="text-3xl font-bold text-purple-600">
+                      <ThemedText className="text-3xl font-semibold text-purple-600">
                         {events?.reduce((sum: number, e: Event) => sum + (e.tickets?.length || 0), 0) || 0}
                       </ThemedText>
                       <ThemedText className="text-gray-600 dark:text-gray-300 text-sm mt-1">Ticket Types</ThemedText>
@@ -178,7 +178,7 @@ const OrganiserProfile = () => {
           ) : (
             <View className="px-5 mt-6">
               <View className="flex-row items-center justify-between mb-4">
-                <ThemedText className="text-lg font-bold text-black dark:text-white">Events</ThemedText>
+                <ThemedText className="text-lg font-jost-semibold text-black dark:text-white">Events</ThemedText>
                 {events && events.length > 0 && (
                   <View className="bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
                     <ThemedText className="text-blue-600 font-semibold text-xs">{events.length} Total</ThemedText>
@@ -207,7 +207,7 @@ const OrganiserProfile = () => {
 
                         <View className="p-3">
                           <ThemedText
-                            className="text-black dark:text-white font-bold text-sm mb-2 capitalize leading-5"
+                            className="text-black dark:text-white font-semibold text-sm mb-2 capitalize leading-5"
                             numberOfLines={2}
                           >
                             {event.name}

@@ -91,9 +91,9 @@ const AttendeesStep = ({ attendees, errors = [], onUpdateAttendee, onSetAttendee
                                 <View className='flex-row items-center justify-between'>
                                     <View className='flex-row items-center gap-2'>
                                         <View className='w-7 h-7 rounded-full bg-primary items-center justify-center'>
-                                            <ThemedText className='text-white font-bold text-sm'>{groupIndex + 1}</ThemedText>
+                                            <ThemedText className='text-white font-semibold text-sm'>{groupIndex + 1}</ThemedText>
                                         </View>
-                                        <ThemedText className='font-bold text-base text-black dark:text-white'>Attendee {groupIndex + 1}</ThemedText>
+                                        <ThemedText className='font-semibold text-base text-black dark:text-white'>Attendee {groupIndex + 1}</ThemedText>
                                     </View>
                                 </View>
 

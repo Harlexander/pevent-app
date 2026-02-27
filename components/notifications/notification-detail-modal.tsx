@@ -72,7 +72,7 @@ const NotificationDetailModal = ({
                     </View>
 
                     {/* Title */}
-                    <ThemedText className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
+                    <ThemedText className="text-xl font-jost-semibold text-slate-900 dark:text-gray-100 mb-3">
                         {notification.title}
                     </ThemedText>
 
@@ -90,7 +90,7 @@ const NotificationDetailModal = ({
                             }}
                             className="w-full bg-primary py-4 rounded-xl items-center justify-center mb-2"
                         >
-                            <ThemedText className="text-white font-bold text-base">
+                            <ThemedText className="text-white font-semibold text-base">
                                 {notification.ctaLabel || 'View Details'}
                             </ThemedText>
                         </TouchableOpacity>
