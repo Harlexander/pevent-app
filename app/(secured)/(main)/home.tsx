@@ -19,8 +19,10 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const { data, isLoading } = useAppEvents();
   const user = useUserStore((s) => s.user);
+  const isUserLoading = useUserStore((s) => s.isLoading);
   const [locationModalVisible, setLocationModalVisible] = useState(true);
-  const showLocationModal = locationModalVisible && !!user && !user.state && !user.country && user.email;
+  const showLocationModal =
+    locationModalVisible && !isUserLoading && !!user && !user.state && !user.country && user.email;
 
   return (
     <ThemedView className="flex-1 h-screen">

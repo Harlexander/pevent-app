@@ -42,7 +42,9 @@
           "calendarPermission": "$(PRODUCT_NAME) needs access to your calendar to add events."
         }
       ],
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -57,9 +59,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.peventapp.app",
-      "appleTeamId": "CF75CAR33X",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "bundleIdentifier": "com.pevent.app",
+      "appleTeamId": "9MMXC2DU6Y",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "entitlements": {
+        "aps-environment": "production"
+      },
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -68,11 +78,31 @@
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
       ],
       "package": "com.peventapp.app",
       "googleServicesFile": "./google-services.json",
       "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.pevent.co",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        },
         {
           "action": "VIEW",
           "data": [
@@ -94,6 +124,12 @@
       "eas": {
         "projectId": "305f3474-3f51-4fee-a402-5bed273d27cc"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/305f3474-3f51-4fee-a402-5bed273d27cc"
     }
   }
 }

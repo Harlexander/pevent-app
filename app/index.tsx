@@ -159,7 +159,7 @@ const Index = () => {
                     <ThemedView className='items-center gap-2 mb-4'>
                         <ThemedText className='text-3xl font-jost-semibold text-black dark:text-gray-100'>Get Started</ThemedText>
                         <ThemedText className='text-center text-base opacity-70 px-4 text-black dark:text-gray-100'>
-                            Your business network is a reflection of your career. Grow it today!
+                            Discover events, buy tickets, and enjoy unforgettable experiences near you.
                         </ThemedText>
                     </ThemedView>
                     <ThemedView className='w-full gap-3'>

@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/themed-text'
+import { Colors } from '@/constants/theme'
 import { useFavoritesStore, FavoriteEvent } from '@/store/favorites-store'
 import { Event } from '@/types'
 import { Ionicons } from '@expo/vector-icons'
@@ -73,7 +74,7 @@ const EventHeader = ({ images, event }: EventHeaderProps) => {
                         onPress={handleToggleFavorite}
                         className='w-10 h-10 bg-white/30 dark:bg-dark-bg/30 rounded-full items-center justify-center backdrop-blur-md'
                     >
-                        <Ionicons name={isFav ? 'heart' : 'heart-outline'} size={24} color={isFav ? '#ef4444' : 'white'} />
+                        <Ionicons name={isFav ? 'heart' : 'heart-outline'} size={24} color={isFav ? Colors.primary : 'white'} />
                     </TouchableOpacity>
                 </View>
             </View>

@@ -19,20 +19,29 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
   const hasCoordinates = coordinates?.lat && coordinates?.lng
 
   const handlePress = useCallback(() => {
+    if (!location) return
+
+    let url: string
     if (hasCoordinates) {
       const latNum = parseFloat(coordinates.lat)
       const lngNum = parseFloat(coordinates.lng)
-
-      const url = Platform.select({
+      url = Platform.select({
         ios: `maps:0,0?q=${location}@${latNum},${lngNum}`,
         android: `geo:${latNum},${lngNum}?q=${latNum},${lngNum}(${location})`,
         default: `https://www.google.com/maps/search/?api=1&query=${latNum},${lngNum}`,
-      })
-
-      Linking.openURL(url).catch(() => {
-        toast.error('Could not open maps application')
-      })
+      })!
+    } else {
+      const encoded = encodeURIComponent(location)
+      url = Platform.select({
+        ios: `maps:0,0?q=${encoded}`,
+        android: `geo:0,0?q=${encoded}`,
+        default: `https://www.google.com/maps/search/?api=1&query=${encoded}`,
+      })!
     }
+
+    Linking.openURL(url).catch(() => {
+      toast.error('Could not open maps application')
+    })
   }, [coordinates, location, hasCoordinates, toast])
 
   return (
@@ -43,7 +52,7 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={0.8}
-        disabled={!hasCoordinates}
+        disabled={!location}
         className="w-full h-48 rounded-3xl overflow-hidden relative"
       >
         <Image
@@ -53,10 +62,17 @@ const LocationMap = ({ location, coordinates }: LocationMapProps) => {
         />
 
         <View className="absolute bottom-0 w-full bg-white/80 dark:bg-dark-bg/80 backdrop-blur-sm h-12 flex-row items-center justify-center gap-2">
-          <Ionicons name="navigate-outline" size={16} color={colorScheme === 'dark' ? '#d1d5db' : '#4b5563'} />
-          <ThemedText className="text-gray-600 dark:text-gray-300 font-medium">
-            {hasCoordinates ? 'Open in Maps' : 'View direction'}
-          </ThemedText>
+          {location ? (
+            <>
+              <Ionicons name="navigate-outline" size={16} color={colorScheme === 'dark' ? '#d1d5db' : '#4b5563'} />
+              <ThemedText className="text-gray-600 dark:text-gray-300 font-medium">Open in Maps</ThemedText>
+            </>
+          ) : (
+            <>
+              <Ionicons name="location-outline" size={16} color={colorScheme === 'dark' ? '#d1d5db' : '#4b5563'} />
+              <ThemedText className="text-gray-600 dark:text-gray-300 font-medium">Event venue not yet disclosed</ThemedText>
+            </>
+          )}
         </View>
       </TouchableOpacity>
     </View>

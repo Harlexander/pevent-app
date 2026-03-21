@@ -44,8 +44,26 @@ const LocationModal = ({ visible, onClose }: LocationModalProps) => {
             })
 
             if (geocoded) {
-                setCountry(geocoded.country || '')
-                setState(geocoded.region || '')
+                const detectedCountry = geocoded.country || ''
+                const detectedState = geocoded.region || ''
+                if (detectedCountry && detectedState) {
+                    updateUser(
+                        { state: detectedState, country: detectedCountry },
+                        {
+                            onSuccess: () => {
+                                onClose()
+                            },
+                            onError: () => {
+                                setCountry(detectedCountry)
+                                setState(detectedState)
+                                toast.error('Failed to update location. Please try again.')
+                            },
+                        },
+                    )
+                } else {
+                    setCountry(detectedCountry)
+                    setState(detectedState)
+                }
             }
         } catch {
             toast.error('Failed to get your location. Please select manually.')

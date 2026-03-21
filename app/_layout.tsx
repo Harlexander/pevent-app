@@ -20,6 +20,7 @@ SplashScreen.preventAutoHideAsync();
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: true,
 });
 
 export const unstable_settings = {

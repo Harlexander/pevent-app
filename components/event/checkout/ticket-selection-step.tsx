@@ -2,7 +2,7 @@ import Currency from '@/components/currency'
 import { ThemedText } from '@/components/themed-text'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, useColorScheme, View } from 'react-native'
 
 import { Ticket } from '@/types'
 
@@ -13,10 +13,12 @@ interface TicketSelectionStepProps {
 }
 
 const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSelectionStepProps) => {
+    const colorScheme = useColorScheme()
+    const metaIconColor = colorScheme === 'dark' ? '#c9bbbbff' : '#6b7280'
+    const activeIconColor = colorScheme === 'dark' ? '#f9f9f9ff' : '#000'
     const getMaxQuantity = (ticket: Ticket) => {
-        const limits = [ticket.volume]
-        if (ticket.maxPerUser) limits.push(ticket.maxPerUser)
-        return Math.min(...limits)
+        const perUserLimit = ticket.maxPerUser ?? 10
+        return Math.min(ticket.volume, perUserLimit)
     }
 
     const isAtMax = (ticket: Ticket) => {
@@ -88,19 +90,19 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                     <View className='flex-row items-center gap-3'>
                                         {ticket.numPersons > 1 && (
                                             <View className='flex-row items-center gap-1'>
-                                                <Feather name='users' size={12} color='#6b7280' />
+                                                <Feather name='users' size={12} color={metaIconColor} />
                                                 <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>{ticket.numPersons} persons</ThemedText>
                                             </View>
                                         )}
                                         {ticket.show_volume && ticket.volume > 0 && (
                                             <View className='flex-row items-center gap-1'>
-                                                <Ionicons name='ticket-outline' size={12} color='#6b7280' />
-                                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>{ticket.volume} left</ThemedText>
+                                                <Ionicons name='ticket-outline' size={12} color={metaIconColor} />
+                                                <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>{ticket.volume - current} left</ThemedText>
                                             </View>
                                         )}
                                         {ticket.maxPerUser && (
                                             <View className='flex-row items-center gap-1'>
-                                                <Ionicons name='person-outline' size={12} color='#6b7280' />
+                                                <Ionicons name='person-outline' size={12} color={metaIconColor} />
                                                 <ThemedText className='text-gray-500 dark:text-gray-400 text-xs'>Max {ticket.maxPerUser}</ThemedText>
                                             </View>
                                         )}
@@ -114,7 +116,7 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                             className={`w-9 h-9 items-center justify-center rounded-lg ${current > 0 ? 'bg-white dark:bg-dark-bg' : 'bg-transparent'}`}
                                             disabled={current === 0}
                                         >
-                                            <Ionicons name="remove" size={18} color={current > 0 ? "#000" : "#ccc"} />
+                                            <Ionicons name="remove" size={18} color={current > 0 ? activeIconColor : '#ccc'} />
                                         </TouchableOpacity>
 
                                         <View className='w-10 items-center'>
@@ -126,7 +128,7 @@ const TicketSelectionStep = ({ quantities, onUpdateQuantity, tickets }: TicketSe
                                             className={`w-9 h-9 items-center justify-center rounded-lg ${!isAtMax(ticket) ? 'bg-white dark:bg-dark-bg' : 'bg-transparent'}`}
                                             disabled={isAtMax(ticket)}
                                         >
-                                            <Ionicons name="add" size={18} color={!isAtMax(ticket) ? "#000" : "#ccc"} />
+                                            <Ionicons name="add" size={18} color={!isAtMax(ticket) ? activeIconColor : '#ccc'} />
                                         </TouchableOpacity>
                                     </View>
                                 )}

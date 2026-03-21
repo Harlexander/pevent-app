@@ -141,7 +141,7 @@ const Notifications = () => {
                 <View className="flex-row items-center justify-between px-5 py-2 mb-2">
                     <BackButton />
                     <View className="flex-row items-center gap-2">
-                        <ThemedText className="text-lg font-jost-semibold">Notifications</ThemedText>
+                        <ThemedText className="text-lg font-jost-semibold dark:text-white">Notifications</ThemedText>
                         {unreadCount > 0 && (
                             <View className="bg-primary rounded-full px-2 py-0.5 min-w-[20] items-center">
                                 <ThemedText className="text-white text-xs font-semibold">

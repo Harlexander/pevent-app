@@ -187,14 +187,14 @@ const Register = () => {
               </View>
 
               {/* Divider */}
-              <View className="flex-row items-center gap-4 py-8">
+              <View className="flex-row items-center gap-4 py-8 hidden">
                 <View className="flex-1 h-[1px] bg-gray-200 dark:bg-gray-700" />
                 <ThemedText className="text-gray-500 dark:text-gray-400 text-sm">Or continue with</ThemedText>
                 <View className="flex-1 h-[1px] bg-gray-200 dark:bg-gray-700" />
               </View>
 
               {/* Social Login */}
-              <View className="gap-4">
+              <View className="gap-4 hidden">
                 <TouchableOpacity
                   className="flex-row items-center justify-center bg-gray-100 dark:bg-dark-card h-14 rounded-xl border border-gray-200 dark:border-gray-700 gap-3"
                   onPress={handleGoogleSignIn}

@@ -132,22 +132,14 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {/* Current Status Card */}
                         <View className="px-6 pt-6 pb-4">
-                            <LinearGradient
-                                colors={currentRankData.gradient as any}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 1 }}
-                                style={{
-                                    borderRadius: 20,
-                                    padding: 20,
-                                }}
-                            >
+                            <View className='dark:bg-dark-card p-5 rounded-xl'>
                                 <View className="flex-row items-center justify-between mb-4">
                                     <View className="flex-row items-center gap-3">
                                         <View className="w-14 h-14 rounded-full bg-white dark:bg-dark-bg items-center justify-center">
                                             <Ionicons name={currentRankData.icon as any} size={28} color={currentRankData.color} />
                                         </View>
                                         <View>
-                                            <ThemedText className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                                            <ThemedText className="text-2xl font-semibold text-gray-900 dark:text-white">
                                                 {currentRank}
                                             </ThemedText>
                                             <ThemedText className="text-sm text-gray-600 dark:text-gray-300">
@@ -176,7 +168,7 @@ const RankingModal = ({ visible, onClose, currentRank, currentTickets }: Ranking
                                         </View>
                                     ))}
                                 </View>
-                            </LinearGradient>
+                            </View>
                         </View>
 
                         {/* Progress to Next Rank */}
